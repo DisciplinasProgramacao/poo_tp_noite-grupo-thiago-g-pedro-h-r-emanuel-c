@@ -5,71 +5,79 @@
     <Language>CSharp</Language>
     <Entities>
       <Entity type="Class">
-        <Name>Cliente</Name>
+        <Name>Usuario</Name>
         <Access>Public</Access>
-        <Location left="132" top="173" />
-        <Size width="250" height="281" />
+        <Location left="143" top="173" />
+        <Size width="258" height="332" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">string email</Member>
-        <Member type="Field">string senha</Member>
-        <Member type="Field">int id</Member>
-        <Member type="Method">public void Cliente(string email, string senha)</Member>
+        <Member type="Field">String login</Member>
+        <Member type="Field">String senha</Member>
+        <Member type="Field">List&lt;Serie&gt; serieFutura</Member>
+        <Member type="Field">List&lt;Serie&gt; seriesAssistidas</Member>
+        <Member type="Method">public void adicionarSerieFutura(serie Serie)</Member>
+        <Member type="Method">public void AdicionarSerieAssistida(serie Serie)</Member>
+        <Member type="Method">public void terminarSerie(serie Serie)</Member>
+        <Member type="Method">public void removerSerieFutura(serie Serie)</Member>
+        <Member type="Method">public void listarSeriesAssistidas()</Member>
+        <Member type="Method">public void listarSeriesFuturas()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Serie</Name>
         <Access>Public</Access>
-        <Location left="822" top="173" />
-        <Size width="311" height="281" />
+        <Location left="823" top="173" />
+        <Size width="311" height="332" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">string nome</Member>
-        <Member type="Field">string idioma</Member>
-        <Member type="Field">string genero</Member>
-        <Member type="Method">public void Serie(string nome, string idioma, string genero)</Member>
+        <Member type="Field">String nome</Member>
+        <Member type="Field">String idioma</Member>
+        <Member type="Field">String genero</Member>
+        <Member type="Field">Int visualizacoes</Member>
+        <Member type="Method">public void adicionarAssistido()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Plataforma</Name>
         <Access>Public</Access>
-        <Location left="461" top="173" />
-        <Size width="287" height="281" />
+        <Location left="466" top="173" />
+        <Size width="287" height="332" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">list Clientes</Member>
-        <Member type="Field">list Series</Member>
-        <Member type="Field">list listaAssistida</Member>
-        <Member type="Field">list listaFuturas</Member>
-        <Member type="Method">public void efetuarLogin(string email, string senha)</Member>
-        <Member type="Method">public void realizarCadastro(Cliente cliente)</Member>
-        <Member type="Method">public void adicionarSerieAssistida(string nome, int id)</Member>
-        <Member type="Method">public void adicionarSerieFutura(string nome, int id)</Member>
-        <Member type="Method">public void removerSerieAssistida(string nome, int id)</Member>
-        <Member type="Method">public void removerSerieFutura(string nome, int id)</Member>
-        <Member type="Method">public void listarSeriesAssistidas(int id)</Member>
-        <Member type="Method">public void listarSeriesFuturas(int id)</Member>
+        <Member type="Field">Hash clientes</Member>
+        <Member type="Field">List&lt;Serie&gt; series</Member>
+        <Member type="Field">Usuario usuario</Member>
+        <Member type="Method">public void efetuarLogin(String login, String senha)</Member>
+        <Member type="Method">public void efetuarLogout()</Member>
+        <Member type="Method">public void adicionarSerieAssistida(Serie serie)</Member>
+        <Member type="Method">public void adicionarSerieFutura(Serie serie)</Member>
+        <Member type="Method">public void removerSerieFutura(Serie serie)</Member>
+        <Member type="Method">public void listarSeriesAssistidas()</Member>
+        <Member type="Method">public void listarSeriesFuturas()</Member>
+        <Member type="Method">public String BuscarSerieNome(String nome)</Member>
+        <Member type="Method">public String buscarSerieGenero(String genero)</Member>
+        <Member type="Method">public String buscarSerieIdioma(String idioma)</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
     <Relationships>
-      <Relationship type="Association" first="0" second="2">
+      <Relationship type="Association" first="2" second="0">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>411</X>
-          <Y>218</Y>
+          <X>441</X>
+          <Y>217</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
-      <Relationship type="Association" first="1" second="2">
+      <Relationship type="Association" first="2" second="1">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>797</X>
-          <Y>219</Y>
+          <X>778</X>
+          <Y>218</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
