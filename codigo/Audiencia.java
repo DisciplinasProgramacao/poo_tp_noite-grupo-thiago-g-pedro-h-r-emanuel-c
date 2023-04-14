@@ -7,7 +7,7 @@ public class Audiencia {
     private String Login;
     private List<Serie> SeriesAssistidas, SeriesFuturas;
 
-    public Audiencia(int IdSerie, String Login){
+    public Audiencia(int IdSerie, String Login) {
         this.IdSerie = IdSerie;
         this.Login = Login;
         List<Serie> SeriesAssistidas = new LinkedList<Serie>();
