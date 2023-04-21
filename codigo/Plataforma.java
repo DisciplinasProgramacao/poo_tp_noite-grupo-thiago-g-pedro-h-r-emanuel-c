@@ -7,26 +7,25 @@ import java.io.IOException;
 
 public class Plataforma {
     private List<Serie> listaSeries;
-    private List<Audiencia> listaAudiencia;
-    private List<Espectador> listaEspectadores;
+    private Map<String, Espectador> listaEspectadores;
 
-    public Plataforma() throws IOException{
+    public Plataforma() throws IOException {
         this.listaSeries = new LinkedList<Serie>();
         this.listaSeries = carregaArqSerie();
-        this.listaAudiencia = new LinkedList<Audiencia>();
-        this.listaAudiencia = carregaArqAudiencia();
-        this.listaEspectadores = new LinkedList<Espectador>();
+        this.listaEspectadores = new LinkedHashMap<>();
         this.listaEspectadores = carregarArqEspectador();
+        this.carregaListFuturaEAssistida(listaEspectadores);
     }
 
-    public static List<Serie> carregaArqSerie() throws IOException{
-        FileReader file = new FileReader("./docs/arquivos/POO_Series.csv");
+    public static List<Serie> carregaArqSerie() throws IOException {
+        FileReader file = new FileReader("./docs/arquivos/POO_Series2.csv");
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
         List<Serie> itemList = new LinkedList<Serie>();
-        String idCod, nomeSerie, dataLancamento;
+        String nomeSerie, dataLancamento;
+        int idCod;
         while (linha != null) {
-            idCod = linha.split(";")[0];
+            idCod = Integer.parseInt(linha.split(";")[0]);
             nomeSerie = linha.split(";")[1];
             dataLancamento = linha.split(";")[2];
             Serie serie = new Serie(idCod, nomeSerie, dataLancamento);
@@ -38,46 +37,59 @@ public class Plataforma {
         return itemList;
     }
 
-    public List<Audiencia> carregaArqAudiencia() throws IOException{
-        FileReader file = new FileReader("./docs/arquivos/POO_Audiencia.csv");
+    public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
+        FileReader file = new FileReader("./docs/arquivos/POO_Audiencia2.csv");
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
-        List<Audiencia> itemList = new LinkedList<Audiencia>();
-        String idSerie = "";
-        String Login = "";
-        String Serie = "";
-        List<Serie> SeriesAssistidas = new LinkedList<Serie>();
-        List<Serie> SeriesFuturas = new LinkedList<Serie>();
+        int idSerie;
+        String Login;
+        String Serie;
         while (linha != null) {
             Login = linha.split(";")[0];
             Serie = linha.split(";")[1];
-            idSerie = linha.split(";")[2];
-            if (Serie.equals("A")){
-                SeriesAssistidas.add(buscaSerie(idSerie));
-            } else if (Serie.equals("F")){
-                SeriesFuturas.add(buscaSerie(idSerie));
+            idSerie = Integer.parseInt(linha.split(";")[2]);
+            if (Serie.equals("A")) {
+                if (listaEspectadores.containsKey(Login)) {
+                    Espectador adiciona = listaEspectadores.get(Login);
+                    if (this.buscaSerie(idSerie) == null) {
+                        System.out.println("Serie do id " + idSerie + " inexistente");
+                    } else {
+                        adiciona.adicionarAssistidas(this.buscaSerie(idSerie));
+                    }
+
+                } else {
+                    System.out.println("Entrada invalida , login inexistente");
+                }
+            } else if (Serie.equals("F")) {
+                if (listaEspectadores.containsKey(Login)) {
+                    Espectador adiciona = listaEspectadores.get(Login);
+                    if (this.buscaSerie(idSerie) == null) {
+                        System.out.println("Serie do id " + idSerie + " inexistente");
+                    } else {
+                        adiciona.adicionarFutura(this.buscaSerie(idSerie));
+                    }
+                } else {
+                    System.out.println("Entrada invalida , login inexistente");
+                }
             }
-            Audiencia audiencia = new Audiencia(idSerie, Login, SeriesAssistidas, SeriesFuturas);
-            itemList.add(audiencia);
             linha = reading.readLine();
         }
         reading.close();
         file.close();
-        return itemList;
     }
 
-    public static List<Espectador> carregarArqEspectador() throws IOException{
+    public static Map<String, Espectador> carregarArqEspectador() throws IOException {
         FileReader file = new FileReader("./docs/arquivos/POO_Espectadores.csv");
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
-        List<Espectador> itemList = new LinkedList<Espectador>();
+        Map<String, Espectador> itemList = new LinkedHashMap<>();
         String nome, login, senha;
         while (linha != null) {
             nome = linha.split(";")[0];
             login = linha.split(";")[1];
             senha = linha.split(";")[2];
             Espectador espectador = new Espectador(nome, login, senha);
-            itemList.add(espectador);
+            itemList.put(login, espectador);
             linha = reading.readLine();
         }
         reading.close();
@@ -85,25 +97,32 @@ public class Plataforma {
         return itemList;
     }
 
-    
-    public Serie buscaSerie(String idSerie){
-        if (idSerie != null){
-            for (Serie serie : this.listaSeries) {
-                if(serie.idSerie.equals(idSerie)){
-                    return serie;
-                }
+    public Serie buscaSerie(int idSerie) {
+        for (Serie serie : this.listaSeries) {
+            if (serie.idSerie == idSerie) {
+                return serie;
             }
         }
         return null;
     }
 
-    public void infoSerie(String idSerie){
-        if (idSerie != null){
-            for (Serie serie : this.listaSeries) {
-                if(serie.idSerie.equals(idSerie)){
-                    serie.printaSerie();
-                }
+    public void infoSerie(int idSerie) {
+        for (Serie serie : this.listaSeries) {
+            if (serie.idSerie == (idSerie)) {
+                serie.printaSerie();
             }
         }
+    }
+
+    public boolean verificaLogin(String login, String senha) {
+        if (this.listaEspectadores.containsValue(login)) {
+            Espectador confereSenha = listaEspectadores.get(login);
+            if (confereSenha.retornaSenha().equals(senha)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }
