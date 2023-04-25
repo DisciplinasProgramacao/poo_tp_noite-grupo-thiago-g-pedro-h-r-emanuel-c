@@ -8,6 +8,7 @@ import java.io.IOException;
 public class Plataforma {
     private List<Serie> listaSeries;
     private Map<String, Espectador> listaEspectadores;
+    private Espectador espectadorLogado;
 
     public Plataforma() throws IOException {
         this.listaSeries = new LinkedList<Serie>();
@@ -15,6 +16,7 @@ public class Plataforma {
         this.listaEspectadores = new LinkedHashMap<>();
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
+        this.espectadorLogado = null;
     }
 
     public static List<Serie> carregaArqSerie() throws IOException {
@@ -99,7 +101,7 @@ public class Plataforma {
 
     public Serie buscaSerie(int idSerie) {
         for (Serie serie : this.listaSeries) {
-            if (serie.idSerie == idSerie) {
+            if (serie.retornaIdSerie() == idSerie) {
                 return serie;
             }
         }
@@ -114,10 +116,11 @@ public class Plataforma {
         }
     }
 
-    public boolean verificaLogin(String login, String senha) {
+    public boolean efetuarLogin(String login, String senha) {
         if (this.listaEspectadores.containsValue(login)) {
-            Espectador confereSenha = listaEspectadores.get(login);
-            if (confereSenha.retornaSenha().equals(senha)) {
+            Espectador espectador_atual = listaEspectadores.get(login);
+            if (espectador_atual.retornaSenha().equals(senha)) {
+                this.espectadorLogado = espectador_atual;
                 return true;
             } else {
                 return false;
@@ -125,4 +128,50 @@ public class Plataforma {
         }
         return false;
     }
+
+    public void efetuarLogout() {
+        this.espectadorLogado = null;
+        System.out.println("Conta deslogada");
+    }
+
+    public void adicionarSerieFutura(String nomeSerie) {
+        boolean adicionado = false;
+        for (Serie serie : this.listaSeries) {
+            if (serie.retornaNome().equals(nomeSerie)) {
+                this.espectadorLogado.adicionarFutura(serie);
+                adicionado = true;
+            }
+        }
+        if (adicionado = false) {
+            System.out.println("Serie nao existe , favor digitar o nome corretamente");
+        }
+    }
+
+    public void adicionarSerieAssistida(String nomeSerie) {
+        boolean adicionado = false;
+        for (Serie serie : this.listaSeries) {
+            if (serie.retornaNome().equals(nomeSerie)) {
+                this.espectadorLogado.adicionarAssistidas(serie);
+                ;
+                adicionado = true;
+            }
+        }
+        if (adicionado = false) {
+            System.out.println("Serie nao existe , favor digitar o nome corretamente");
+        }
+    }
+
+    public void removerSerieFutura(String nomeSerie) {
+        boolean remover = false;
+        for (Serie serie : this.listaSeries) {
+            if (serie.retornaNome().equals(nomeSerie)) {
+                this.espectadorLogado.removerSerieFutura(serie);
+                remover = true;
+            }
+        }
+        if (remover = false) {
+            System.out.println("Serie nao existe , favor digitar o nome corretamente");
+        }
+    }
+
 }

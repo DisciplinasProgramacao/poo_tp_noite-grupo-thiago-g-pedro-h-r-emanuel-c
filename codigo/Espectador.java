@@ -24,6 +24,10 @@ public class Espectador {
         Assistidas.add(serie);
     }
 
+    public void removerSerieFutura(Serie serie) {
+        Assistidas.remove(serie);
+    }
+
     public String retornaSenha() {
         return this.Senha;
     }

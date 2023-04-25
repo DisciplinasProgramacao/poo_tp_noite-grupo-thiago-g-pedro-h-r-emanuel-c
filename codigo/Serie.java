@@ -1,4 +1,5 @@
 package codigo;
+
 public class Serie {
     public int idSerie;
     private String Nome;
@@ -10,8 +11,12 @@ public class Serie {
         this.DataDeLancamento = DataDeLancamento;
     }
 
-    public int getIdSerie() {
+    public int retornaIdSerie() {
         return idSerie;
+    }
+
+    public String retornaNome() {
+        return this.Nome;
     }
 
     public void printaSerie() {
