@@ -1,26 +1,21 @@
 package codigo;
 
-public class Serie {
-    public int idSerie;
-    private String Nome;
-    private String DataDeLancamento;
+public class Serie extends Midia{
 
-    public Serie(int idSerie, String Nome, String DataDeLancamento) {
-        this.idSerie = idSerie;
-        this.Nome = Nome;
-        this.DataDeLancamento = DataDeLancamento;
+    public Serie(int idSerie, String Nome, String DataDeLancamento, String Genero, String Idioma) {
+        super(idSerie, Nome, DataDeLancamento, Genero, Idioma);
     }
 
-    public int retornaIdSerie() {
-        return idSerie;
+    public int retornaId() {
+        return this.id;
     }
 
     public String retornaNome() {
         return this.Nome;
     }
 
-    public void printaSerie() {
-        System.out.println("Id da Série: " + this.idSerie + "\nNome da Série: " + this.Nome + "\nData de Lançamento: "
+    public void printaMidia() {
+        System.out.println("Id da Série: " + this.id + "\nNome da Série: " + this.Nome + "\nData de Lançamento: "
                 + this.DataDeLancamento);
     }
 }

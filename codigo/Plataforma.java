@@ -7,12 +7,15 @@ import java.io.IOException;
 
 public class Plataforma {
     private List<Serie> listaSeries;
+    private List<Filme> listaFilmes;
     private Map<String, Espectador> listaEspectadores;
     private Espectador espectadorLogado;
 
     public Plataforma() throws IOException {
         this.listaSeries = new LinkedList<Serie>();
+        this.listaFilmes = new LinkedList<Filme>();
         this.listaSeries = carregaArqSerie();
+        this.listaFilmes = carregaArqFilmes();
         this.listaEspectadores = new LinkedHashMap<>();
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
@@ -24,14 +27,39 @@ public class Plataforma {
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
         List<Serie> itemList = new LinkedList<Serie>();
-        String nomeSerie, dataLancamento;
+        String nomeSerie, dataLancamento, genero, idioma;
         int idCod;
         while (linha != null) {
             idCod = Integer.parseInt(linha.split(";")[0]);
             nomeSerie = linha.split(";")[1];
             dataLancamento = linha.split(";")[2];
-            Serie serie = new Serie(idCod, nomeSerie, dataLancamento);
+            genero = linha.split(";")[3];
+            idioma = linha.split(";")[4];
+            Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
             itemList.add(serie);
+            linha = reading.readLine();
+        }
+        reading.close();
+        file.close();
+        return itemList;
+    }
+
+    public static List<Filme> carregaArqFilmes() throws IOException {
+        FileReader file = new FileReader("./docs/arquivos/POO_Filmes.csv");
+        BufferedReader reading = new BufferedReader(file);
+        String linha = reading.readLine();
+        List<Filme> itemList = new LinkedList<Filme>();
+        String nomeFilme, dataLancamento, genero, idioma;
+        int idCod, duracaoMin;
+        while (linha != null) {
+            idCod = Integer.parseInt(linha.split(";")[0]);
+            nomeFilme = linha.split(";")[1];
+            dataLancamento = linha.split(";")[2];
+            duracaoMin = Integer.parseInt(linha.split(";")[3]);
+            genero = linha.split(";")[4];
+            idioma = linha.split(";")[5];
+            Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
+            itemList.add(filme);
             linha = reading.readLine();
         }
         reading.close();
@@ -56,7 +84,7 @@ public class Plataforma {
                     if (this.buscaSerie(idSerie) == null) {
                         System.out.println("Serie do id " + idSerie + " inexistente");
                     } else {
-                        adiciona.adicionarAssistidas(this.buscaSerie(idSerie));
+                        adiciona.adicionarAssistidasSerie(this.buscaSerie(idSerie));
                     }
 
                 } else {
@@ -68,7 +96,7 @@ public class Plataforma {
                     if (this.buscaSerie(idSerie) == null) {
                         System.out.println("Serie do id " + idSerie + " inexistente");
                     } else {
-                        adiciona.adicionarFutura(this.buscaSerie(idSerie));
+                        adiciona.adicionarFuturaSerie(this.buscaSerie(idSerie));
                     }
                 } else {
                     System.out.println("Entrada invalida , login inexistente");
@@ -101,7 +129,7 @@ public class Plataforma {
 
     public Serie buscaSerie(int idSerie) {
         for (Serie serie : this.listaSeries) {
-            if (serie.retornaIdSerie() == idSerie) {
+            if (serie.retornaId() == idSerie) {
                 return serie;
             }
         }
@@ -110,8 +138,25 @@ public class Plataforma {
 
     public void infoSerie(int idSerie) {
         for (Serie serie : this.listaSeries) {
-            if (serie.idSerie == (idSerie)) {
-                serie.printaSerie();
+            if (serie.id == (idSerie)) {
+                serie.printaMidia();
+            }
+        }
+    }
+
+    public Filme buscaFilme(int idFilme) {
+        for (Filme filme : this.listaFilmes) {
+            if (filme.retornaId() == idFilme) {
+                return filme;
+            }
+        }
+        return null;
+    }
+
+    public void infoFilme(int idFilme) {
+        for (Filme filme : this.listaFilmes) {
+            if (filme.id == (idFilme)) {
+                filme.printaMidia();
             }
         }
     }
@@ -138,7 +183,7 @@ public class Plataforma {
         boolean adicionado = false;
         for (Serie serie : this.listaSeries) {
             if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.adicionarFutura(serie);
+                this.espectadorLogado.adicionarFuturaSerie(serie);
                 adicionado = true;
             }
         }
@@ -151,7 +196,7 @@ public class Plataforma {
         boolean adicionado = false;
         for (Serie serie : this.listaSeries) {
             if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.adicionarAssistidas(serie);
+                this.espectadorLogado.adicionarAssistidasSerie(serie);
                 ;
                 adicionado = true;
             }
@@ -165,12 +210,52 @@ public class Plataforma {
         boolean remover = false;
         for (Serie serie : this.listaSeries) {
             if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.removerSerieFutura(serie);
+                this.espectadorLogado.removerSerieFuturaSerie(serie);
                 remover = true;
             }
         }
         if (remover = false) {
             System.out.println("Serie nao existe , favor digitar o nome corretamente");
+        }
+    }
+
+    public void adicionarFilmeFuturo(String nomeFilme) {
+        boolean adicionado = false;
+        for (Filme filme : this.listaFilmes) {
+            if (filme.retornaNome().equals(nomeFilme)) {
+                this.espectadorLogado.adicionarFuturaFilme(filme);
+                adicionado = true;
+            }
+        }
+        if (adicionado = false) {
+            System.out.println("Filme nao existe , favor digitar o nome corretamente");
+        }
+    }
+
+    public void adicionarFilmeAssistido(String nomeFilme) {
+        boolean adicionado = false;
+        for (Filme filme : this.listaFilmes) {
+            if (filme.retornaNome().equals(nomeFilme)) {
+                this.espectadorLogado.adicionarAssistidasFilme(filme);
+                ;
+                adicionado = true;
+            }
+        }
+        if (adicionado = false) {
+            System.out.println("Filme nao existe , favor digitar o nome corretamente");
+        }
+    }
+
+    public void removerFilmeFuturo(String nomeFilme) {
+        boolean remover = false;
+        for (Filme filme : this.listaFilmes) {
+            if (filme.retornaNome().equals(nomeFilme)) {
+                this.espectadorLogado.removerSerieFuturaFilme(filme);
+                remover = true;
+            }
+        }
+        if (remover = false) {
+            System.out.println("Filme nao existe , favor digitar o nome corretamente");
         }
     }
 
