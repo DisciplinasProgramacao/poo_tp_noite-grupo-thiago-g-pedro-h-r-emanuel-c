@@ -19,5 +19,14 @@ public abstract class Midia {
 
     abstract String retornaNome();
 
+    public boolean contemGeneroIdioma(String arg){
+        if(this.Genero.equals(arg)){
+            return true;
+        } else if(this.Idioma.equals(arg)){
+            return true;
+        }
+        return false;
+    }
+
     abstract void printaMidia();
 }
