@@ -9,6 +9,7 @@ public class Plataforma {
     private List<Serie> listaSeries;
     private List<Filme> listaFilmes;
     private Map<String, Espectador> listaEspectadores;
+    private Map<Integer, Midia> listaMidia;
     private Espectador espectadorLogado;
 
     public Plataforma() throws IOException {
@@ -20,15 +21,17 @@ public class Plataforma {
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
         this.espectadorLogado = null;
+        this.listaMidia = new LinkedHashMap<>();
     }
 
     public static List<Serie> carregaArqSerie() throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Series2.csv");
+        FileReader file = new FileReader("./docs/arquivos/POO_Series1.csv");
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
         List<Serie> itemList = new LinkedList<Serie>();
         String nomeSerie, dataLancamento, genero, idioma;
         int idCod;
+        Map<Integer, Midia> listaMidia = new LinkedHashMap<>();
         while (linha != null) {
             idCod = Integer.parseInt(linha.split(";")[0]);
             nomeSerie = linha.split(";")[1];
@@ -38,6 +41,7 @@ public class Plataforma {
             Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
             itemList.add(serie);
             linha = reading.readLine();
+            listaMidia.put(idCod, serie);
         }
         reading.close();
         file.close();
@@ -45,12 +49,13 @@ public class Plataforma {
     }
 
     public static List<Filme> carregaArqFilmes() throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Filmes.csv");
+        FileReader file = new FileReader("./docs/arquivos/POO_Filmes1.csv");
         BufferedReader reading = new BufferedReader(file);
         String linha = reading.readLine();
         List<Filme> itemList = new LinkedList<Filme>();
         String nomeFilme, dataLancamento, genero, idioma;
         int idCod, duracaoMin;
+        Map<Integer, Midia> listaMidia = new LinkedHashMap<>();
         while (linha != null) {
             idCod = Integer.parseInt(linha.split(";")[0]);
             nomeFilme = linha.split(";")[1];
@@ -61,6 +66,7 @@ public class Plataforma {
             Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
             itemList.add(filme);
             linha = reading.readLine();
+            listaMidia.put(idCod, filme);
         }
         reading.close();
         file.close();
@@ -125,6 +131,26 @@ public class Plataforma {
         reading.close();
         file.close();
         return itemList;
+    }
+
+    public <T> ArrayList<Midia> buscaMidia(T arg){
+        ArrayList<Midia> retorno = new ArrayList<>();
+        for (Map.Entry<Integer, Midia> entry : listaMidia.entrySet()) {
+            Midia midia = entry.getValue();
+            if(arg instanceof Integer){
+                if(midia.retornaId() == ((Integer) arg)){
+                    retorno.add(midia);
+                }
+            }
+            if(arg instanceof String){
+                if(midia.retornaNome().equalsIgnoreCase((String) arg)){
+                    retorno.add(midia);
+                } else if(midia.contemGeneroIdioma(arg.toString())){
+                    retorno.add(midia);
+                }
+            }
+        }
+        return retorno;
     }
 
     public Serie buscaSerie(int idSerie) {
