@@ -5,45 +5,28 @@ import java.util.List;
 
 public class Espectador {
     private String Nome, Login, Senha;
-    List<Midia> FuturaSerie;
-    List<Midia> AssistidasSerie;
-    List<Midia> FuturoFilme;
-    List<Midia> AssistidasFilme;
+    List<Midia> MidiasFuturas;
+    List<Midia> midiasAssistidas;
 
     public Espectador(String Nome, String Login, String Senha) {
         this.Nome = Nome;
         this.Login = Login;
         this.Senha = Senha;
-        this.FuturaSerie = new LinkedList<>();
-        this.AssistidasSerie = new LinkedList<>();
-        this.FuturoFilme = new LinkedList<>();
-        this.AssistidasFilme = new LinkedList<>();
+        this.MidiasFuturas = new LinkedList<>();
+        this.midiasAssistidas = new LinkedList<>();
     }
 
-    public void adicionarFuturaSerie(Midia serie) {
-        FuturaSerie.add(serie);
+    public void adicionarMidiasFuturas(Midia midia) {
+        MidiasFuturas.add(midia);
     }
 
-    public void adicionarAssistidasSerie(Midia serie) {
-        AssistidasSerie.add(serie);
+    public void adicionarmidiasAssistidas(Midia midia) {
+        midiasAssistidas.add(midia);
     }
 
-    public void removerSerieFuturaSerie(Midia serie) {
-        FuturaSerie.remove(serie);
+    public void removerMidiaFuturas(Midia midia) {
+        MidiasFuturas.remove(midia);
     }
-
-    public void adicionarFuturaFilme(Midia filme) {
-        FuturoFilme.add(filme);
-    }
-
-    public void adicionarAssistidasFilme(Midia filme) {
-        AssistidasFilme.add(filme);
-    }
-
-    public void removerSerieFuturaFilme(Midia filme) {
-        FuturoFilme.remove(filme);
-    }
-
     public String retornaSenha() {
         return this.Senha;
     }

@@ -70,16 +70,16 @@ public class Plataforma {
                 String[] campos = linha.split(";");
                 String login = campos[0];
                 String serie = campos[1];
-                int idSerie = Integer.parseInt(campos[2]);
-    
+                int id = Integer.parseInt(campos[2]);
+
                 if (serie.equals("A")) {
                     if (listaEspectadores.containsKey(login)) {
                         Espectador espectador = listaEspectadores.get(login);
-                        Midia serieEncontrada = this.buscaSerie(idSerie);
-                        if (serieEncontrada == null) {
-                            System.out.println("Série com ID " + idSerie + " inexistente");
+                        Midia midia = this.buscaMidia(id);
+                        if (midia == null) {
+                            System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarAssistidasSerie(serieEncontrada);
+                            espectador.adicionarmidiasAssistidas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -87,11 +87,11 @@ public class Plataforma {
                 } else if (serie.equals("F")) {
                     if (listaEspectadores.containsKey(login)) {
                         Espectador espectador = listaEspectadores.get(login);
-                        Midia serieEncontrada = this.buscaSerie(idSerie);
-                        if (serieEncontrada == null) {
-                            System.out.println("Série com ID " + idSerie + " inexistente");
+                        Midia midia = this.buscaMidia(id);
+                        if (midia == null) {
+                            System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarFuturaSerie(serieEncontrada);
+                            espectador.adicionarMidiasFuturas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -125,8 +125,9 @@ public class Plataforma {
         StringBuilder sb = new StringBuilder();
         Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-            .filter(midia -> idiomaComparator.compare(midia.retornaIdioma().toLowerCase(), idioma.toLowerCase()) == 0)
-            .collect(Collectors.toList());
+                .filter(midia -> idiomaComparator.compare(midia.retornaIdioma().toLowerCase(),
+                        idioma.toLowerCase()) == 0)
+                .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
@@ -136,49 +137,24 @@ public class Plataforma {
         StringBuilder sb = new StringBuilder();
         Comparator<String> generoComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-            .filter(midia -> generoComparator.compare(midia.retornaGenero().toLowerCase(), genero.toLowerCase()) == 0)
-            .collect(Collectors.toList());
+                .filter(midia -> generoComparator.compare(midia.retornaGenero().toLowerCase(),
+                        genero.toLowerCase()) == 0)
+                .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
     }
 
-    public Midia buscaSerie(int idSerie) {
-        for (Midia serie : this.listaMidia) {
-            if (serie.retornaId() == idSerie) {
-                return serie;
-            }
-        }
-        return null;
-    }
-
-    public void infoSerie(int idSerie) {
-        for (Midia serie : this.listaMidia) {
-            if (serie.id == (idSerie)) {
-                serie.printaMidia();
-            }
-        }
-    }
-
-    public Midia buscaFilme(int idFilme) {
-        for (Midia filme : this.listaMidia) {
-            if (filme.retornaId() == idFilme) {
-                return filme;
-            }
-        }
-        return null;
-    }
-
-    public void infoFilme(int idFilme) {
-        for (Midia filme : this.listaMidia) {
-            if (filme.id == (idFilme)) {
-                filme.printaMidia();
+    public void infoMidia(int id) {
+        for (Midia midia : this.listaMidia) {
+            if (midia.id == (id)) {
+                midia.printaMidia();
             }
         }
     }
 
     public boolean efetuarLogin(String login, String senha) {
-        if (this.listaEspectadores.containsValue(login)) {
+        if (this.listaEspectadores.containsKey(login)) {
             Espectador espectador_atual = listaEspectadores.get(login);
             if (espectador_atual.retornaSenha().equals(senha)) {
                 this.espectadorLogado = espectador_atual;
@@ -195,99 +171,59 @@ public class Plataforma {
         System.out.println("Conta deslogada");
     }
 
-    public void adicionarSerieFutura(String nomeSerie) {
+    public void adicionarMidiaFutura(String nomeMidia) {
         boolean adicionado = false;
-        for (Midia serie : this.listaMidia) {
-            if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.adicionarFuturaSerie(serie);
+        for (Midia midia : this.listaMidia) {
+            if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
+                this.espectadorLogado.adicionarMidiasFuturas(midia);
+                adicionado = true;
+                System.out.println("Midia adicionada com sucesso!");
+            }
+        }
+        if (adicionado = false) {
+            System.out.println("Midia nao existe, favor digitar o nome corretamente");
+        }
+    }
+
+    public void adicionarMidiaAssistida(String nomeMidia) {
+        boolean adicionado = false;
+        for (Midia midia : this.listaMidia) {
+            if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
+                this.espectadorLogado.adicionarmidiasAssistidas(midia);
                 adicionado = true;
             }
         }
         if (adicionado = false) {
-            System.out.println("Serie nao existe , favor digitar o nome corretamente");
+            System.out.println("Midia nao existe, favor digitar o nome corretamente");
         }
     }
 
-    public void adicionarSerieAssistida(String nomeSerie) {
-        boolean adicionado = false;
-        for (Midia serie : this.listaMidia) {
-            if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.adicionarAssistidasSerie(serie);
-                ;
-                adicionado = true;
-            }
-        }
-        if (adicionado = false) {
-            System.out.println("Serie nao existe , favor digitar o nome corretamente");
-        }
-    }
-
-    public void removerSerieFutura(String nomeSerie) {
+    public void removerlMidiaFutura(String nomeMidia) {
         boolean remover = false;
-        for (Midia serie : this.listaMidia) {
-            if (serie.retornaNome().equals(nomeSerie)) {
-                this.espectadorLogado.removerSerieFuturaSerie(serie);
+        for (Midia midia : this.listaMidia) {
+            if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
+                this.espectadorLogado.removerMidiaFuturas(midia);
                 remover = true;
+                System.out.println("Midia removida com sucesso!");
             }
         }
         if (remover = false) {
-            System.out.println("Serie nao existe , favor digitar o nome corretamente");
-        }
-    }
-
-    public void adicionarFilmeFuturo(String nomeFilme) {
-        boolean adicionado = false;
-        for (Midia filme : this.listaMidia) {
-            if (filme.retornaNome().equals(nomeFilme)) {
-                this.espectadorLogado.adicionarFuturaFilme(filme);
-                adicionado = true;
-            }
-        }
-        if (adicionado = false) {
-            System.out.println("Filme nao existe , favor digitar o nome corretamente");
-        }
-    }
-
-    public void adicionarFilmeAssistido(String nomeFilme) {
-        boolean adicionado = false;
-        for (Midia filme : this.listaMidia) {
-            if (filme.retornaNome().equals(nomeFilme)) {
-                this.espectadorLogado.adicionarAssistidasFilme(filme);
-                ;
-                adicionado = true;
-            }
-        }
-        if (adicionado = false) {
-            System.out.println("Filme nao existe , favor digitar o nome corretamente");
-        }
-    }
-
-    public void removerFilmeFuturo(String nomeFilme) {
-        boolean remover = false;
-        for (Midia filme : this.listaMidia) {
-            if (filme.retornaNome().equals(nomeFilme)) {
-                this.espectadorLogado.removerSerieFuturaFilme(filme);
-                remover = true;
-            }
-        }
-        if (remover = false) {
-            System.out.println("Filme nao existe , favor digitar o nome corretamente");
+            System.out.println("Midia nao existe, favor digitar o nome corretamente");
         }
     }
 
     public void adicionarAvaliacao(int idMidia, Midia.Avaliacao avaliacao) {
         Midia midia = buscaMidia(idMidia);
         if (midia != null) {
-        midia.atribuirAvaliacao(avaliacao);
-        listaAvaliacoes.add(avaliacao);
+            midia.atribuirAvaliacao(avaliacao);
+            listaAvaliacoes.add(avaliacao);
         }
     }
-
 
     public String getListaAvaliacoes() {
         StringBuilder sb = new StringBuilder();
         List<Midia.Avaliacao> listaRetorno = listaAvaliacoes.stream()
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
