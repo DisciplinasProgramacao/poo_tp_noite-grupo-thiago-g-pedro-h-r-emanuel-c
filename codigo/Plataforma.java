@@ -1,160 +1,150 @@
 package codigo;
 
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Plataforma {
-    private List<Serie> listaSeries;
-    private List<Filme> listaFilmes;
     private Map<String, Espectador> listaEspectadores;
-    private Map<Integer, Midia> listaMidia;
+    private List<Midia> listaMidia;
     private Espectador espectadorLogado;
+    private List<Midia.Avaliacao> listaAvaliacoes;
 
     public Plataforma() throws IOException {
-        this.listaSeries = new LinkedList<Serie>();
-        this.listaFilmes = new LinkedList<Filme>();
-        this.listaSeries = carregaArqSerie();
-        this.listaFilmes = carregaArqFilmes();
+        this.listaMidia = new LinkedList<Midia>();
+        this.listaMidia.addAll(carregaArqSerie());
+        this.listaMidia.addAll(carregaArqFilmes());
         this.listaEspectadores = new LinkedHashMap<>();
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
         this.espectadorLogado = null;
-        this.listaMidia = new LinkedHashMap<>();
+        this.listaAvaliacoes = new ArrayList<>();
     }
 
-    public static List<Serie> carregaArqSerie() throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Series1.csv");
-        BufferedReader reading = new BufferedReader(file);
-        String linha = reading.readLine();
-        List<Serie> itemList = new LinkedList<Serie>();
-        String nomeSerie, dataLancamento, genero, idioma;
-        int idCod;
-        Map<Integer, Midia> listaMidia = new LinkedHashMap<>();
-        while (linha != null) {
-            idCod = Integer.parseInt(linha.split(";")[0]);
-            nomeSerie = linha.split(";")[1];
-            dataLancamento = linha.split(";")[2];
-            genero = linha.split(";")[3];
-            idioma = linha.split(";")[4];
-            Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
-            itemList.add(serie);
-            linha = reading.readLine();
-            listaMidia.put(idCod, serie);
+    public static List<Midia> carregaArqSerie() throws IOException {
+        Path arquivo = Path.of("./docs/arquivos/POO_Series1.csv");
+        try (Stream<String> linhas = Files.lines(arquivo)) {
+            return linhas.map(linha -> {
+                String[] campos = linha.split(";");
+                int idCod = Integer.parseInt(campos[0]);
+                String nomeSerie = campos[1];
+                String dataLancamento = campos[2];
+                String genero = campos[3];
+                String idioma = campos[4];
+                Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
+                return serie;
+            }).collect(Collectors.toCollection(LinkedList::new));
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            return null;
         }
-        reading.close();
-        file.close();
-        return itemList;
     }
 
-    public static List<Filme> carregaArqFilmes() throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Filmes1.csv");
-        BufferedReader reading = new BufferedReader(file);
-        String linha = reading.readLine();
-        List<Filme> itemList = new LinkedList<Filme>();
-        String nomeFilme, dataLancamento, genero, idioma;
-        int idCod, duracaoMin;
-        Map<Integer, Midia> listaMidia = new LinkedHashMap<>();
-        while (linha != null) {
-            idCod = Integer.parseInt(linha.split(";")[0]);
-            nomeFilme = linha.split(";")[1];
-            dataLancamento = linha.split(";")[2];
-            duracaoMin = Integer.parseInt(linha.split(";")[3]);
-            genero = linha.split(";")[4];
-            idioma = linha.split(";")[5];
-            Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
-            itemList.add(filme);
-            linha = reading.readLine();
-            listaMidia.put(idCod, filme);
+    public static List<Midia> carregaArqFilmes() throws IOException {
+        Path arquivo = Path.of("./docs/arquivos/POO_Filmes1.csv");
+        try (Stream<String> linhas = Files.lines(arquivo)) {
+            return linhas.map(linha -> {
+                String[] campos = linha.split(";");
+                int idCod = Integer.parseInt(campos[0]);
+                String nomeFilme = campos[1];
+                String dataLancamento = campos[2];
+                int duracaoMin = Integer.parseInt(campos[3]);
+                String genero = campos[4];
+                String idioma = campos[5];
+                Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
+                return filme;
+            }).collect(Collectors.toCollection(LinkedList::new));
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            return null;
         }
-        reading.close();
-        file.close();
-        return itemList;
     }
 
     public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Audiencia2.csv");
-        BufferedReader reading = new BufferedReader(file);
-        String linha = reading.readLine();
-        int idSerie;
-        String Login;
-        String Serie;
-        while (linha != null) {
-            Login = linha.split(";")[0];
-            Serie = linha.split(";")[1];
-            idSerie = Integer.parseInt(linha.split(";")[2]);
-            if (Serie.equals("A")) {
-                if (listaEspectadores.containsKey(Login)) {
-                    Espectador adiciona = listaEspectadores.get(Login);
-                    if (this.buscaSerie(idSerie) == null) {
-                        System.out.println("Serie do id " + idSerie + " inexistente");
+        Path arquivo = Path.of("./docs/arquivos/POO_Audiencia2.csv");
+        try (Stream<String> linhas = Files.lines(arquivo)) {
+            linhas.forEach(linha -> {
+                String[] campos = linha.split(";");
+                String login = campos[0];
+                String serie = campos[1];
+                int idSerie = Integer.parseInt(campos[2]);
+    
+                if (serie.equals("A")) {
+                    if (listaEspectadores.containsKey(login)) {
+                        Espectador espectador = listaEspectadores.get(login);
+                        Midia serieEncontrada = this.buscaSerie(idSerie);
+                        if (serieEncontrada == null) {
+                            System.out.println("Série com ID " + idSerie + " inexistente");
+                        } else {
+                            espectador.adicionarAssistidasSerie(serieEncontrada);
+                        }
                     } else {
-                        adiciona.adicionarAssistidasSerie(this.buscaSerie(idSerie));
+                        System.out.println("Entrada inválida, login inexistente: " + login);
                     }
-
-                } else {
-                    System.out.println("Entrada invalida , login inexistente");
-                }
-            } else if (Serie.equals("F")) {
-                if (listaEspectadores.containsKey(Login)) {
-                    Espectador adiciona = listaEspectadores.get(Login);
-                    if (this.buscaSerie(idSerie) == null) {
-                        System.out.println("Serie do id " + idSerie + " inexistente");
+                } else if (serie.equals("F")) {
+                    if (listaEspectadores.containsKey(login)) {
+                        Espectador espectador = listaEspectadores.get(login);
+                        Midia serieEncontrada = this.buscaSerie(idSerie);
+                        if (serieEncontrada == null) {
+                            System.out.println("Série com ID " + idSerie + " inexistente");
+                        } else {
+                            espectador.adicionarFuturaSerie(serieEncontrada);
+                        }
                     } else {
-                        adiciona.adicionarFuturaSerie(this.buscaSerie(idSerie));
+                        System.out.println("Entrada inválida, login inexistente: " + login);
                     }
-                } else {
-                    System.out.println("Entrada invalida , login inexistente");
                 }
-            }
-            linha = reading.readLine();
+            });
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            return;
         }
-        reading.close();
-        file.close();
     }
 
     public static Map<String, Espectador> carregarArqEspectador() throws IOException {
-        FileReader file = new FileReader("./docs/arquivos/POO_Espectadores.csv");
-        BufferedReader reading = new BufferedReader(file);
-        String linha = reading.readLine();
-        Map<String, Espectador> itemList = new LinkedHashMap<>();
-        String nome, login, senha;
-        while (linha != null) {
-            nome = linha.split(";")[0];
-            login = linha.split(";")[1];
-            senha = linha.split(";")[2];
-            Espectador espectador = new Espectador(nome, login, senha);
-            itemList.put(login, espectador);
-            linha = reading.readLine();
+        Path arquivo = Path.of("./docs/arquivos/POO_Espectadores.csv");
+        try (Stream<String> linhas = Files.lines(arquivo)) {
+            return linhas.map(linha -> {
+                String[] campos = linha.split(";");
+                String nome = campos[0];
+                String login = campos[1];
+                String senha = campos[2];
+                Espectador espectador = new Espectador(nome, login, senha);
+                return Map.entry(login, espectador);
+            }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            return null;
         }
-        reading.close();
-        file.close();
-        return itemList;
     }
 
-    public <T> ArrayList<Midia> buscaMidia(T arg){
-        ArrayList<Midia> retorno = new ArrayList<>();
-        for (Map.Entry<Integer, Midia> entry : listaMidia.entrySet()) {
-            Midia midia = entry.getValue();
-            if(arg instanceof Integer){
-                if(midia.retornaId() == ((Integer) arg)){
-                    retorno.add(midia);
-                }
-            }
-            if(arg instanceof String){
-                if(midia.retornaNome().equalsIgnoreCase((String) arg)){
-                    retorno.add(midia);
-                } else if(midia.contemGeneroIdioma(arg.toString())){
-                    retorno.add(midia);
-                }
-            }
-        }
-        return retorno;
+    public String buscaIdiomaMidia(String idioma) {
+        StringBuilder sb = new StringBuilder();
+        Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
+        List<Midia> listaRetorno = listaMidia.stream()
+            .filter(midia -> idiomaComparator.compare(midia.retornaIdioma().toLowerCase(), idioma.toLowerCase()) == 0)
+            .collect(Collectors.toList());
+        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
+
+        return sb.toString();
     }
 
-    public Serie buscaSerie(int idSerie) {
-        for (Serie serie : this.listaSeries) {
+    public String buscaGeneroMidia(String genero) {
+        StringBuilder sb = new StringBuilder();
+        Comparator<String> generoComparator = Comparator.comparing(String::toLowerCase);
+        List<Midia> listaRetorno = listaMidia.stream()
+            .filter(midia -> generoComparator.compare(midia.retornaGenero().toLowerCase(), genero.toLowerCase()) == 0)
+            .collect(Collectors.toList());
+        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
+
+        return sb.toString();
+    }
+
+    public Midia buscaSerie(int idSerie) {
+        for (Midia serie : this.listaMidia) {
             if (serie.retornaId() == idSerie) {
                 return serie;
             }
@@ -163,15 +153,15 @@ public class Plataforma {
     }
 
     public void infoSerie(int idSerie) {
-        for (Serie serie : this.listaSeries) {
+        for (Midia serie : this.listaMidia) {
             if (serie.id == (idSerie)) {
                 serie.printaMidia();
             }
         }
     }
 
-    public Filme buscaFilme(int idFilme) {
-        for (Filme filme : this.listaFilmes) {
+    public Midia buscaFilme(int idFilme) {
+        for (Midia filme : this.listaMidia) {
             if (filme.retornaId() == idFilme) {
                 return filme;
             }
@@ -180,7 +170,7 @@ public class Plataforma {
     }
 
     public void infoFilme(int idFilme) {
-        for (Filme filme : this.listaFilmes) {
+        for (Midia filme : this.listaMidia) {
             if (filme.id == (idFilme)) {
                 filme.printaMidia();
             }
@@ -207,7 +197,7 @@ public class Plataforma {
 
     public void adicionarSerieFutura(String nomeSerie) {
         boolean adicionado = false;
-        for (Serie serie : this.listaSeries) {
+        for (Midia serie : this.listaMidia) {
             if (serie.retornaNome().equals(nomeSerie)) {
                 this.espectadorLogado.adicionarFuturaSerie(serie);
                 adicionado = true;
@@ -220,7 +210,7 @@ public class Plataforma {
 
     public void adicionarSerieAssistida(String nomeSerie) {
         boolean adicionado = false;
-        for (Serie serie : this.listaSeries) {
+        for (Midia serie : this.listaMidia) {
             if (serie.retornaNome().equals(nomeSerie)) {
                 this.espectadorLogado.adicionarAssistidasSerie(serie);
                 ;
@@ -234,7 +224,7 @@ public class Plataforma {
 
     public void removerSerieFutura(String nomeSerie) {
         boolean remover = false;
-        for (Serie serie : this.listaSeries) {
+        for (Midia serie : this.listaMidia) {
             if (serie.retornaNome().equals(nomeSerie)) {
                 this.espectadorLogado.removerSerieFuturaSerie(serie);
                 remover = true;
@@ -247,7 +237,7 @@ public class Plataforma {
 
     public void adicionarFilmeFuturo(String nomeFilme) {
         boolean adicionado = false;
-        for (Filme filme : this.listaFilmes) {
+        for (Midia filme : this.listaMidia) {
             if (filme.retornaNome().equals(nomeFilme)) {
                 this.espectadorLogado.adicionarFuturaFilme(filme);
                 adicionado = true;
@@ -260,7 +250,7 @@ public class Plataforma {
 
     public void adicionarFilmeAssistido(String nomeFilme) {
         boolean adicionado = false;
-        for (Filme filme : this.listaFilmes) {
+        for (Midia filme : this.listaMidia) {
             if (filme.retornaNome().equals(nomeFilme)) {
                 this.espectadorLogado.adicionarAssistidasFilme(filme);
                 ;
@@ -274,7 +264,7 @@ public class Plataforma {
 
     public void removerFilmeFuturo(String nomeFilme) {
         boolean remover = false;
-        for (Filme filme : this.listaFilmes) {
+        for (Midia filme : this.listaMidia) {
             if (filme.retornaNome().equals(nomeFilme)) {
                 this.espectadorLogado.removerSerieFuturaFilme(filme);
                 remover = true;
@@ -285,4 +275,30 @@ public class Plataforma {
         }
     }
 
+    public void adicionarAvaliacao(int idMidia, Midia.Avaliacao avaliacao) {
+        Midia midia = buscaMidia(idMidia);
+        if (midia != null) {
+        midia.atribuirAvaliacao(avaliacao);
+        listaAvaliacoes.add(avaliacao);
+        }
+    }
+
+
+    public String getListaAvaliacoes() {
+        StringBuilder sb = new StringBuilder();
+        List<Midia.Avaliacao> listaRetorno = listaAvaliacoes.stream()
+            .collect(Collectors.toList());
+        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
+
+        return sb.toString();
+    }
+
+    public Midia buscaMidia(int idMidia) {
+        for (Midia midia : listaMidia) {
+            if (midia.retornaId() == idMidia) {
+                return midia;
+            }
+        }
+        return null;
+    }
 }

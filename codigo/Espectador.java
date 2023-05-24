@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Espectador {
     private String Nome, Login, Senha;
-    List<Serie> FuturaSerie;
-    List<Serie> AssistidasSerie;
-    List<Filme> FuturoFilme;
-    List<Filme> AssistidasFilme;
+    List<Midia> FuturaSerie;
+    List<Midia> AssistidasSerie;
+    List<Midia> FuturoFilme;
+    List<Midia> AssistidasFilme;
 
     public Espectador(String Nome, String Login, String Senha) {
         this.Nome = Nome;
@@ -20,27 +20,27 @@ public class Espectador {
         this.AssistidasFilme = new LinkedList<>();
     }
 
-    public void adicionarFuturaSerie(Serie serie) {
+    public void adicionarFuturaSerie(Midia serie) {
         FuturaSerie.add(serie);
     }
 
-    public void adicionarAssistidasSerie(Serie serie) {
+    public void adicionarAssistidasSerie(Midia serie) {
         AssistidasSerie.add(serie);
     }
 
-    public void removerSerieFuturaSerie(Serie serie) {
+    public void removerSerieFuturaSerie(Midia serie) {
         FuturaSerie.remove(serie);
     }
 
-    public void adicionarFuturaFilme(Filme filme) {
+    public void adicionarFuturaFilme(Midia filme) {
         FuturoFilme.add(filme);
     }
 
-    public void adicionarAssistidasFilme(Filme filme) {
+    public void adicionarAssistidasFilme(Midia filme) {
         AssistidasFilme.add(filme);
     }
 
-    public void removerSerieFuturaFilme(Filme filme) {
+    public void removerSerieFuturaFilme(Midia filme) {
         FuturoFilme.remove(filme);
     }
 
