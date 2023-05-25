@@ -96,8 +96,8 @@ public class menu {
                     plataforma.removerlMidiaFutura(nomeFilmeFuturoRemover);
                     break;
                 case 7:
-                    System.out.println("Digite o ID da mídia: ");
-                    int idMidia = input.nextInt();
+                    System.out.println("Digite o nome da mídia: ");
+                    String nomeMidia = input.nextLine();
                     input.nextLine();
                     System.out.println("Digite a avaliação (1 a 5): ");
                     int avaliacao = input.nextInt();
@@ -128,7 +128,7 @@ public class menu {
                     plataforma.infoMidia(idSerie);
                     break;
                 case 11:
-                    plataforma.getListaAvaliacoes();
+                    //plataforma.getListaAvaliacoes();
                     break;
                 case 12:
                     System.out.println("Efetuando logout...");

@@ -7,6 +7,8 @@ public class Espectador {
     private String Nome, Login, Senha;
     List<Midia> MidiasFuturas;
     List<Midia> midiasAssistidas;
+    List<Avaliacao> avaliacoesEspectador;
+    private IPerfilEspectador perfil;
 
     public Espectador(String Nome, String Login, String Senha) {
         this.Nome = Nome;
@@ -14,8 +16,18 @@ public class Espectador {
         this.Senha = Senha;
         this.MidiasFuturas = new LinkedList<>();
         this.midiasAssistidas = new LinkedList<>();
+        this.avaliacoesEspectador = new LinkedList<>();
+        this.perfil = new PerfilRegular();
     }
 
+
+    public void adicionarAvaliacaoEspectador(Avaliacao avaliacao){
+        this.avaliacoesEspectador.add(avaliacao);
+    }
+
+    public IPerfilEspectador retornaPerfil(){
+        return this.perfil; 
+    }
     public void adicionarMidiasFuturas(Midia midia) {
         MidiasFuturas.add(midia);
     }
@@ -27,6 +39,7 @@ public class Espectador {
     public void removerMidiaFuturas(Midia midia) {
         MidiasFuturas.remove(midia);
     }
+
     public String retornaSenha() {
         return this.Senha;
     }
@@ -37,6 +50,10 @@ public class Espectador {
 
     public String retornaLogin() {
         return this.Login;
+    }
+
+    public boolean jaAssistiu(Midia midia){
+        return this.midiasAssistidas.contains(midia);
     }
 
 }

@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Plataforma {
+    private Scanner input = new Scanner(System.in);
     private Map<String, Espectador> listaEspectadores;
     private List<Midia> listaMidia;
     private Espectador espectadorLogado;
-    private List<Midia.Avaliacao> listaAvaliacoes;
 
     public Plataforma() throws IOException {
         this.listaMidia = new LinkedList<Midia>();
@@ -21,7 +21,6 @@ public class Plataforma {
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
         this.espectadorLogado = null;
-        this.listaAvaliacoes = new ArrayList<>();
     }
 
     public static List<Midia> carregaArqSerie() throws IOException {
@@ -125,7 +124,7 @@ public class Plataforma {
         StringBuilder sb = new StringBuilder();
         Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> idiomaComparator.compare(midia.retornaIdioma().toLowerCase(),
+                .filter(midia -> idiomaComparator.compare(midia.retornaIdioma(),
                         idioma.toLowerCase()) == 0)
                 .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
@@ -137,12 +136,21 @@ public class Plataforma {
         StringBuilder sb = new StringBuilder();
         Comparator<String> generoComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> generoComparator.compare(midia.retornaGenero().toLowerCase(),
+                .filter(midia -> generoComparator.compare(midia.retornaGenero(),
                         genero.toLowerCase()) == 0)
                 .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
+    }
+
+    public Midia retornaMidiaPorNome(String nome) {
+        for (Midia midia : listaMidia) {
+            if (midia.retornaNome().equals(nome.toLowerCase(null))) {
+                return midia;
+            }
+        }
+        return null;
     }
 
     public void infoMidia(int id) {
@@ -212,21 +220,20 @@ public class Plataforma {
         }
     }
 
-    public void adicionarAvaliacao(int idMidia, Midia.Avaliacao avaliacao) {
-        Midia midia = buscaMidia(idMidia);
-        if (midia != null) {
-            midia.atribuirAvaliacao(avaliacao);
-            listaAvaliacoes.add(avaliacao);
+    public void avaliarMidia(String nomeMidia, String comentarioAvaliacao, Data dataAvaliacao, int notaAvaliacao) {
+        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, dataAvaliacao, notaAvaliacao);
+        Avaliacao avaliacaoRegular = new Avaliacao(null, dataAvaliacao, notaAvaliacao);
+        if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia)) && this.espectadorLogado.retornaPerfil().podeComentar()) {
+            this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoEspecialista);
+            this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
+            System.out.println("TESTE AVALIOU ESPECIALISTA");
+        } else if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia)) && !this.espectadorLogado.retornaPerfil().podeComentar()){
+            this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoRegular);
+            this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
+            System.out.println("TESTE NAO AVALIOU REGULAR");
+        } else {
+            System.out.println("TESTE NAO AVALIOU");
         }
-    }
-
-    public String getListaAvaliacoes() {
-        StringBuilder sb = new StringBuilder();
-        List<Midia.Avaliacao> listaRetorno = listaAvaliacoes.stream()
-                .collect(Collectors.toList());
-        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-
-        return sb.toString();
     }
 
     public Midia buscaMidia(int idMidia) {
