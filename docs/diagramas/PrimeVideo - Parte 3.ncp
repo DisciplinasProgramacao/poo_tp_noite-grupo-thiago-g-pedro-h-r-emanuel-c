@@ -1,0 +1,125 @@
+<Project>
+  <Name>PrimeVideo</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>PrimeVideo</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Espectador</Name>
+        <Access>Public</Access>
+        <Location left="143" top="173" />
+        <Size width="258" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String Nome</Member>
+        <Member type="Field">String senha</Member>
+        <Member type="Field">List&lt;Midia&gt; MidiasFuturas</Member>
+        <Member type="Field">List&lt;Midia&gt; midiasAssistidas</Member>
+        <Member type="Field">private String Nome</Member>
+        <Member type="Method">public void adicionarMidiasFuturas(Midia midia)</Member>
+        <Member type="Method">public void adicionarmidiasAssistidas(Midia midia)</Member>
+        <Member type="Method">public void removerMidiaFuturas(Midia midia)</Member>
+        <Member type="Method">public String retornaSenha()</Member>
+        <Member type="Method">public String retornaNome()</Member>
+        <Member type="Method">public String retornaLogin()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="907" top="919" />
+        <Size width="206" height="219" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Serie()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Plataforma</Name>
+        <Access>Public</Access>
+        <Location left="465" top="173" />
+        <Size width="287" height="400" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private Map&lt;string&gt; listaEspectadores</Member>
+        <Member type="Field">private List&lt;Midia&gt; listaMidia</Member>
+        <Member type="Field">private Espectador espectadorLogado</Member>
+        <Member type="Field">private List&lt;Midia.Avaliacao&gt; listaAvaliacoes</Member>
+        <Member type="Method">public static List&lt;Midia&gt; carregaArqSerie()</Member>
+        <Member type="Method">public static List&lt;Midia&gt; carregaArqFilmes()</Member>
+        <Member type="Method">public void carregaListFuturaEAssistida(Map&lt;String, Espectador&gt; listaEspectadores)</Member>
+        <Member type="Method">public static Map&lt;String, Espectador&gt; carregarArqEspectador()</Member>
+        <Member type="Method">public String buscaIdiomaMidia(String idioma)</Member>
+        <Member type="Method">public String buscaGeneroMidia(String genero)</Member>
+        <Member type="Method">public void infoMidia(int id)</Member>
+        <Member type="Method">public boolean efetuarLogin(String login, String senha)</Member>
+        <Member type="Method">public void efetuarLogout()</Member>
+        <Member type="Method">public void adicionarMidiaFutura(String nomeMidia)</Member>
+        <Member type="Method">public void adicionarMidiaAssistida(String nomeMidia)</Member>
+        <Member type="Method">public void removerlMidiaFutura(String nomeMidia)</Member>
+        <Member type="Method">public void adicionarAvaliacao(int idMidia, Midia.Avaliacao avaliacao)</Member>
+        <Member type="Method">public String getListaAvaliacoes()</Member>
+        <Member type="Method">public Midia buscaMidia(int idMidia)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Filme</Name>
+        <Access>Public</Access>
+        <Location left="327" top="893" />
+        <Size width="240" height="243" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int DuracaoMin</Member>
+        <Member type="Constructor">public Filme()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Midia</Name>
+        <Access>Public</Access>
+        <Location left="619" top="588" />
+        <Size width="201" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected int id</Member>
+        <Member type="Field">protected String nome</Member>
+        <Member type="Field">protected String dataDeLancamento</Member>
+        <Member type="Field">protected String genero</Member>
+        <Member type="Field">protected String idioma</Member>
+        <Member type="Field">protected Avaliacao avaliacao</Member>
+        <Member type="Method">public int retornaId()</Member>
+        <Member type="Method">public String retornaNome()</Member>
+        <Member type="Method">public String retornaGenero()</Member>
+        <Member type="Method">public String retornaIdioma()</Member>
+        <Member type="Method">public Avaliacao retornaAvaliacao()</Member>
+        <Member type="Method">public void printaMidia()</Member>
+        <Member type="Method">public String toString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>440</X>
+          <Y>217</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
