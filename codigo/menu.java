@@ -3,12 +3,12 @@ package codigo;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Menu {
+public class menu {
     private Plataforma plataforma;
     private Scanner input;
     private boolean sair = false;
 
-    public Menu() throws IOException {
+    public menu() throws IOException {
         plataforma = new Plataforma();
         input = new Scanner(System.in);
         exibirMenuSemLogin();
@@ -165,6 +165,6 @@ public class Menu {
     }
 
     public static void main(String[] args) throws IOException {
-        Menu menu = new Menu();
+        menu menu = new menu();
     }
 }
