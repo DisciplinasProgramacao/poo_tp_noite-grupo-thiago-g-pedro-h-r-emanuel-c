@@ -1,0 +1,103 @@
+<Project>
+  <Name>PrimeVideo</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>PrimeVideo</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Usuario</Name>
+        <Access>Public</Access>
+        <Location left="143" top="173" />
+        <Size width="258" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String login</Member>
+        <Member type="Field">String senha</Member>
+        <Member type="Field">List&lt;Serie&gt; serieFutura</Member>
+        <Member type="Field">List&lt;Serie&gt; seriesAssistidas</Member>
+        <Member type="Method">public void adicionarSerieFutura(serie Serie)</Member>
+        <Member type="Method">public void AdicionarSerieAssistida(serie Serie)</Member>
+        <Member type="Method">public void terminarSerie(serie Serie)</Member>
+        <Member type="Method">public void removerSerieFutura(serie Serie)</Member>
+        <Member type="Method">public void listarSeriesAssistidas()</Member>
+        <Member type="Method">public void listarSeriesFuturas()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="823" top="173" />
+        <Size width="311" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String nome</Member>
+        <Member type="Field">String idioma</Member>
+        <Member type="Field">String genero</Member>
+        <Member type="Field">Int visualizacoes</Member>
+        <Member type="Method">public void adicionarAssistido()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Plataforma</Name>
+        <Access>Public</Access>
+        <Location left="466" top="173" />
+        <Size width="287" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Hash clientes</Member>
+        <Member type="Field">List&lt;Serie&gt; series</Member>
+        <Member type="Field">Usuario usuario</Member>
+        <Member type="Method">public void efetuarLogin(String login, String senha)</Member>
+        <Member type="Method">public void efetuarLogout()</Member>
+        <Member type="Method">public void adicionarSerieAssistida(Serie serie)</Member>
+        <Member type="Method">public void adicionarSerieFutura(Serie serie)</Member>
+        <Member type="Method">public void removerSerieFutura(Serie serie)</Member>
+        <Member type="Method">public void listarSeriesAssistidas()</Member>
+        <Member type="Method">public void listarSeriesFuturas()</Member>
+        <Member type="Method">public String BuscarSerieNome(String nome)</Member>
+        <Member type="Method">public String buscarSerieGenero(String genero)</Member>
+        <Member type="Method">public String buscarSerieIdioma(String idioma)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Filme</Name>
+        <Access>Public</Access>
+        <Location left="479" top="574" />
+        <Size width="263" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">string nome</Member>
+        <Member type="Field">string indioma</Member>
+        <Member type="Field">string genero</Member>
+        <Member type="Method">public void toString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>441</X>
+          <Y>217</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>778</X>
+          <Y>218</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
