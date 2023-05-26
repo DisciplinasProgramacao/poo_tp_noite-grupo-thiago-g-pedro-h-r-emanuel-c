@@ -121,25 +121,16 @@ public class Plataforma {
         }
     }
 
-    public String buscaIdiomaMidia(String idioma) {
+    public String buscaIdiomaGeneroString(String valor, String filtro) {
         StringBuilder sb = new StringBuilder();
-        Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
+        Comparator<String> filtroComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> idiomaComparator.compare(midia.retornaIdioma().toLowerCase(),
-                        idioma.toLowerCase()) == 0)
-                .collect(Collectors.toList());
-        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-
-        return sb.toString();
-    }
-
-    public String buscaGeneroMidia(String genero) {
-        StringBuilder sb = new StringBuilder();
-        Comparator<String> generoComparator = Comparator.comparing(String::toLowerCase);
-        List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> generoComparator.compare(midia.retornaGenero().toLowerCase(),
-                        genero.toLowerCase()) == 0)
-                .collect(Collectors.toList());
+            .filter(midia -> filtro.equalsIgnoreCase("idioma")
+                ? filtroComparator.compare(midia.retornaIdioma().toLowerCase(), valor.toLowerCase()) == 0
+                : filtro.equalsIgnoreCase("genero") 
+                ? filtroComparator.compare(midia.retornaGenero().toLowerCase(), valor.toLowerCase()) == 0
+                : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
+            .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
