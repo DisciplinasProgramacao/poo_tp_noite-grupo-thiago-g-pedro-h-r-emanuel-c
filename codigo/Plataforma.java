@@ -24,7 +24,8 @@ public class Plataforma {
     }
 
     public static List<Midia> carregaArqSerie() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Series1.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Series1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -43,7 +44,8 @@ public class Plataforma {
     }
 
     public static List<Midia> carregaArqFilmes() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Filmes1.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Filmes1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -63,7 +65,8 @@ public class Plataforma {
     }
 
     public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Audiencia2.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Audiencia2.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             linhas.forEach(linha -> {
                 String[] campos = linha.split(";");
@@ -104,7 +107,8 @@ public class Plataforma {
     }
 
     public static Map<String, Espectador> carregarArqEspectador() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Espectadores.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Espectadores.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -120,24 +124,16 @@ public class Plataforma {
         }
     }
 
-    public String buscaIdiomaMidia(String idioma) {
+    public String buscaIdiomaGeneroString(String valor, String filtro) {
         StringBuilder sb = new StringBuilder();
-        Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
+        Comparator<String> filtroComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> idiomaComparator.compare(midia.retornaIdioma(),
-                        idioma.toLowerCase()) == 0)
-                .collect(Collectors.toList());
-        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-
-        return sb.toString();
-    }
-
-    public String buscaGeneroMidia(String genero) {
-        StringBuilder sb = new StringBuilder();
-        Comparator<String> generoComparator = Comparator.comparing(String::toLowerCase);
-        List<Midia> listaRetorno = listaMidia.stream()
-                .filter(midia -> generoComparator.compare(midia.retornaGenero(),
-                        genero.toLowerCase()) == 0)
+                .filter(midia -> filtro.equalsIgnoreCase("idioma")
+                        ? filtroComparator.compare(midia.retornaIdioma().toLowerCase(), valor.toLowerCase()) == 0
+                        : filtro.equalsIgnoreCase("genero")
+                                ? filtroComparator.compare(midia.retornaGenero().toLowerCase(),
+                                        valor.toLowerCase()) == 0
+                                : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
                 .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
@@ -146,7 +142,7 @@ public class Plataforma {
 
     public Midia retornaMidiaPorNome(String nome) {
         for (Midia midia : listaMidia) {
-            if (midia.retornaNome().equals(nome.toLowerCase(null))) {
+            if (midia.retornaNome().equals(nome.toLowerCase())) {
                 return midia;
             }
         }
@@ -220,19 +216,26 @@ public class Plataforma {
         }
     }
 
-    public void avaliarMidia(String nomeMidia, String comentarioAvaliacao, Data dataAvaliacao, int notaAvaliacao) {
-        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, dataAvaliacao, notaAvaliacao);
-        Avaliacao avaliacaoRegular = new Avaliacao(null, dataAvaliacao, notaAvaliacao);
-        if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia)) && this.espectadorLogado.retornaPerfil().podeComentar()) {
+    public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao) {
+        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
+                this.retornaMidiaPorNome(nomeMidia).retornaId());
+        Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao,
+                this.retornaMidiaPorNome(nomeMidia).retornaId());
+        this.espectadorLogado.atualizaPerfil();
+        if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia))
+                && this.espectadorLogado.retornaPerfil().podeComentar()
+                && !this.espectadorLogado.jaAvaliou(this.retornaMidiaPorNome(nomeMidia).retornaId())) {
             this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoEspecialista);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
-            System.out.println("TESTE AVALIOU ESPECIALISTA");
-        } else if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia)) && !this.espectadorLogado.retornaPerfil().podeComentar()){
+            return "Mídia avaliada como espectador especialista!";
+        } else if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia))
+                && !this.espectadorLogado.retornaPerfil().podeComentar()
+                && !this.espectadorLogado.jaAvaliou(this.retornaMidiaPorNome(nomeMidia).retornaId())) {
             this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoRegular);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
-            System.out.println("TESTE NAO AVALIOU REGULAR");
+            return "Mídia avaliada como espectador regular!";
         } else {
-            System.out.println("TESTE NAO AVALIOU");
+            return "Você ainda não assistiu essa mídia! Logo impossível avaliá-la";
         }
     }
 
@@ -243,5 +246,13 @@ public class Plataforma {
             }
         }
         return null;
+    }
+
+    public Espectador getEspectadorLogado() {
+        return this.espectadorLogado;
+    }
+
+    public String printaListaAvaliacoesDoEspectador() {
+        return this.espectadorLogado.listaAvaliacoesToString();
     }
 }

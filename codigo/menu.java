@@ -15,6 +15,7 @@ public class menu {
     }
 
     public void exibirMenuSemLogin() {
+        System.out.print("\033[H\033[2J");
         while (!sair) {
             System.out.println("╔══════════════════════════════╗");
             System.out.println("║         \u001B[36mStreaming\u001B[37m            ║");
@@ -55,9 +56,10 @@ public class menu {
             System.out.println("║\u001B[32m7. Adicionar avaliação\u001B[37m    ║");
             System.out.println("║\u001B[35m8. Buscar mídia por idioma\u001B[37m║");
             System.out.println("║\u001B[35m9. Buscar mídia por gênero\u001B[37m║");
-            System.out.println("║\u001B[33m10.Informações sobre mídia\u001B[37m║");
-            System.out.println("║\u001B[34m11. Listar avaliações\u001B[37m      ║");
-            System.out.println("║\u001B[31m12. Efetuar logout\u001B[37m        ║");
+            System.out.println("║\u001B[35m10. Buscar mídia por nome\u001B[37m ║");
+            System.out.println("║\u001B[33m11.Informações sobre mídia\u001B[37m║");
+            System.out.println("║\u001B[34m12. Listar avaliações\u001B[37m     ║");
+            System.out.println("║\u001B[31m13. Efetuar logout\u001B[37m        ║");
             System.out.println("╚══════════════════════════╝");
             System.out.print("Opção: ");
 
@@ -66,7 +68,7 @@ public class menu {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome da série futura: ");
+                    System.out.println("Digite o nome da série para assistir depois: ");
                     String nomeSerieFutura = input.nextLine();
                     plataforma.adicionarMidiaFutura(nomeSerieFutura);
                     break;
@@ -99,38 +101,50 @@ public class menu {
                     System.out.println("Digite o nome da mídia: ");
                     String nomeMidia = input.nextLine();
                     input.nextLine();
-                    System.out.println("Digite a avaliação (1 a 5): ");
-                    int avaliacao = input.nextInt();
-                    input.nextLine();
-                    // if (enumAvaliacao != null) {
-                    //     plataforma.adicionarAvaliacao(idMidia, Avaliacao);
-                    // } else {
-                    //     System.out.println("Avaliação inválida!");
-                    // }
-                    //TO DO: Emanuel realizar avaliação e implementar no menu.
+                    if(plataforma.retornaMidiaPorNome(nomeMidia) != null){
+                        System.out.println("Digite a avaliação (1 a 5): ");
+                        int nota = input.nextInt();
+                        input.nextLine();
+                        if(this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()){
+                            System.out.println("Insira um comentário:");
+                            String comentario = input.nextLine();
+                            System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
+                        } else {
+                            System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
+                        }
+                    } else {
+                        System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
+                        opcao = 7;
+                    }
                     break;
                 case 8:
                     System.out.println("Digite o idioma a ser buscado: ");
                     String idioma = input.nextLine();
-                    String midiasPorIdioma = plataforma.buscaIdiomaMidia(idioma);
+                    String midiasPorIdioma = plataforma.buscaIdiomaGeneroString(idioma, "idioma");
                     System.out.println(midiasPorIdioma);
                     break;
                 case 9:
                     System.out.println("Digite o gênero a ser buscado: ");
                     String genero = input.nextLine();
-                    String midiasPorGenero = plataforma.buscaGeneroMidia(genero);
+                    String midiasPorGenero = plataforma.buscaIdiomaGeneroString(genero, "genero");
                     System.out.println(midiasPorGenero);
                     break;
                 case 10:
+                    System.out.println("Digite o nome a ser buscado: ");
+                    String nome = input.nextLine();
+                    String midiasPorNome = plataforma.buscaIdiomaGeneroString(nome, "nome");
+                    System.out.println(midiasPorNome);
+                    break;
+                case 11:
                     System.out.println("Digite o ID da série: ");
                     int idSerie = input.nextInt();
                     input.nextLine();
                     plataforma.infoMidia(idSerie);
                     break;
-                case 11:
-                    //plataforma.getListaAvaliacoes();
-                    break;
                 case 12:
+                    System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
+                    break;
+                case 13:
                     System.out.println("Efetuando logout...");
                     efetuarLogout();
                     break;

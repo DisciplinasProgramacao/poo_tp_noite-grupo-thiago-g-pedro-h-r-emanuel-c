@@ -273,6 +273,10 @@ import java.time.LocalDate;
     public int retornaMes(){
         return this.mes;
     }
+    public int retornaAno(){
+        return this.ano;
+    }
+
 }
 
 
