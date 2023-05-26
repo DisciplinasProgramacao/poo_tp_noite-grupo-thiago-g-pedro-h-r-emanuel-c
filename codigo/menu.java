@@ -14,8 +14,19 @@ public class menu {
         exibirMenuSemLogin();
     }
 
-    public void exibirMenuSemLogin() {
+    public void limparTela(){
         System.out.print("\033[H\033[2J");
+    }
+
+    public void confirmarLimparTela(){
+        System.out.println("\u001B[47mPara sair, pressione enter.\u001B[40m");
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
+        System.out.print("\033[H\033[2J");
+    }
+
+    public void exibirMenuSemLogin() {
+        limparTela();
         while (!sair) {
             System.out.println("╔══════════════════════════════╗");
             System.out.println("║         \u001B[36mStreaming\u001B[37m            ║");
@@ -71,31 +82,37 @@ public class menu {
                     System.out.println("Digite o nome da série futura: ");
                     String nomeSerieFutura = input.nextLine();
                     plataforma.adicionarMidiaFutura(nomeSerieFutura);
+                    confirmarLimparTela();
                     break;
                 case 2:
                     System.out.println("Digite o nome da série assistida: ");
                     String nomeSerieAssistida = input.nextLine();
                     plataforma.adicionarMidiaAssistida(nomeSerieAssistida);
+                    confirmarLimparTela();
                     break;
                 case 3:
                     System.out.println("Digite o nome da série futura a ser removida: ");
                     String nomeSerieFuturaRemover = input.nextLine();
                     plataforma.removerlMidiaFutura(nomeSerieFuturaRemover);
+                    confirmarLimparTela();
                     break;
                 case 4:
                     System.out.println("Digite o nome do filme futuro: ");
                     String nomeFilmeFuturo = input.nextLine();
                     plataforma.adicionarMidiaFutura(nomeFilmeFuturo);
+                    confirmarLimparTela();
                     break;
                 case 5:
                     System.out.println("Digite o nome do filme assistido: ");
                     String nomeFilmeAssistido = input.nextLine();
                     plataforma.adicionarMidiaAssistida(nomeFilmeAssistido);
+                    confirmarLimparTela();
                     break;
                 case 6:
                     System.out.println("Digite o nome do filme futuro a ser removido: ");
                     String nomeFilmeFuturoRemover = input.nextLine();
                     plataforma.removerlMidiaFutura(nomeFilmeFuturoRemover);
+                    confirmarLimparTela();
                     break;
                 case 7:
                     System.out.println("Digite o ID da mídia: ");
@@ -110,30 +127,35 @@ public class menu {
                     //     System.out.println("Avaliação inválida!");
                     // }
                     //TO DO: Emanuel realizar avaliação e implementar no menu.
+                    confirmarLimparTela();
                     break;
                 case 8:
                     System.out.println("Digite o idioma a ser buscado: ");
                     String idioma = input.nextLine();
                     String midiasPorIdioma = plataforma.buscaIdiomaGeneroString(idioma, "idioma");
                     System.out.println(midiasPorIdioma);
+                    confirmarLimparTela();
                     break;
                 case 9:
                     System.out.println("Digite o gênero a ser buscado: ");
                     String genero = input.nextLine();
                     String midiasPorGenero = plataforma.buscaIdiomaGeneroString(genero, "genero");
                     System.out.println(midiasPorGenero);
+                    confirmarLimparTela();
                     break;
                 case 10:
                     System.out.println("Digite o nome a ser buscado: ");
                     String nome = input.nextLine();
                     String midiasPorNome = plataforma.buscaIdiomaGeneroString(nome, "nome");
                     System.out.println(midiasPorNome);
+                    confirmarLimparTela();
                     break;
                 case 11:
                     System.out.println("Digite o ID da série: ");
                     int idSerie = input.nextInt();
                     input.nextLine();
                     plataforma.infoMidia(idSerie);
+                    confirmarLimparTela();
                     break;
                 case 12:
                     plataforma.getListaAvaliacoes();
@@ -144,6 +166,7 @@ public class menu {
                     break;
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
+                    confirmarLimparTela();
                     break;
             }
         }
@@ -160,6 +183,7 @@ public class menu {
         boolean loginSucesso = plataforma.efetuarLogin(usuario, senha);
         if (loginSucesso) {
             System.out.println("Login realizado com sucesso!");
+            limparTela();
             exibirMenuLogado();
         } else {
             System.out.println("Usuário ou senha incorretos. Tente novamente.");
@@ -169,6 +193,7 @@ public class menu {
     private void efetuarLogout() {
         plataforma.efetuarLogout();
         System.out.println("Logout realizado com sucesso!");
+        limparTela();
         exibirMenuSemLogin();
     }
 
