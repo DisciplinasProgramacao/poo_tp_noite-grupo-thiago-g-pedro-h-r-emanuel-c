@@ -1,11 +1,11 @@
 package codigo;
 
-public class PerfilRegular implements IPerfilEspectador {
-    final private String tipo = "Regular";
-    final private boolean podeComentar = false;
-    final private boolean podeAssistirLancamento = false;
+public class PerfilProfissional implements IPerfilEspectador {
+    final private String tipo = "Especialista";
+    final private boolean podeComentar = true;
+    final private boolean podeAssistirLancamento = true;
 
-    public PerfilRegular(){}
+    public PerfilProfissional(){}
 
     @Override
     public boolean podeComentar() {
@@ -21,5 +21,4 @@ public class PerfilRegular implements IPerfilEspectador {
     public boolean podeAssistirLancamento(){
         return this.podeAssistirLancamento;
     }
-    
 }
