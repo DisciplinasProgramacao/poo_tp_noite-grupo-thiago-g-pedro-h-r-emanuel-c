@@ -111,7 +111,6 @@ public class menu {
                             }
                         } else {
                             System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
-                            opcao = 7;
                         }
                         break;
                     case 5:
