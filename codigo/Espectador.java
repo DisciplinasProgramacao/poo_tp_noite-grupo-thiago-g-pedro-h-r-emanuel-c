@@ -59,16 +59,37 @@ public class Espectador {
         return this.perfil;
     }
 
-    public void adicionarMidiasFuturas(Midia midia) {
-        MidiasFuturas.add(midia);
+    public boolean adicionarMidiasFuturas(Midia midia) {
+        boolean adicionada = false;
+        for (Midia midiaFor : this.MidiasFuturas) {
+            if (midiaFor.retornaNome().toLowerCase().equals(midia.retornaNome().toLowerCase())) {
+                MidiasFuturas.add(midia);
+                adicionada = true;
+            }
+        }
+        return adicionada;
     }
 
-    public void adicionarmidiasAssistidas(Midia midia) {
-        midiasAssistidas.add(midia);
+    public boolean adicionarmidiasAssistidas(Midia midia) {
+        boolean adicionada = false;
+        for (Midia midiaFor : this.midiasAssistidas) {
+            if (midiaFor.retornaNome().toLowerCase().equals(midia.retornaNome().toLowerCase())) {
+                midiasAssistidas.add(midia);
+                adicionada = true;
+            }
+        }
+        return adicionada;
     }
 
-    public void removerMidiaFuturas(Midia midia) {
-        MidiasFuturas.remove(midia);
+    public boolean removerMidiaFuturas(Midia midia) {
+        boolean remover = false;
+        for (Midia midiaFor : this.MidiasFuturas) {
+            if (midiaFor.retornaNome().toLowerCase().equals(midia.retornaNome().toLowerCase())) {
+                MidiasFuturas.remove(midia);
+                remover = true;
+            }
+        }
+        return remover;
     }
 
     public String retornaSenha() {
