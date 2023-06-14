@@ -121,11 +121,6 @@ public class menu {
                     System.out.println("Digite a avaliação (1 a 5): ");
                     int avaliacao = input.nextInt();
                     input.nextLine();
-                    // if (enumAvaliacao != null) {
-                    //     plataforma.adicionarAvaliacao(idMidia, Avaliacao);
-                    // } else {
-                    //     System.out.println("Avaliação inválida!");
-                    // }
                     //TO DO: Emanuel realizar avaliação e implementar no menu.
                     confirmarLimparTela();
                     break;
