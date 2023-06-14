@@ -15,14 +15,18 @@ public class Plataforma {
     private List<Midia> listaMidia;
     private Espectador espectadorLogado;
 
-    public Plataforma() throws IOException {
-        this.listaMidia = new LinkedList<Midia>();
-        this.listaMidia.addAll(carregaArqSerie());
-        this.listaMidia.addAll(carregaArqFilmes());
-        this.listaEspectadores = new LinkedHashMap<>();
-        this.listaEspectadores = carregarArqEspectador();
-        this.carregaListFuturaEAssistida(listaEspectadores);
-        this.espectadorLogado = null;
+    public Plataforma() {
+        try {
+            this.listaMidia = new LinkedList<Midia>();
+            this.listaMidia.addAll(carregaArqSerie());
+            this.listaMidia.addAll(carregaArqFilmes());
+            this.listaEspectadores = new LinkedHashMap<>();
+            this.listaEspectadores = carregarArqEspectador();
+            this.carregaListFuturaEAssistida(listaEspectadores);
+            this.espectadorLogado = null;
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar os arquivos: " + e.getMessage());
+        }
     }
 
     public static List<Midia> carregaArqSerie() throws IOException {
@@ -85,7 +89,7 @@ public class Plataforma {
                         if (midia == null) {
                             System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarmidiasAssistidas(midia);
+                            espectador.adicionarMidiasArquivoAssistidas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -97,7 +101,7 @@ public class Plataforma {
                         if (midia == null) {
                             System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarMidiasFuturas(midia);
+                            espectador.adicionarMidiasArquivoFuturas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -140,7 +144,9 @@ public class Plataforma {
                                 : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
                 .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-
+        if (sb.toString().equals("")){
+            return "Não encontrado resultados para sua busca, verifique se informou corretamente.";
+        }
         return sb.toString();
     }
 
@@ -181,42 +187,60 @@ public class Plataforma {
 
     public void adicionarMidiaFutura(String nomeMidia) {
         boolean adicionado = false;
+        boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
-                this.espectadorLogado.adicionarMidiasFuturas(midia);
-                adicionado = true;
-                System.out.println("Mídia adicionada com sucesso!");
+                encontrado = true;
+                if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true){
+                    adicionado = true;
+                    System.out.println("Mídia adicionada com sucesso!");
+                }
+                else {
+                    System.out.println("Mídia já adicionada a lista.");
+                }
             }
         }
-        if (adicionado = false) {
+        if (adicionado == false && encontrado == false) {
             System.out.println("Mídia não existe, favor digitar o nome corretamente!");
         }
     }
 
     public void adicionarMidiaAssistida(String nomeMidia) {
         boolean adicionado = false;
+        boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
-                this.espectadorLogado.adicionarmidiasAssistidas(midia);
-                adicionado = true;
-                System.out.println("Mídia adicionada com sucesso!");
+                encontrado = true;
+                if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true){
+                    adicionado = true;
+                    System.out.println("Mídia adicionada com sucesso!");
+                }
+                else {
+                    System.out.println("Mídia já adicionada a lista.");
+                }
             }
         }
-        if (adicionado = false) {
+        if (adicionado == false && encontrado == false) {
             System.out.println("Mídia não existe, favor digitar o nome corretamente!");
         }
     }
 
     public void removerlMidiaFutura(String nomeMidia) {
         boolean remover = false;
+        boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
-                this.espectadorLogado.removerMidiaFuturas(midia);
-                remover = true;
-                System.out.println("Mídia removida com sucesso!");
+                encontrado = true;
+                if (this.espectadorLogado.removerMidiaFuturas(midia) == true){
+                    remover = true;
+                    System.out.println("Mídia removida com sucesso!");
+                }
+                else {
+                    System.out.println("Mídia não está na lista.");
+                }
             }
         }
-        if (remover = false) {
+        if (remover == false && encontrado == false) {
             System.out.println("Mídia não existe, favor digitar o nome corretamente");
         }
     }
