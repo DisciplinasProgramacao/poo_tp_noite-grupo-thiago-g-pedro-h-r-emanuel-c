@@ -217,21 +217,20 @@ public class Plataforma {
     }
 
     public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao) {
-        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
-                this.retornaMidiaPorNome(nomeMidia).retornaId());
-        Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao,
-                this.retornaMidiaPorNome(nomeMidia).retornaId());
+        Midia midia = this.retornaMidiaPorNome(nomeMidia);
+        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao, midia.retornaId());
+        Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
         this.espectadorLogado.atualizaPerfil();
-        if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia))
-                && this.espectadorLogado.retornaPerfil().podeComentar()
-                && !this.espectadorLogado.jaAvaliou(this.retornaMidiaPorNome(nomeMidia).retornaId())) {
-            this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoEspecialista);
+        if (espectadorLogadoJaAssistiu(midia)
+                && espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia)) {
+            midia.Avaliar(avaliacaoEspecialista);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
             return "Mídia avaliada como espectador especialista!";
-        } else if (this.espectadorLogado.jaAssistiu(this.retornaMidiaPorNome(nomeMidia))
-                && !this.espectadorLogado.retornaPerfil().podeComentar()
-                && !this.espectadorLogado.jaAvaliou(this.retornaMidiaPorNome(nomeMidia).retornaId())) {
-            this.retornaMidiaPorNome(nomeMidia).Avaliar(avaliacaoRegular);
+        } else if (espectadorLogadoJaAssistiu(midia)
+                && !espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia)) {
+            midia.Avaliar(avaliacaoRegular);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
             return "Mídia avaliada como espectador regular!";
         } else {
@@ -255,4 +254,15 @@ public class Plataforma {
     public String printaListaAvaliacoesDoEspectador() {
         return this.espectadorLogado.listaAvaliacoesToString();
     }
+
+    public boolean espectadorLogadoPodeComentar(){
+        return this.espectadorLogado.retornaPerfil().podeComentar();
+    }
+    public boolean espectadorLogadoJaAvaliou(Midia midia){
+       return espectadorLogadoJaAvaliou(midia);
+    }
+    public boolean espectadorLogadoJaAssistiu(Midia midia){
+       return this.espectadorLogado.jaAssistiu(midia);
+    }
+
 }
