@@ -247,21 +247,20 @@ public class Plataforma {
 
     public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao) {
         Midia midia = this.retornaMidiaPorNome(nomeMidia);
-        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao, midia.retornaId());
+        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
+                midia.retornaId());
         Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
         this.espectadorLogado.atualizaPerfil();
-        if (espectadorLogadoJaAssistiu(midia)
-                && espectadorLogadoPodeComentar()
-                && !espectadorLogadoJaAvaliou(midia.retornaId())) {
+        if (espectadorPodeAvaliarEComentar(midia)) {
             midia.Avaliar(avaliacaoEspecialista);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
             return "Mídia avaliada como espectador especialista!";
-        } else if (espectadorLogadoJaAssistiu(midia)
-                && !espectadorLogadoPodeComentar()
-                && !espectadorLogadoJaAvaliou(midia.retornaId())) {
+        } else if (espectadorPodeAvaliarSemComentar(midia)) {
             midia.Avaliar(avaliacaoRegular);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
             return "Mídia avaliada como espectador regular!";
+        } else if (espectadorLogadoJaAvaliou(midia.retornaId())){
+            return "Mídia já avaliada! Impossível avaliar novamente.";
         } else {
             return "Você ainda não assistiu essa mídia! Logo impossível avaliá-la";
         }
@@ -281,35 +280,53 @@ public class Plataforma {
     }
 
     public String printaListaAvaliacoesDoEspectador() {
-        if(this.espectadorLogado.listaAvaliacoesToString() == ""){
+        if (this.espectadorLogado.listaAvaliacoesToString() == "") {
             return this.espectadorLogado.listaAvaliacoesToString();
         }
         return "Sem mídias avaliadas.";
     }
 
-    public boolean espectadorLogadoPodeComentar(){
+    public boolean espectadorLogadoPodeComentar() {
         return this.espectadorLogado.retornaPerfil().podeComentar();
     }
-    public boolean espectadorLogadoJaAvaliou(int idMidia){
-       return this.espectadorLogado.jaAvaliou(idMidia);
-    }
-    public boolean espectadorLogadoJaAssistiu(Midia midia){
-       return this.espectadorLogado.jaAssistiu(midia);
+
+    public boolean espectadorLogadoJaAvaliou(int idMidia) {
+        return this.espectadorLogado.jaAvaliou(idMidia);
     }
 
-    public static String generoAleatorio(){
+    public boolean espectadorLogadoJaAssistiu(Midia midia) {
+        return this.espectadorLogado.jaAssistiu(midia);
+    }
+
+    public boolean espectadorPodeAvaliarEComentar(Midia midia) {
+        return espectadorLogadoJaAssistiu(midia)
+                && espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia.retornaId());
+    }
+
+    public boolean espectadorPodeAvaliarSemComentar(Midia midia) {
+        return espectadorLogadoJaAssistiu(midia)
+                && !espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia.retornaId());
+    }
+
+    public boolean espectadorPodeAssistirLancamento() {
+        return this.espectadorLogado.retornaPerfil().podeAssistirLancamento();
+    }
+
+    public static String generoAleatorio() {
         String generoAleatorio = Genero
-            .values()[new Random()
-            .nextInt(Genero.values().length)]
-            .toString();
+                .values()[new Random()
+                        .nextInt(Genero.values().length)]
+                .toString();
         return generoAleatorio;
     }
-    
-    public static String idiomaAleatorio(){
+
+    public static String idiomaAleatorio() {
         String idiomaAleatorio = Idioma
-            .values()[new Random()
-            .nextInt(Idioma.values().length)]
-            .toString();
+                .values()[new Random()
+                        .nextInt(Idioma.values().length)]
+                .toString();
         return idiomaAleatorio;
     }
 }
