@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import codigo.EGeneros.Genero;
+import codigo.EIdioma.Idioma;
 
 public class Plataforma {
     private Scanner input = new Scanner(System.in);
@@ -32,8 +34,8 @@ public class Plataforma {
                 int idCod = Integer.parseInt(campos[0]);
                 String nomeSerie = campos[1];
                 String dataLancamento = campos[2];
-                String genero = campos[3];
-                String idioma = campos[4];
+                String genero = generoAleatorio();
+                String idioma = idiomaAleatorio();
                 Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
                 return serie;
             }).collect(Collectors.toCollection(LinkedList::new));
@@ -53,8 +55,8 @@ public class Plataforma {
                 String nomeFilme = campos[1];
                 String dataLancamento = campos[2];
                 int duracaoMin = Integer.parseInt(campos[3]);
-                String genero = campos[4];
-                String idioma = campos[5];
+                String genero = generoAleatorio();
+                String idioma = idiomaAleatorio();
                 Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
                 return filme;
             }).collect(Collectors.toCollection(LinkedList::new));
@@ -265,4 +267,19 @@ public class Plataforma {
        return this.espectadorLogado.jaAssistiu(midia);
     }
 
+    public static String generoAleatorio(){
+        String generoAleatorio = Genero
+            .values()[new Random()
+            .nextInt(Genero.values().length)]
+            .toString();
+        return generoAleatorio;
+    }
+    
+    public static String idiomaAleatorio(){
+        String idiomaAleatorio = Idioma
+            .values()[new Random()
+            .nextInt(Idioma.values().length)]
+            .toString();
+        return idiomaAleatorio;
+    }
 }

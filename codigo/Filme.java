@@ -7,8 +7,4 @@ public class Filme extends Midia{
         super(idFilme, Nome, DataDeLancamento, Genero, Idioma);
         this.DuracaoMin = DuracaoMin;
     }
-
-    // public void printaMidia() {
-    //     System.out.println("Id do Filme: " + this.id + "\nNome do Filme: " + this.Nome + "\nData de Lançamento: " + this.DataDeLancamento + "Duração: " + this.DuracaoMin);
-    // }
 }
