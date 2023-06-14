@@ -89,7 +89,7 @@ public class Plataforma {
                         if (midia == null) {
                             System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarmidiasAssistidas(midia);
+                            espectador.adicionarMidiasArquivoAssistidas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -101,7 +101,7 @@ public class Plataforma {
                         if (midia == null) {
                             System.out.println("Série com ID " + id + " inexistente");
                         } else {
-                            espectador.adicionarMidiasFuturas(midia);
+                            espectador.adicionarMidiasArquivoFuturas(midia);
                         }
                     } else {
                         System.out.println("Entrada inválida, login inexistente: " + login);
@@ -191,7 +191,7 @@ public class Plataforma {
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 encontrado = true;
-                if (this.espectadorLogado.adicionarMidiasFuturas(midia) == true){
+                if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true){
                     adicionado = true;
                     System.out.println("Mídia adicionada com sucesso!");
                 }
@@ -211,7 +211,7 @@ public class Plataforma {
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 encontrado = true;
-                if (this.espectadorLogado.adicionarmidiasAssistidas(midia) == true){
+                if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true){
                     adicionado = true;
                     System.out.println("Mídia adicionada com sucesso!");
                 }

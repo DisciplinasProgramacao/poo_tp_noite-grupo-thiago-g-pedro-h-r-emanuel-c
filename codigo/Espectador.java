@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class Espectador {
     private String Nome, Login, Senha;
     List<Midia> MidiasFuturas;
-    List<Midia> midiasAssistidas;
+    List<Midia> MidiasAssistidas;
     List<Avaliacao> avaliacoesEspectador;
     private IPerfilEspectador perfil;
 
@@ -16,7 +16,7 @@ public class Espectador {
         this.Login = Login;
         this.Senha = Senha;
         this.MidiasFuturas = new LinkedList<>();
-        this.midiasAssistidas = new LinkedList<>();
+        this.MidiasAssistidas = new LinkedList<>();
         this.avaliacoesEspectador = new LinkedList<>();
         this.perfil = new PerfilRegular();
     }
@@ -36,17 +36,17 @@ public class Espectador {
                 }
             }
         }
-        if(cont >= 5){
+        if (cont >= 5) {
             this.perfil = new PerfilEspecialista();
         } else {
             this.perfil = new PerfilRegular();
         }
     }
 
-    public String listaAvaliacoesToString(){
+    public String listaAvaliacoesToString() {
         StringBuilder sb = new StringBuilder();
         List<Avaliacao> lista_retorno = this.avaliacoesEspectador.stream()
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
         lista_retorno.forEach(e -> sb.append(e.toStringRegular()).append(System.lineSeparator()));
         return sb.toString();
     }
@@ -59,25 +59,49 @@ public class Espectador {
         return this.perfil;
     }
 
-    public boolean adicionarMidiasFuturas(Midia midia) {
+    public void adicionarMidiasArquivoFuturas(Midia midia) {
+        MidiasFuturas.add(midia);
+    }
+
+    public void adicionarMidiasArquivoAssistidas(Midia midia) {
+        MidiasAssistidas.add(midia);
+    }
+
+    public boolean adicionarMidiaMenuFuturas(Midia midia) {
         boolean adicionada = false;
+        boolean encontrada = false;
+
         for (Midia midiaFor : this.MidiasFuturas) {
             if (midiaFor.retornaNome().toLowerCase().equals(midia.retornaNome().toLowerCase())) {
-                MidiasFuturas.add(midia);
-                adicionada = true;
+                encontrada = true;
+                break;
             }
         }
+
+        if (!encontrada) {
+            this.MidiasFuturas.add(midia);
+            adicionada = true;
+        }
+
         return adicionada;
     }
 
-    public boolean adicionarmidiasAssistidas(Midia midia) {
+    public boolean adicionarMidiaMenuAssistidas(Midia midia) {
         boolean adicionada = false;
-        for (Midia midiaFor : this.midiasAssistidas) {
+        boolean encontrada = false;
+
+        for (Midia midiaFor : this.MidiasAssistidas) {
             if (midiaFor.retornaNome().toLowerCase().equals(midia.retornaNome().toLowerCase())) {
-                midiasAssistidas.add(midia);
-                adicionada = true;
+                encontrada = true;
+                break;
             }
         }
+
+        if (!encontrada) {
+            this.MidiasAssistidas.add(midia);
+            adicionada = true;
+        }
+
         return adicionada;
     }
 
@@ -105,14 +129,14 @@ public class Espectador {
     }
 
     public boolean jaAssistiu(Midia midia) {
-        return this.midiasAssistidas.contains(midia);
+        return this.MidiasAssistidas.contains(midia);
     }
 
-    public boolean jaAvaliou(int idMidia){
+    public boolean jaAvaliou(int idMidia) {
         long tem = this.avaliacoesEspectador.stream()
-        .filter(e -> e.retornaIdMidiaAvaliada() == idMidia)
-        .count();
-        if(tem == 1){
+                .filter(e -> e.retornaIdMidiaAvaliada() == idMidia)
+                .count();
+        if (tem == 1) {
             return true;
         }
         return false;

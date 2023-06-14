@@ -1,6 +1,7 @@
 package codigo;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class menu {
@@ -14,11 +15,11 @@ public class menu {
         exibirMenuSemLogin();
     }
 
-    public void limparTela(){
+    public void limparTela() {
         System.out.print("\033[H\033[2J");
     }
 
-    public void confirmarLimparTela(){
+    public void confirmarLimparTela() {
         System.out.println("\u001B[47mPara sair, pressione enter.\u001B[40m");
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
@@ -58,123 +59,108 @@ public class menu {
             System.out.println("╔══════════════════════════╗");
             System.out.println("║          \u001B[36mMenu\u001B[37m            ║");
             System.out.println("╠══════════════════════════╣");
-            System.out.println("║\u001B[32m1. Adicionar série futura\u001B[37m ║");
-            System.out.println("║\u001B[32m2. Adicionar série assist.\u001B[37m║");
-            System.out.println("║\u001B[31m3. Remover série futura\u001B[37m   ║");
-            System.out.println("║\u001B[32m4. Adicionar filme futuro\u001B[37m ║");
-            System.out.println("║\u001B[32m5. Adicionar filme assist.\u001B[37m║");
-            System.out.println("║\u001B[31m6. Remover filme futuro\u001B[37m   ║");
-            System.out.println("║\u001B[32m7. Adicionar avaliação\u001B[37m    ║");
-            System.out.println("║\u001B[35m8. Buscar mídia por idioma\u001B[37m║");
-            System.out.println("║\u001B[35m9. Buscar mídia por gênero\u001B[37m║");
-            System.out.println("║\u001B[35m10. Buscar mídia por nome\u001B[37m ║");
-            System.out.println("║\u001B[33m11.Informações sobre mídia\u001B[37m║");
-            System.out.println("║\u001B[34m12. Listar avaliações\u001B[37m     ║");
-            System.out.println("║\u001B[33m13. Relatórios Gerenciais\u001B[37m ║");
-            System.out.println("║\u001B[31m14. Efetuar logout\u001B[37m        ║");
+            System.out.println("║\u001B[32m1. Adicionar mídia futura\u001B[37m ║");
+            System.out.println("║\u001B[32m2. Adicionar mídia assist.\u001B[37m║");
+            System.out.println("║\u001B[31m3. Remover mídia futura\u001B[37m   ║");
+            System.out.println("║\u001B[32m4. Adicionar avaliação\u001B[37m    ║");
+            System.out.println("║\u001B[35m5. Buscar mídia por idioma\u001B[37m║");
+            System.out.println("║\u001B[35m6. Buscar mídia por gênero\u001B[37m║");
+            System.out.println("║\u001B[35m7. Buscar mídia por nome\u001B[37m  ║");
+            System.out.println("║\u001B[33m8.Informações sobre mídia\u001B[37m ║");
+            System.out.println("║\u001B[34m9. Listar avaliações\u001B[37m      ║");
+            System.out.println("║\u001B[33m10. Relatórios Gerenciais\u001B[37m ║");
+            System.out.println("║\u001B[31m11. Efetuar logout\u001B[37m        ║");
             System.out.println("╚══════════════════════════╝");
             System.out.print("Opção: ");
 
-            int opcao = input.nextInt();
-            input.nextLine();
+            try {
+                int opcao = input.nextInt();
+                input.nextLine();
 
-            switch (opcao) {
-                case 1:
-                    System.out.println("Digite o nome da série para assistir depois: ");
-                    String nomeSerieFutura = input.nextLine();
-                    plataforma.adicionarMidiaFutura(nomeSerieFutura);
-                    confirmarLimparTela();
-                    break;
-                case 2:
-                    System.out.println("Digite o nome da série assistida: ");
-                    String nomeSerieAssistida = input.nextLine();
-                    plataforma.adicionarMidiaAssistida(nomeSerieAssistida);
-                    confirmarLimparTela();
-                    break;
-                case 3:
-                    System.out.println("Digite o nome da série futura a ser removida: ");
-                    String nomeSerieFuturaRemover = input.nextLine();
-                    plataforma.removerlMidiaFutura(nomeSerieFuturaRemover);
-                    confirmarLimparTela();
-                    break;
-                case 4:
-                    System.out.println("Digite o nome do filme futuro: ");
-                    String nomeFilmeFuturo = input.nextLine();
-                    plataforma.adicionarMidiaFutura(nomeFilmeFuturo);
-                    confirmarLimparTela();
-                    break;
-                case 5:
-                    System.out.println("Digite o nome do filme assistido: ");
-                    String nomeFilmeAssistido = input.nextLine();
-                    plataforma.adicionarMidiaAssistida(nomeFilmeAssistido);
-                    confirmarLimparTela();
-                    break;
-                case 6:
-                    System.out.println("Digite o nome do filme futuro a ser removido: ");
-                    String nomeFilmeFuturoRemover = input.nextLine();
-                    plataforma.removerlMidiaFutura(nomeFilmeFuturoRemover);
-                    confirmarLimparTela();
-                    break;
-                case 7:
-                    System.out.println("Digite o nome da mídia: ");
-                    String nomeMidia = input.nextLine();
-                    if(plataforma.retornaMidiaPorNome(nomeMidia) != null){
-                        System.out.println("Digite a avaliação (1 a 5): ");
-                        int nota = input.nextInt();
-                        if(this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()){
-                            System.out.println("Insira um comentário:");
-                            String comentario = input.nextLine();
-                            System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
+                switch (opcao) {
+                    case 1:
+                        System.out.println("Digite o nome da mídia para assistir depois: ");
+                        String nomeSerieFutura = input.nextLine();
+                        plataforma.adicionarMidiaFutura(nomeSerieFutura);
+                        confirmarLimparTela();
+                        break;
+                    case 2:
+                        System.out.println("Digite o nome da mídia assistida: ");
+                        String nomeSerieAssistida = input.nextLine();
+                        plataforma.adicionarMidiaAssistida(nomeSerieAssistida);
+                        confirmarLimparTela();
+                        break;
+                    case 3:
+                        System.out.println("Digite o nome da mídia futura a ser removida: ");
+                        String nomeSerieFuturaRemover = input.nextLine();
+                        plataforma.removerlMidiaFutura(nomeSerieFuturaRemover);
+                        confirmarLimparTela();
+                        break;
+                    case 4:
+                        System.out.println("Digite o nome da mídia: ");
+                        String nomeMidia = input.nextLine();
+                        if (plataforma.retornaMidiaPorNome(nomeMidia) != null) {
+                            System.out.println("Digite a avaliação (1 a 5): ");
+                            int nota = input.nextInt();
+                            if (this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()) {
+                                System.out.println("Insira um comentário:");
+                                String comentario = input.nextLine();
+                                System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
+                            } else {
+                                System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
+                            }
                         } else {
-                            System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
+                            System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
+                            opcao = 7;
                         }
-                    } else {
-                        System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
-                        opcao = 7;
-                    }
-                    break;
-                case 8:
-                    System.out.println("Digite o idioma a ser buscado: ");
-                    String idioma = input.nextLine();
-                    String midiasPorIdioma = plataforma.buscaIdiomaGeneroString(idioma, "idioma");
-                    System.out.println(midiasPorIdioma);
-                    confirmarLimparTela();
-                    break;
-                case 9:
-                    System.out.println("Digite o gênero a ser buscado: ");
-                    String genero = input.nextLine();
-                    String midiasPorGenero = plataforma.buscaIdiomaGeneroString(genero, "genero");
-                    System.out.println(midiasPorGenero);
-                    confirmarLimparTela();
-                    break;
-                case 10:
-                    System.out.println("Digite o nome a ser buscado: ");
-                    String nome = input.nextLine();
-                    String midiasPorNome = plataforma.buscaIdiomaGeneroString(nome, "nome");
-                    System.out.println(midiasPorNome);
-                    confirmarLimparTela();
-                    break;
-                case 11:
-                    System.out.println("Digite o ID da série: ");
-                    int idSerie = input.nextInt();
-                    input.nextLine();
-                    plataforma.infoMidia(idSerie);
-                    confirmarLimparTela();
-                    break;
-                case 12:
-                    System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
-                    break;
-                case 13:
-                    //TO DO: Relatórios Gerenciais Pedro.
-                    break;
-                case 14:
-                    System.out.println("Efetuando logout...");
-                    efetuarLogout();
-                    break;
-                default:
-                    System.out.println("Opção inválida! Tente novamente.");
-                    confirmarLimparTela();
-                    break;
+                        break;
+                    case 5:
+                        System.out.println("Digite o idioma a ser buscado: ");
+                        String idioma = input.nextLine();
+                        String midiasPorIdioma = plataforma.buscaIdiomaGeneroString(idioma, "idioma");
+                        System.out.println(midiasPorIdioma);
+                        confirmarLimparTela();
+                        break;
+                    case 6:
+                        System.out.println("Digite o gênero a ser buscado: ");
+                        String genero = input.nextLine();
+                        String midiasPorGenero = plataforma.buscaIdiomaGeneroString(genero, "genero");
+                        System.out.println(midiasPorGenero);
+                        confirmarLimparTela();
+                        break;
+                    case 7:
+                        System.out.println("Digite o nome a ser buscado: ");
+                        String nome = input.nextLine();
+                        String midiasPorNome = plataforma.buscaIdiomaGeneroString(nome, "nome");
+                        System.out.println(midiasPorNome);
+                        confirmarLimparTela();
+                        break;
+                    case 8:
+                        System.out.println("Digite o ID da mídia: ");
+                        int idSerie = input.nextInt();
+                        input.nextLine();
+                        plataforma.infoMidia(idSerie);
+                        confirmarLimparTela();
+                        break;
+                    case 9:
+                        System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
+                        break;
+                    case 10:
+                        // TO DO: Relatórios Gerenciais Pedro.
+                        break;
+                    case 11:
+                        System.out.println("Efetuando logout...");
+                        efetuarLogout();
+                        break;
+                    default:
+                        System.out.println("Opção inválida! Tente novamente.");
+                        confirmarLimparTela();
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Opção inválida! Tente novamente.");
+                input.nextLine();
+                confirmarLimparTela();
             }
         }
         System.out.println();
