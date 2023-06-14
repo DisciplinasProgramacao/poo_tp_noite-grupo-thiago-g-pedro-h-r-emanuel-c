@@ -36,7 +36,8 @@ public class Plataforma {
                 String dataLancamento = campos[2];
                 String genero = generoAleatorio();
                 String idioma = idiomaAleatorio();
-                Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma);
+                Boolean lancamento = campos[3].equals("S") ? true : false;
+                Serie serie = new Serie(idCod, nomeSerie, dataLancamento, genero, idioma, lancamento);
                 return serie;
             }).collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
@@ -57,7 +58,8 @@ public class Plataforma {
                 int duracaoMin = Integer.parseInt(campos[3]);
                 String genero = generoAleatorio();
                 String idioma = idiomaAleatorio();
-                Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma);
+                Boolean lancamento = campos[4] == "S" ? true : false;
+                Filme filme = new Filme(idCod, nomeFilme, dataLancamento, duracaoMin, genero, idioma, lancamento);
                 return filme;
             }).collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
@@ -183,11 +185,11 @@ public class Plataforma {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 this.espectadorLogado.adicionarMidiasFuturas(midia);
                 adicionado = true;
-                System.out.println("Midia adicionada com sucesso!");
+                System.out.println("Mídia adicionada com sucesso!");
             }
         }
         if (adicionado = false) {
-            System.out.println("Midia nao existe, favor digitar o nome corretamente");
+            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
         }
     }
 
@@ -197,10 +199,11 @@ public class Plataforma {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 this.espectadorLogado.adicionarmidiasAssistidas(midia);
                 adicionado = true;
+                System.out.println("Mídia adicionada com sucesso!");
             }
         }
         if (adicionado = false) {
-            System.out.println("Midia nao existe, favor digitar o nome corretamente");
+            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
         }
     }
 
@@ -210,11 +213,11 @@ public class Plataforma {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 this.espectadorLogado.removerMidiaFuturas(midia);
                 remover = true;
-                System.out.println("Midia removida com sucesso!");
+                System.out.println("Mídia removida com sucesso!");
             }
         }
         if (remover = false) {
-            System.out.println("Midia nao existe, favor digitar o nome corretamente");
+            System.out.println("Mídia não existe, favor digitar o nome corretamente");
         }
     }
 
@@ -225,13 +228,13 @@ public class Plataforma {
         this.espectadorLogado.atualizaPerfil();
         if (espectadorLogadoJaAssistiu(midia)
                 && espectadorLogadoPodeComentar()
-                && !espectadorLogadoJaAvaliou(midia)) {
+                && !espectadorLogadoJaAvaliou(midia.retornaId())) {
             midia.Avaliar(avaliacaoEspecialista);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
             return "Mídia avaliada como espectador especialista!";
         } else if (espectadorLogadoJaAssistiu(midia)
                 && !espectadorLogadoPodeComentar()
-                && !espectadorLogadoJaAvaliou(midia)) {
+                && !espectadorLogadoJaAvaliou(midia.retornaId())) {
             midia.Avaliar(avaliacaoRegular);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
             return "Mídia avaliada como espectador regular!";
@@ -254,14 +257,17 @@ public class Plataforma {
     }
 
     public String printaListaAvaliacoesDoEspectador() {
-        return this.espectadorLogado.listaAvaliacoesToString();
+        if(this.espectadorLogado.listaAvaliacoesToString() == ""){
+            return this.espectadorLogado.listaAvaliacoesToString();
+        }
+        return "Sem mídias avaliadas.";
     }
 
     public boolean espectadorLogadoPodeComentar(){
         return this.espectadorLogado.retornaPerfil().podeComentar();
     }
-    public boolean espectadorLogadoJaAvaliou(Midia midia){
-       return espectadorLogadoJaAvaliou(midia);
+    public boolean espectadorLogadoJaAvaliou(int idMidia){
+       return this.espectadorLogado.jaAvaliou(idMidia);
     }
     public boolean espectadorLogadoJaAssistiu(Midia midia){
        return this.espectadorLogado.jaAssistiu(midia);

@@ -70,7 +70,8 @@ public class menu {
             System.out.println("║\u001B[35m10. Buscar mídia por nome\u001B[37m ║");
             System.out.println("║\u001B[33m11.Informações sobre mídia\u001B[37m║");
             System.out.println("║\u001B[34m12. Listar avaliações\u001B[37m     ║");
-            System.out.println("║\u001B[31m13. Efetuar logout\u001B[37m        ║");
+            System.out.println("║\u001B[33m13. Relatórios Gerenciais\u001B[37m ║");
+            System.out.println("║\u001B[31m14. Efetuar logout\u001B[37m        ║");
             System.out.println("╚══════════════════════════╝");
             System.out.print("Opção: ");
 
@@ -117,11 +118,9 @@ public class menu {
                 case 7:
                     System.out.println("Digite o nome da mídia: ");
                     String nomeMidia = input.nextLine();
-                    input.nextLine();
                     if(plataforma.retornaMidiaPorNome(nomeMidia) != null){
                         System.out.println("Digite a avaliação (1 a 5): ");
                         int nota = input.nextInt();
-                        input.nextLine();
                         if(this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()){
                             System.out.println("Insira um comentário:");
                             String comentario = input.nextLine();
@@ -166,6 +165,9 @@ public class menu {
                     System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
                     break;
                 case 13:
+                    //TO DO: Relatórios Gerenciais Pedro.
+                    break;
+                case 14:
                     System.out.println("Efetuando logout...");
                     efetuarLogout();
                     break;

@@ -1,7 +1,5 @@
 package codigo;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,14 +11,16 @@ public abstract class Midia {
     protected String idioma;
     protected List<Avaliacao> avaliacoes;
     private float notaMedia = 0;
+    private boolean lancamento;
 
-    public Midia(int id, String nome, String dataDeLancamento, String genero, String idioma) {
+    public Midia(int id, String nome, String dataDeLancamento, String genero, String idioma, boolean lancamento) {
         this.id = id;
         this.nome = nome;
         this.dataDeLancamento = dataDeLancamento;
         this.genero = genero;
         this.idioma = idioma;
         this.avaliacoes = new LinkedList<Avaliacao>();
+        this.lancamento = lancamento;
     }
 
     public int retornaId() {
@@ -38,6 +38,10 @@ public abstract class Midia {
     public String retornaIdioma() {
         return idioma.toLowerCase();
     }
+    
+    public boolean retornaLancamento() {
+        return lancamento;
+    }
 
     public String printaAvaliacao() {
         return "";
@@ -52,16 +56,19 @@ public abstract class Midia {
         for (Avaliacao avaliacao : avaliacoes) {
             this.notaMedia += avaliacao.retornaNota();
         }
+        if (avaliacoes.size() == 0){
+            return 0;
+        }
         return this.notaMedia /= avaliacoes.size();
 
     }
 
     public void printaMidia() {
         System.out.println("Id da Série: " + this.id + "\nNome da Série: " + this.nome + "\nData de Lançamento: "
-                + this.dataDeLancamento + "\nNota média: " + this.retornaNotaMedia());
+                + this.dataDeLancamento + "\nNota média: " + (this.retornaNotaMedia() == 0 ? "Mídia não avaliada." : this.retornaNotaMedia()));
     }
 
     public String toString() {
-        return "Nome: " + nome;
+        return "╔════════════════════════════════════════════╗\n   » Nome: " + nome + "\n   » Data de Lançamento: " + dataDeLancamento + "\n   » Gênero: " + genero + "\n   » Idioma: " + idioma + "\n╚════════════════════════════════════════════╝";
     }
 }
