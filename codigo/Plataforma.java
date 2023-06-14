@@ -10,10 +10,10 @@ import codigo.EGeneros.Genero;
 import codigo.EIdioma.Idioma;
 
 public class Plataforma {
+    private Scanner input = new Scanner(System.in);
     private Map<String, Espectador> listaEspectadores;
     private List<Midia> listaMidia;
     private Espectador espectadorLogado;
-    private List<Midia.Avaliacao> listaAvaliacoes;
 
     public Plataforma() throws IOException {
         this.listaMidia = new LinkedList<Midia>();
@@ -23,11 +23,11 @@ public class Plataforma {
         this.listaEspectadores = carregarArqEspectador();
         this.carregaListFuturaEAssistida(listaEspectadores);
         this.espectadorLogado = null;
-        this.listaAvaliacoes = new ArrayList<>();
     }
 
     public static List<Midia> carregaArqSerie() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Series1.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Series1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -46,7 +46,8 @@ public class Plataforma {
     }
 
     public static List<Midia> carregaArqFilmes() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Filmes1.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Filmes1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -66,7 +67,8 @@ public class Plataforma {
     }
 
     public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Audiencia2.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Audiencia2.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             linhas.forEach(linha -> {
                 String[] campos = linha.split(";");
@@ -107,7 +109,8 @@ public class Plataforma {
     }
 
     public static Map<String, Espectador> carregarArqEspectador() throws IOException {
-        Path arquivo = Path.of("./docs/arquivos/POO_Espectadores.csv");
+        Path arquivo = Path.of(
+                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Espectadores.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -127,15 +130,25 @@ public class Plataforma {
         StringBuilder sb = new StringBuilder();
         Comparator<String> filtroComparator = Comparator.comparing(String::toLowerCase);
         List<Midia> listaRetorno = listaMidia.stream()
-            .filter(midia -> filtro.equalsIgnoreCase("idioma")
-                ? filtroComparator.compare(midia.retornaIdioma().toLowerCase(), valor.toLowerCase()) == 0
-                : filtro.equalsIgnoreCase("genero") 
-                ? filtroComparator.compare(midia.retornaGenero().toLowerCase(), valor.toLowerCase()) == 0
-                : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
-            .collect(Collectors.toList());
+                .filter(midia -> filtro.equalsIgnoreCase("idioma")
+                        ? filtroComparator.compare(midia.retornaIdioma().toLowerCase(), valor.toLowerCase()) == 0
+                        : filtro.equalsIgnoreCase("genero")
+                                ? filtroComparator.compare(midia.retornaGenero().toLowerCase(),
+                                        valor.toLowerCase()) == 0
+                                : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
+                .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
         return sb.toString();
+    }
+
+    public Midia retornaMidiaPorNome(String nome) {
+        for (Midia midia : listaMidia) {
+            if (midia.retornaNome().equals(nome.toLowerCase())) {
+                return midia;
+            }
+        }
+        return null;
     }
 
     public void infoMidia(int id) {
@@ -205,21 +218,26 @@ public class Plataforma {
         }
     }
 
-    public void adicionarAvaliacao(int idMidia, Midia.Avaliacao avaliacao) {
-        Midia midia = buscaMidia(idMidia);
-        if (midia != null) {
-            midia.atribuirAvaliacao(avaliacao);
-            listaAvaliacoes.add(avaliacao);
+    public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao) {
+        Midia midia = this.retornaMidiaPorNome(nomeMidia);
+        Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao, midia.retornaId());
+        Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
+        this.espectadorLogado.atualizaPerfil();
+        if (espectadorLogadoJaAssistiu(midia)
+                && espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia)) {
+            midia.Avaliar(avaliacaoEspecialista);
+            this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);
+            return "Mídia avaliada como espectador especialista!";
+        } else if (espectadorLogadoJaAssistiu(midia)
+                && !espectadorLogadoPodeComentar()
+                && !espectadorLogadoJaAvaliou(midia)) {
+            midia.Avaliar(avaliacaoRegular);
+            this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
+            return "Mídia avaliada como espectador regular!";
+        } else {
+            return "Você ainda não assistiu essa mídia! Logo impossível avaliá-la";
         }
-    }
-
-    public String getListaAvaliacoes() {
-        StringBuilder sb = new StringBuilder();
-        List<Midia.Avaliacao> listaRetorno = listaAvaliacoes.stream()
-                .collect(Collectors.toList());
-        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-
-        return sb.toString();
     }
 
     public Midia buscaMidia(int idMidia) {
@@ -229,6 +247,24 @@ public class Plataforma {
             }
         }
         return null;
+    }
+
+    public Espectador getEspectadorLogado() {
+        return this.espectadorLogado;
+    }
+
+    public String printaListaAvaliacoesDoEspectador() {
+        return this.espectadorLogado.listaAvaliacoesToString();
+    }
+
+    public boolean espectadorLogadoPodeComentar(){
+        return this.espectadorLogado.retornaPerfil().podeComentar();
+    }
+    public boolean espectadorLogadoJaAvaliou(Midia midia){
+       return espectadorLogadoJaAvaliou(midia);
+    }
+    public boolean espectadorLogadoJaAssistiu(Midia midia){
+       return this.espectadorLogado.jaAssistiu(midia);
     }
 
     public static String generoAleatorio(){

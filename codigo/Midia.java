@@ -1,6 +1,8 @@
 package codigo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Midia {
@@ -9,16 +11,8 @@ public abstract class Midia {
     protected String dataDeLancamento;
     protected String genero;
     protected String idioma;
-    protected Avaliacao avaliacao;
-
-    public enum Avaliacao {
-        NAO_AVALIADO,
-        UMA_ESTRELA,
-        DUAS_ESTRELAS,
-        TRES_ESTRELAS,
-        QUATRO_ESTRELAS,
-        CINCO_ESTRELAS
-    }
+    protected List<Avaliacao> avaliacoes;
+    private float notaMedia = 0;
 
     public Midia(int id, String nome, String dataDeLancamento, String genero, String idioma) {
         this.id = id;
@@ -26,7 +20,7 @@ public abstract class Midia {
         this.dataDeLancamento = dataDeLancamento;
         this.genero = genero;
         this.idioma = idioma;
-        this.avaliacao = Avaliacao.NAO_AVALIADO;
+        this.avaliacoes = new LinkedList<Avaliacao>();
     }
 
     public int retornaId() {
@@ -34,27 +28,37 @@ public abstract class Midia {
     }
 
     public String retornaNome() {
-        return nome;
+        return nome.toLowerCase();
     }
 
     public String retornaGenero() {
-        return genero;
+        return genero.toLowerCase();
     }
 
     public String retornaIdioma() {
-        return idioma;
+        return idioma.toLowerCase();
     }
 
-    public Avaliacao retornaAvaliacao() {
-        return avaliacao;
+    public String printaAvaliacao() {
+        return "";
     }
 
-    public void atribuirAvaliacao(Avaliacao avaliacao) {
-        this.avaliacao = avaliacao;
+    public void Avaliar(Avaliacao avaliacao) {
+        this.avaliacoes.add(avaliacao);
+    }
+
+    public float retornaNotaMedia() {
+        this.notaMedia = 0;
+        for (Avaliacao avaliacao : avaliacoes) {
+            this.notaMedia += avaliacao.retornaNota();
+        }
+        return this.notaMedia /= avaliacoes.size();
+
     }
 
     public void printaMidia() {
-        System.out.println("Id da Série: " + this.id + "\nNome da Série: " + this.nome + "\nData de Lançamento: " + this.dataDeLancamento + "\nAvaliação: " + avaliacao);
+        System.out.println("Id da Série: " + this.id + "\nNome da Série: " + this.nome + "\nData de Lançamento: "
+                + this.dataDeLancamento + "\nNota média: " + this.retornaNotaMedia());
     }
 
     public String toString() {

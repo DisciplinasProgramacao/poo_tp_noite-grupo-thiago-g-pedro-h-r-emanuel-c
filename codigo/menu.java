@@ -79,7 +79,7 @@ public class menu {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome da série futura: ");
+                    System.out.println("Digite o nome da série para assistir depois: ");
                     String nomeSerieFutura = input.nextLine();
                     plataforma.adicionarMidiaFutura(nomeSerieFutura);
                     confirmarLimparTela();
@@ -115,14 +115,24 @@ public class menu {
                     confirmarLimparTela();
                     break;
                 case 7:
-                    System.out.println("Digite o ID da mídia: ");
-                    int idMidia = input.nextInt();
+                    System.out.println("Digite o nome da mídia: ");
+                    String nomeMidia = input.nextLine();
                     input.nextLine();
-                    System.out.println("Digite a avaliação (1 a 5): ");
-                    int avaliacao = input.nextInt();
-                    input.nextLine();
-                    //TO DO: Emanuel realizar avaliação e implementar no menu.
-                    confirmarLimparTela();
+                    if(plataforma.retornaMidiaPorNome(nomeMidia) != null){
+                        System.out.println("Digite a avaliação (1 a 5): ");
+                        int nota = input.nextInt();
+                        input.nextLine();
+                        if(this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()){
+                            System.out.println("Insira um comentário:");
+                            String comentario = input.nextLine();
+                            System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
+                        } else {
+                            System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
+                        }
+                    } else {
+                        System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
+                        opcao = 7;
+                    }
                     break;
                 case 8:
                     System.out.println("Digite o idioma a ser buscado: ");
@@ -153,7 +163,7 @@ public class menu {
                     confirmarLimparTela();
                     break;
                 case 12:
-                    plataforma.getListaAvaliacoes();
+                    System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
                     break;
                 case 13:
                     System.out.println("Efetuando logout...");
