@@ -27,7 +27,7 @@ public class Plataforma {
 
     public static List<Midia> carregaArqSerie() throws IOException {
         Path arquivo = Path.of(
-                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Series1.csv");
+                "./docs/arquivos/POO_Series1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -47,7 +47,7 @@ public class Plataforma {
 
     public static List<Midia> carregaArqFilmes() throws IOException {
         Path arquivo = Path.of(
-                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Filmes1.csv");
+                "./docs/arquivos/POO_Filmes1.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
@@ -68,7 +68,7 @@ public class Plataforma {
 
     public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
         Path arquivo = Path.of(
-                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Audiencia2.csv");
+                "./docs/arquivos/POO_Audiencia2.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             linhas.forEach(linha -> {
                 String[] campos = linha.split(";");
@@ -110,7 +110,7 @@ public class Plataforma {
 
     public static Map<String, Espectador> carregarArqEspectador() throws IOException {
         Path arquivo = Path.of(
-                "C:/Users/enmc0/OneDrive/Documentos/Faculdade/3° Período/POO/TrabalhoStreamingPOO/poo_tp_noite-grupo-thiago-g-pedro-h-r-emanuel-c/docs/arquivos/POO_Espectadores.csv");
+                "./docs/arquivos/POO_Espectadores.csv");
         try (Stream<String> linhas = Files.lines(arquivo)) {
             return linhas.map(linha -> {
                 String[] campos = linha.split(";");
