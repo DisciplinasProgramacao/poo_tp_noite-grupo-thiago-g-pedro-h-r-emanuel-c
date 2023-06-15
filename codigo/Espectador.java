@@ -60,11 +60,19 @@ public class Espectador {
     }
 
     public void adicionarMidiasArquivoFuturas(Midia midia) {
-        MidiasFuturas.add(midia);
+        if (midia.retornaLancamento() == false){
+            MidiasFuturas.add(midia);
+        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true){
+            MidiasFuturas.add(midia);
+        }
     }
 
     public void adicionarMidiasArquivoAssistidas(Midia midia) {
-        MidiasAssistidas.add(midia);
+        if (midia.retornaLancamento() == false){
+            MidiasAssistidas.add(midia);
+        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true){
+            MidiasAssistidas.add(midia);
+        }
     }
 
     public boolean adicionarMidiaMenuFuturas(Midia midia) {

@@ -63,12 +63,14 @@ public abstract class Midia {
 
     }
 
-    public void printaMidia() {
-        System.out.println("Id da Série: " + this.id + "\nNome da Série: " + this.nome + "\nData de Lançamento: "
-                + this.dataDeLancamento + "\nNota média: " + (this.retornaNotaMedia() == 0 ? "Mídia não avaliada." : this.retornaNotaMedia()));
-    }
-
     public String toString() {
-        return "╔════════════════════════════════════════════╗\n   » Nome: " + nome + "\n   » Data de Lançamento: " + dataDeLancamento + "\n   » Gênero: " + genero + "\n   » Idioma: " + idioma + "\n╚════════════════════════════════════════════╝";
+        return "╔════════════════════════════════════════════╗" + 
+            "\n   » Id da Série: " + this.id 
+            + "\n   » Nome: " + nome + 
+            "\n   » Data de Lançamento: " + dataDeLancamento 
+            + "\n   » Gênero: " + genero + 
+            "\n   » Idioma: " + idioma 
+            + "\n   » Nota média: " + (this.retornaNotaMedia() == 0 ? "Mídia não avaliada." : this.retornaNotaMedia()) + 
+        "\n╚════════════════════════════════════════════╝";
     }
 }

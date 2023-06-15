@@ -159,12 +159,13 @@ public class Plataforma {
         return null;
     }
 
-    public void infoMidia(int id) {
+    public String infoMidia(int id) {
         for (Midia midia : this.listaMidia) {
             if (midia.id == (id)) {
-                midia.printaMidia();
+                return midia.toString();
             }
         }
+        return "Id da mídia não encontrado encontrado.";
     }
 
     public boolean efetuarLogin(String login, String senha) {
