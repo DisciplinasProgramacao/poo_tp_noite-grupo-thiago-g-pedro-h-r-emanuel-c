@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import codigo.EGeneros.Genero;
 import codigo.EIdioma.Idioma;
+import codigo.EProfissao.Profissao;
 
 public class Plataforma {
     private Scanner input = new Scanner(System.in);
@@ -124,7 +125,8 @@ public class Plataforma {
                 String nome = campos[0];
                 String login = campos[1];
                 String senha = campos[2];
-                Espectador espectador = new Espectador(nome, login, senha);
+                Boolean profissao = profissionalAleatorio();
+                Espectador espectador = new Espectador(nome, login, senha, profissao);
                 return Map.entry(login, espectador);
             }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         } catch (IOException e) {
@@ -464,5 +466,17 @@ public class Plataforma {
                         .nextInt(Idioma.values().length)]
                 .toString();
         return idiomaAleatorio;
+    }
+    
+    public static boolean profissionalAleatorio() {
+        String profissionalAleatorio = Profissao
+                .values()[new Random()
+                        .nextInt(Profissao.values().length)]
+                .toString();
+        if(profissionalAleatorio.equals("REGULAR")){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -11,14 +11,14 @@ public class Espectador {
     List<Avaliacao> avaliacoesEspectador;
     private IPerfilEspectador perfil;
 
-    public Espectador(String Nome, String Login, String Senha) {
+    public Espectador(String Nome, String Login, String Senha, Boolean profissao) {
         this.Nome = Nome;
         this.Login = Login;
         this.Senha = Senha;
         this.MidiasFuturas = new LinkedList<>();
         this.MidiasAssistidas = new LinkedList<>();
         this.avaliacoesEspectador = new LinkedList<>();
-        this.perfil = new PerfilRegular();
+        this.perfil = profissao == true ? new PerfilProfissional() : new PerfilRegular();
     }
 
     public void atualizaPerfil() {
