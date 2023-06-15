@@ -144,7 +144,7 @@ public class Plataforma {
                                 : midia.retornaNome().toLowerCase().contains(valor.toLowerCase()))
                 .collect(Collectors.toList());
         listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
-        if (sb.toString().equals("")){
+        if (sb.toString().equals("")) {
             return "Não encontrado resultados para sua busca, verifique se informou corretamente.";
         }
         return sb.toString();
@@ -192,11 +192,10 @@ public class Plataforma {
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 encontrado = true;
-                if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true){
+                if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true) {
                     adicionado = true;
                     System.out.println("Mídia adicionada com sucesso!");
-                }
-                else {
+                } else {
                     System.out.println("Mídia já adicionada a lista.");
                 }
             }
@@ -212,11 +211,10 @@ public class Plataforma {
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 encontrado = true;
-                if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true){
+                if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true) {
                     adicionado = true;
                     System.out.println("Mídia adicionada com sucesso!");
-                }
-                else {
+                } else {
                     System.out.println("Mídia já adicionada a lista.");
                 }
             }
@@ -226,17 +224,72 @@ public class Plataforma {
         }
     }
 
+    public void espectadorAssistiuMaisMida() {
+        String espectadorMaisMidia = null;
+        int quantidadeMaisMidia = -1;
+
+        for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
+            Espectador espectador = entry.getValue();
+            int quantidadeMidiaAssistida = espectador.retornaQuantidadeMidaAssistida();
+
+            if (quantidadeMidiaAssistida > quantidadeMaisMidia) {
+                quantidadeMaisMidia = quantidadeMidiaAssistida;
+                espectadorMaisMidia = espectador.retornaNome();
+            }
+        }
+
+        System.out.println("Espectador que assistiu mais mídia: " + espectadorMaisMidia);
+        System.out.println("Quantidade de mídias assistidas: " + quantidadeMaisMidia);
+    }
+
+    public void espectadorMaisAvaliou() {
+        String espectadorMaisAvaliou = null;
+        int quantidadeMaisAvaliacao = -1;
+
+        for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
+            Espectador espectador = entry.getValue();
+            int quantidadeMidiaAssistida = espectador.retornaQuantidadeAvaliacao();
+
+            if (quantidadeMidiaAssistida > quantidadeMaisAvaliacao) {
+                quantidadeMaisAvaliacao = quantidadeMidiaAssistida;
+                espectadorMaisAvaliou = espectador.retornaNome();
+            }
+        }
+
+        System.out.println("Espectador que mais avaliou : " + espectadorMaisAvaliou);
+        System.out.println("Quantidade de avaliaçoes : " + quantidadeMaisAvaliacao);
+
+    }
+
+    public void porcetagemClientesComMenos15Avaliacao() {
+        int totalEspectadores = listaEspectadores.size();
+        int espectadoresComAvaliacoes15OuMais = 0;
+
+        // Percorre o mapa de espectadores
+        for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
+            Espectador espectador = entry.getValue();
+            int quantidadeAvaliacoes = espectador.retornaQuantidadeAvaliacao();
+            if (quantidadeAvaliacoes >= 15) {
+                espectadoresComAvaliacoes15OuMais++;
+            }
+        }
+
+        // Calcula a porcentagem
+        double porcentagem = (double) espectadoresComAvaliacoes15OuMais / totalEspectadores * 100;
+
+        System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagem + "%");
+    }
+
     public void removerlMidiaFutura(String nomeMidia) {
         boolean remover = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
             if (midia.retornaNome().toLowerCase().equals(nomeMidia.toLowerCase())) {
                 encontrado = true;
-                if (this.espectadorLogado.removerMidiaFuturas(midia) == true){
+                if (this.espectadorLogado.removerMidiaFuturas(midia) == true) {
                     remover = true;
                     System.out.println("Mídia removida com sucesso!");
-                }
-                else {
+                } else {
                     System.out.println("Mídia não está na lista.");
                 }
             }
@@ -260,7 +313,7 @@ public class Plataforma {
             midia.Avaliar(avaliacaoRegular);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoRegular);
             return "Mídia avaliada como espectador regular!";
-        } else if (espectadorLogadoJaAvaliou(midia.retornaId())){
+        } else if (espectadorLogadoJaAvaliou(midia.retornaId())) {
             return "Mídia já avaliada! Impossível avaliar novamente.";
         } else {
             return "Você ainda não assistiu essa mídia! Logo impossível avaliá-la";

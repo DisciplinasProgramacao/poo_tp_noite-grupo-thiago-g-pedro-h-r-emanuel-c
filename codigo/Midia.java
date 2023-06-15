@@ -12,6 +12,7 @@ public abstract class Midia {
     protected List<Avaliacao> avaliacoes;
     private float notaMedia = 0;
     private boolean lancamento;
+    private int quantidadeVisualizacoes = 0;
 
     public Midia(int id, String nome, String dataDeLancamento, String genero, String idioma, boolean lancamento) {
         this.id = id;
@@ -38,7 +39,7 @@ public abstract class Midia {
     public String retornaIdioma() {
         return idioma.toLowerCase();
     }
-    
+
     public boolean retornaLancamento() {
         return lancamento;
     }
@@ -56,7 +57,7 @@ public abstract class Midia {
         for (Avaliacao avaliacao : avaliacoes) {
             this.notaMedia += avaliacao.retornaNota();
         }
-        if (avaliacoes.size() == 0){
+        if (avaliacoes.size() == 0) {
             return 0;
         }
         return this.notaMedia /= avaliacoes.size();
@@ -72,5 +73,13 @@ public abstract class Midia {
             "\n   » Idioma: " + idioma 
             + "\n   » Nota média: " + (this.retornaNotaMedia() == 0 ? "Mídia não avaliada." : this.retornaNotaMedia()) + 
         "\n╚════════════════════════════════════════════╝";
+    }
+
+    public int getQuantidadeVisualizacoes() {
+        return quantidadeVisualizacoes;
+    }
+
+    public void adicionarVisualizacao() {
+        quantidadeVisualizacoes++;
     }
 }
