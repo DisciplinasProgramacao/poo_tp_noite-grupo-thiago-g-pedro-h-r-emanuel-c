@@ -145,7 +145,7 @@ public class menu {
                         System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
                         break;
                     case 10:
-                        // TO DO: Relatórios Gerenciais Pedro.
+                        exibirMenuRelatorioGerencial();
                         break;
                     case 11:
                         System.out.println("Efetuando logout...");
@@ -163,6 +163,74 @@ public class menu {
             }
         }
         System.out.println();
+    }
+
+    public void exibirMenuRelatorioGerencial() {
+        while (true) {
+            System.out.println("╔═══════════════════════════════════════╗");
+            System.out.println("║          \u001B[36mRelatório Gerencial\u001B[37m          ║");
+            System.out.println("╠═══════════════════════════════════════╣");
+            System.out.println("║\u001B[32m1. Espectador mais ativo\u001B[37m               ║");
+            System.out.println("║\u001B[32m2. Espectador mais avaliou\u001B[37m             ║");
+            System.out.println("║\u001B[31m3. % Clientes com mais de 15 avaliações\u001B[37m║");
+            System.out.println("║\u001B[35m4. Melhores avaliadas (geral)\u001B[37m          ║");
+            System.out.println("║\u001B[33m5. Mídias mais assistidas (geral)\u001B[37m      ║");
+            System.out.println("║\u001B[35m6. Melhores avaliadas por gênero\u001B[37m       ║");
+            System.out.println("║\u001B[33m7. Mídias mais assistidas por gênero\u001B[37m   ║");
+            System.out.println("║\u001B[31m8. Voltar ao menu principal\u001B[37m            ║");
+            System.out.println("╚═══════════════════════════════════════╝");
+            System.out.print("Opção: ");
+
+            try {
+                int opcao = input.nextInt();
+                input.nextLine();
+
+                switch (opcao) {
+                    case 1:
+                        plataforma.espectadorAssistiuMaisMidias();
+                        confirmarLimparTela();
+                        break;
+                    case 2:
+                        plataforma.espectadorMaisAvaliou();
+                        confirmarLimparTela();
+                        break;
+                    case 3:
+                        plataforma.porcetagemClientesComMenos15Avaliacao();
+                        confirmarLimparTela();
+                        break;
+                    case 4:
+                        System.out.println(plataforma.melhoresAvaliadas());
+                        confirmarLimparTela();
+                        break;
+                    case 5:
+                        System.out.println(plataforma.midiasMaisAssistidas());
+                        confirmarLimparTela();
+                        break;
+                    case 6:
+                        System.out.println("Digite o gênero: ");
+                        String genero = input.nextLine();
+                        System.out.println(plataforma.melhoresAvaliadasGenero(genero));
+                        confirmarLimparTela();
+                        break;
+                    case 7:
+                        System.out.println("Digite o gênero: ");
+                        genero = input.nextLine();
+                        System.out.println(plataforma.midiasMaisAssistidasGenero(genero));
+                        confirmarLimparTela();
+                        break;
+                    case 8:
+                        return;
+                    default:
+                        System.out.println("Opção inválida! Tente novamente.");
+                        confirmarLimparTela();
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Opção inválida! Tente novamente.");
+                input.nextLine();
+                confirmarLimparTela();
+            }
+        }
     }
 
     private void efetuarLogin() {

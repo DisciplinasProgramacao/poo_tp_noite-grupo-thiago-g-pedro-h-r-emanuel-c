@@ -13,6 +13,7 @@ public abstract class Midia {
     private float notaMedia = 0;
     private boolean lancamento;
     private int quantidadeVisualizacoes = 0;
+    private int quantidadeAvaliacoes = 0;
 
     public Midia(int id, String nome, String dataDeLancamento, String genero, String idioma, boolean lancamento) {
         this.id = id;
@@ -44,12 +45,17 @@ public abstract class Midia {
         return lancamento;
     }
 
+    public int retornaTemAvaliacoes() {
+        return quantidadeAvaliacoes;
+    }
+
     public String printaAvaliacao() {
         return "";
     }
 
     public void Avaliar(Avaliacao avaliacao) {
         this.avaliacoes.add(avaliacao);
+        quantidadeAvaliacoes++;
     }
 
     public float retornaNotaMedia() {

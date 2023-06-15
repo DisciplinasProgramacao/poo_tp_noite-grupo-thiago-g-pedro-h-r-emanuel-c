@@ -59,7 +59,7 @@ public class Espectador {
         return this.perfil;
     }
 
-    public int retornaQuantidadeMidaAssistida() {
+    public int retornaQuantidadeMidiaAssistida() {
         return MidiasAssistidas.size();
     }
 
@@ -78,8 +78,10 @@ public class Espectador {
     public void adicionarMidiasArquivoAssistidas(Midia midia) {
         if (midia.retornaLancamento() == false){
             MidiasAssistidas.add(midia);
+            midia.adicionarVisualizacao();
         } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true){
             MidiasAssistidas.add(midia);
+            midia.adicionarVisualizacao();
         }
     }
 
@@ -115,6 +117,7 @@ public class Espectador {
 
         if (!encontrada) {
             this.MidiasAssistidas.add(midia);
+            midia.adicionarVisualizacao();
             adicionada = true;
         }
 

@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import codigo.EGeneros.Genero;
@@ -99,7 +100,7 @@ public class Plataforma {
                         Espectador espectador = listaEspectadores.get(login);
                         Midia midia = this.buscaMidia(id);
                         if (midia == null) {
-                            System.out.println("Série com ID " + id + " inexistente");
+                            System.out.println("Mídia com ID " + id + " inexistente");
                         } else {
                             espectador.adicionarMidiasArquivoFuturas(midia);
                         }
@@ -224,13 +225,13 @@ public class Plataforma {
         }
     }
 
-    public void espectadorAssistiuMaisMida() {
+    public void espectadorAssistiuMaisMidias() {
         String espectadorMaisMidia = null;
         int quantidadeMaisMidia = -1;
 
         for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
             Espectador espectador = entry.getValue();
-            int quantidadeMidiaAssistida = espectador.retornaQuantidadeMidaAssistida();
+            int quantidadeMidiaAssistida = espectador.retornaQuantidadeMidiaAssistida();
 
             if (quantidadeMidiaAssistida > quantidadeMaisMidia) {
                 quantidadeMaisMidia = quantidadeMidiaAssistida;
@@ -238,7 +239,7 @@ public class Plataforma {
             }
         }
 
-        System.out.println("Espectador que assistiu mais mídia: " + espectadorMaisMidia);
+        System.out.println("Espectador que assistiu mais mídias: " + espectadorMaisMidia);
         System.out.println("Quantidade de mídias assistidas: " + quantidadeMaisMidia);
     }
 
@@ -277,7 +278,88 @@ public class Plataforma {
         // Calcula a porcentagem
         double porcentagem = (double) espectadoresComAvaliacoes15OuMais / totalEspectadores * 100;
 
-        System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagem + "%");
+        DecimalFormat formato = new DecimalFormat("0.00");
+        String porcentagemFormatada = formato.format(porcentagem);
+
+        System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%");
+    }
+
+    public String melhoresAvaliadas() {
+        List<String> nomesMidiasOrdenados = listaMidia.stream()
+                .filter(midia -> midia.getQuantidadeVisualizacoes() >= 100)
+                .filter(midia -> midia.retornaTemAvaliacoes() != 0)
+                .sorted(Comparator.comparingDouble(Midia::retornaNotaMedia).reversed())
+                .limit(10)
+                .map(Midia::retornaNome)
+                .collect(Collectors.toList());
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
+            sb.append(i + 1)
+                    .append(". ")
+                    .append(nomesMidiasOrdenados.get(i))
+                    .append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public String midiasMaisAssistidas() {
+        List<String> nomesMidiassOrdenados = listaMidia.stream()
+                .sorted(Comparator.comparingInt(Midia::getQuantidadeVisualizacoes).reversed())
+                .limit(10)
+                .map(Midia::retornaNome)
+                .collect(Collectors.toList());
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nomesMidiassOrdenados.size(); i++) {
+            sb.append(i + 1)
+                    .append(". ")
+                    .append(nomesMidiassOrdenados.get(i))
+                    .append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public String melhoresAvaliadasGenero(String genero) {
+        List<String> nomesMidiasOrdenados = listaMidia.stream()
+                .filter(midia -> midia.retornaGenero().equals(genero.toLowerCase()))
+                .filter(midia -> midia.getQuantidadeVisualizacoes() >= 100)
+                .filter(midia -> midia.retornaTemAvaliacoes() != 0)
+                .sorted(Comparator.comparingDouble(Midia::retornaNotaMedia).reversed())
+                .limit(10)
+                .map(Midia::retornaNome)
+                .collect(Collectors.toList());
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
+            sb.append(i + 1)
+                    .append(". ")
+                    .append(nomesMidiasOrdenados.get(i))
+                    .append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public String midiasMaisAssistidasGenero(String genero) {
+        List<String> nomesMidiassOrdenados = listaMidia.stream()
+                .filter(midia -> midia.retornaGenero().equals(genero.toLowerCase()))
+                .sorted(Comparator.comparingInt(Midia::getQuantidadeVisualizacoes).reversed())
+                .limit(10)
+                .map(Midia::retornaNome)
+                .collect(Collectors.toList());
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nomesMidiassOrdenados.size(); i++) {
+            sb.append(i + 1)
+                    .append(". ")
+                    .append(nomesMidiassOrdenados.get(i))
+                    .append("\n");
+        }
+
+        return sb.toString();
     }
 
     public void removerlMidiaFutura(String nomeMidia) {
