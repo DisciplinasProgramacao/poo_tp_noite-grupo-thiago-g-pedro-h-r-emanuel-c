@@ -59,6 +59,14 @@ public class Espectador {
         return this.perfil;
     }
 
+    public int retornaQuantidadeMidaAssistida() {
+        return MidiasAssistidas.size();
+    }
+
+    public int retornaQuantidadeAvaliacao() {
+        return avaliacoesEspectador.size();
+    }
+
     public void adicionarMidiasArquivoFuturas(Midia midia) {
         MidiasFuturas.add(midia);
     }
