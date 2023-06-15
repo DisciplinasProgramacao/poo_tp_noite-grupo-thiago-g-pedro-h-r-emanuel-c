@@ -66,7 +66,7 @@ public class menu {
             System.out.println("║\u001B[35m5. Buscar mídia por idioma\u001B[37m║");
             System.out.println("║\u001B[35m6. Buscar mídia por gênero\u001B[37m║");
             System.out.println("║\u001B[35m7. Buscar mídia por nome\u001B[37m  ║");
-            System.out.println("║\u001B[33m8.Informações sobre mídia\u001B[37m ║");
+            System.out.println("║\u001B[33m8. Informações sobre mídia\u001B[37m║");
             System.out.println("║\u001B[34m9. Listar avaliações\u001B[37m      ║");
             System.out.println("║\u001B[33m10. Relatórios Gerenciais\u001B[37m ║");
             System.out.println("║\u001B[31m11. Efetuar logout\u001B[37m        ║");
@@ -138,7 +138,7 @@ public class menu {
                         System.out.println("Digite o ID da mídia: ");
                         int idSerie = input.nextInt();
                         input.nextLine();
-                        plataforma.infoMidia(idSerie);
+                        System.out.println(plataforma.infoMidia(idSerie));
                         confirmarLimparTela();
                         break;
                     case 9:
