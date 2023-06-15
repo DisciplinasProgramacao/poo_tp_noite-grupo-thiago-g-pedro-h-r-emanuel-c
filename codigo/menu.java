@@ -166,6 +166,7 @@ public class menu {
     }
 
     public void exibirMenuRelatorioGerencial() {
+        limparTela();
         while (true) {
             System.out.println("╔═══════════════════════════════════════╗");
             System.out.println("║          \u001B[36mRelatório Gerencial\u001B[37m          ║");
