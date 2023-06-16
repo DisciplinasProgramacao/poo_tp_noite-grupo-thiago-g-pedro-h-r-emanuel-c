@@ -9,16 +9,27 @@ public class menu {
     private Scanner input;
     private boolean sair = false;
 
+    /**
+     * Construtor da classe menu.
+     *
+     * @throws IOException exceção de IO
+     */
     public menu() throws IOException {
         plataforma = new Plataforma();
         input = new Scanner(System.in);
         exibirMenuSemLogin();
     }
 
+    /**
+     * Limpa a tela do console.
+     */
     public void limparTela() {
         System.out.print("\033[H\033[2J");
     }
 
+    /**
+     * Aguarda a confirmação do usuário para limpar a tela.
+     */
     public void confirmarLimparTela() {
         System.out.println("\u001B[47mPara sair, pressione enter.\u001B[40m");
         Scanner sc = new Scanner(System.in);
@@ -26,6 +37,9 @@ public class menu {
         System.out.print("\033[H\033[2J");
     }
 
+    /**
+     * Exibe o menu principal quando não há login.
+     */
     public void exibirMenuSemLogin() {
         limparTela();
         while (!sair) {
@@ -54,6 +68,9 @@ public class menu {
         System.out.println();
     }
 
+    /**
+     * Exibe o menu principal quando há login.
+     */
     public void exibirMenuLogado() {
         while (!sair) {
             System.out.println("╔══════════════════════════╗");
@@ -167,6 +184,9 @@ public class menu {
         System.out.println();
     }
 
+    /**
+     * Exibe o menu relatório quando chamado.
+     */
     public void exibirMenuRelatorioGerencial() {
         limparTela();
         while (true) {
@@ -237,6 +257,9 @@ public class menu {
         }
     }
 
+    /**
+     * Efetua o login do usuário.
+     */
     private void efetuarLogin() {
         System.out.print("Digite seu nome de usuário: ");
         String usuario = input.nextLine();
@@ -254,6 +277,9 @@ public class menu {
         }
     }
 
+    /**
+     * Efetua o logout do usuário.
+     */
     private void efetuarLogout() {
         plataforma.efetuarLogout();
         System.out.println("Logout realizado com sucesso!");
