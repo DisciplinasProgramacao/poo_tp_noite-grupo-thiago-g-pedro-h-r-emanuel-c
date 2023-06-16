@@ -112,6 +112,7 @@ public class menu {
                         } else {
                             System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
                         }
+                        confirmarLimparTela();
                         break;
                     case 5:
                         System.out.println("Digite o idioma a ser buscado: ");
@@ -143,6 +144,7 @@ public class menu {
                         break;
                     case 9:
                         System.out.println(plataforma.printaListaAvaliacoesDoEspectador());
+                        confirmarLimparTela();
                         break;
                     case 10:
                         exibirMenuRelatorioGerencial();
@@ -220,6 +222,7 @@ public class menu {
                         confirmarLimparTela();
                         break;
                     case 8:
+                        limparTela();
                         return;
                     default:
                         System.out.println("Opção inválida! Tente novamente.");
