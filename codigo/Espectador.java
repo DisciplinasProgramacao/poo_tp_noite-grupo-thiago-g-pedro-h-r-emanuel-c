@@ -17,9 +17,9 @@ public class Espectador {
     /**
      * Construtor da classe Espectador.
      *
-     * @param Nome     o nome do espectador
-     * @param Login    o login do espectador
-     * @param Senha    a senha do espectador
+     * @param Nome      o nome do espectador
+     * @param Login     o login do espectador
+     * @param Senha     a senha do espectador
      * @param profissao indica se o espectador é um profissional ou não
      */
     public Espectador(String Nome, String Login, String Senha, Boolean profissao) {
@@ -34,7 +34,8 @@ public class Espectador {
 
     /**
      * Atualiza o perfil do espectador com base em suas avaliações recentes.
-     * Se o espectador tiver pelo menos 5 avaliações no mês anterior, seu perfil será atualizado para "PerfilEspecialista".
+     * Se o espectador tiver pelo menos 5 avaliações no mês anterior, seu perfil
+     * será atualizado para "PerfilEspecialista".
      * Caso contrário, seu perfil será atualizado para "PerfilRegular".
      */
     public void atualizaPerfil() {
@@ -52,12 +53,10 @@ public class Espectador {
                 }
             }
         }
-        if(!this.perfil.podeAssistirLancamento()){
-            if (cont >= 5) {
-                this.perfil = new PerfilEspecialista();
-            } else {
-                this.perfil = new PerfilRegular();
-            }
+        if (cont >= 5) {
+            this.perfil = new PerfilEspecialista();
+        } else {
+            this.perfil = new PerfilRegular();
         }
     }
 
@@ -68,9 +67,13 @@ public class Espectador {
      */
     public String listaAvaliacoesToString() {
         StringBuilder sb = new StringBuilder();
-        List<Avaliacao> lista_retorno = this.avaliacoesEspectador.stream()
+        List<Avaliacao> listaRetorno = this.avaliacoesEspectador.stream()
                 .collect(Collectors.toList());
-        lista_retorno.forEach(e -> sb.append(e.toStringRegular()).append(System.lineSeparator()));
+        if (!this.perfil.podeAssistirLancamento()){
+            listaRetorno.forEach(e -> sb.append("\n").append(e.toStringRegular()));
+        } else {
+            listaRetorno.forEach(e -> sb.append("\n").append(e.toStringEspecialista()));
+        }
         return sb.toString();
     }
 
@@ -116,9 +119,9 @@ public class Espectador {
      * @param midia a mídia a ser adicionada
      */
     public void adicionarMidiasArquivoFuturas(Midia midia) {
-        if (midia.retornaLancamento() == false){
+        if (midia.retornaLancamento() == false) {
             MidiasFuturas.add(midia);
-        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true){
+        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true) {
             MidiasFuturas.add(midia);
         }
     }
@@ -130,10 +133,10 @@ public class Espectador {
      * @param midia a mídia a ser adicionada
      */
     public void adicionarMidiasArquivoAssistidas(Midia midia) {
-        if (midia.retornaLancamento() == false){
+        if (midia.retornaLancamento() == false) {
             MidiasAssistidas.add(midia);
             midia.adicionarVisualizacao();
-        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true){
+        } else if (midia.retornaLancamento() == true && this.perfil.podeAssistirLancamento() == true) {
             MidiasAssistidas.add(midia);
             midia.adicionarVisualizacao();
         }

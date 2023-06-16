@@ -209,7 +209,7 @@ public class Plataforma {
                 .collect(Collectors.toList());
 
         // Adiciona as representações em string das mídias encontradas ao StringBuilder
-        listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
+        listaRetorno.forEach(e -> sb.append(e.toString()).append("\n"));
 
         // Verifica se a busca retornou algum resultado
         if (sb.toString().equals("")) {
@@ -547,7 +547,9 @@ public class Plataforma {
         Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
                 midia.retornaId());
         Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
-        this.espectadorLogado.atualizaPerfil();
+        if(!this.espectadorLogado.retornaPerfil().podeAssistirLancamento()){
+            this.espectadorLogado.atualizaPerfil();
+        }
         if (espectadorPodeAvaliarEComentar(midia)) {
             midia.Avaliar(avaliacaoEspecialista);
             this.espectadorLogado.adicionarAvaliacaoEspectador(avaliacaoEspecialista);

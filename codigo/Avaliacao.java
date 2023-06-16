@@ -46,13 +46,12 @@ public class Avaliacao {
     // Retorna uma representação em string da avaliação (especialista)
     public String toStringEspecialista() {
         return "Data da avaliação: " + this.dataAvaliacao.toString() + "\nNota: " + this.notaAvaliacao + " estrelas."
-                + "\nComentário: " + this.comentarioAvaliacao + "\n=============" + "\n ";
+                + "\nComentário: " + this.comentarioAvaliacao + "\n ";
     }
 
     // Retorna uma representação em string da avaliação (regular)
     public String toStringRegular() {
-        return "Data da avaliação: " + this.dataAvaliacao.toString() + "\nNota: " + this.notaAvaliacao + " estrelas." +
-                "\n=============" + "\n ";
+        return "Data da avaliação: " + this.dataAvaliacao.toString() + "\nNota: " + this.notaAvaliacao + " estrelas." + "\n ";
     }
 
     // Retorna a data da avaliação

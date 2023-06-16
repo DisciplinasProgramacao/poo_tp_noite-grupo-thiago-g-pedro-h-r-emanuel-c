@@ -119,6 +119,11 @@ public class menu {
                         if (plataforma.retornaMidiaPorNome(nomeMidia) != null) {
                             System.out.println("Digite a avaliação (1 a 5): ");
                             int nota = input.nextInt();
+                            if (nota > 5 || nota < 1) {
+                                System.out.println("Informe apenas notas entre 1 e 5.");
+                                confirmarLimparTela();
+                                break;
+                            }
                             if (this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()) {
                                 System.out.println("Insira um comentário:");
                                 String comentario = System.console().readLine();
