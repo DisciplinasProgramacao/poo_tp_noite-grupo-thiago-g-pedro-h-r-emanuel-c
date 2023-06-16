@@ -390,7 +390,7 @@ public class Plataforma {
         // Calcula a porcentagem
         double porcentagem = (double) espectadoresComAvaliacoes15OuMais / totalEspectadores * 100;
 
-        DecimalFormat formato = new DecimalFormat("0.00");
+        DecimalFormat formato = new DecimalFormat("0.00000");
         String porcentagemFormatada = formato.format(porcentagem);
         if (porcentagem != 0) {
             return "Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%";
