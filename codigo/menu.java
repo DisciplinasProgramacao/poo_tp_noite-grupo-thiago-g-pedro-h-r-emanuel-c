@@ -121,7 +121,7 @@ public class menu {
                             int nota = input.nextInt();
                             if (this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()) {
                                 System.out.println("Insira um comentário:");
-                                String comentario = input.nextLine();
+                                String comentario = System.console().readLine();
                                 System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
                             } else {
                                 System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));

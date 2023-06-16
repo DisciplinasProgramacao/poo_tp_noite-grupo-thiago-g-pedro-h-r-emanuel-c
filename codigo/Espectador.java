@@ -52,10 +52,12 @@ public class Espectador {
                 }
             }
         }
-        if (cont >= 5) {
-            this.perfil = new PerfilEspecialista();
-        } else {
-            this.perfil = new PerfilRegular();
+        if(!this.perfil.podeAssistirLancamento()){
+            if (cont >= 5) {
+                this.perfil = new PerfilEspecialista();
+            } else {
+                this.perfil = new PerfilRegular();
+            }
         }
     }
 

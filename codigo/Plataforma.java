@@ -341,7 +341,7 @@ public class Plataforma {
             }
         }
 
-        return "Espectador que assistiu mais mídias: " + espectadorMaisMidia + "\n Quantidade de mídias assistidas: "
+        return "Espectador que assistiu mais mídias: " + espectadorMaisMidia + "\nQuantidade de mídias assistidas: "
                 + quantidadeMaisMidia;
     }
 
@@ -421,7 +421,7 @@ public class Plataforma {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1).append(". ").append(nomesMidiasOrdenados.get(i)).append("\n");
+            sb.append(i + 1).append("° ").append(nomesMidiasOrdenados.get(i)).append("\n");
         }
 
         return sb.toString();
@@ -442,7 +442,7 @@ public class Plataforma {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1).append(". ").append(nomesMidiasOrdenados.get(i)).append("\n");
+            sb.append(i + 1).append("° ").append(nomesMidiasOrdenados.get(i)).append("\n");
         }
 
         return sb.toString();
@@ -473,7 +473,7 @@ public class Plataforma {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1).append(". ").append(nomesMidiasOrdenados.get(i)).append("\n");
+            sb.append(i + 1).append("° ").append(nomesMidiasOrdenados.get(i)).append("\n");
         }
 
         return sb.toString();
@@ -496,7 +496,7 @@ public class Plataforma {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1).append(". ").append(nomesMidiasOrdenados.get(i)).append("\n");
+            sb.append(i + 1).append("° ").append(nomesMidiasOrdenados.get(i)).append("\n");
         }
 
         return sb.toString();
