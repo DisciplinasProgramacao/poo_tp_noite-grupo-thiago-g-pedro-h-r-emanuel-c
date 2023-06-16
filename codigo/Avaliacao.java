@@ -45,6 +45,9 @@ public class Avaliacao {
 
     // Retorna uma representação em string da avaliação (especialista)
     public String toStringEspecialista() {
+        if(this.comentarioAvaliacao.isEmpty()){
+            this.comentarioAvaliacao = "Usuário não colocou comentário para o mesmo.";
+        }
         return "Data da avaliação: " + this.dataAvaliacao.toString() + "\nNota: " + this.notaAvaliacao + " estrelas."
                 + "\nComentário: " + this.comentarioAvaliacao + "\n ";
     }
