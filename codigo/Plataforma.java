@@ -184,12 +184,12 @@ public class Plataforma {
         return false;
     }
 
-    public void efetuarLogout() {
+    public String efetuarLogout() {
         this.espectadorLogado = null;
-        System.out.println("Conta deslogada");
+        return "Conta deslogada";
     }
 
-    public void adicionarMidiaFutura(String nomeMidia) {
+    public String adicionarMidiaFutura(String nomeMidia) {
         boolean adicionado = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
@@ -197,18 +197,16 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true) {
                     adicionado = true;
-                    System.out.println("Mídia adicionada com sucesso!");
+                    return "Mídia adicionada com sucesso!";
                 } else {
-                    System.out.println("Mídia já adicionada a lista.");
+                    return "Mídia já adicionada a lista.";
                 }
             }
         }
-        if (adicionado == false && encontrado == false) {
-            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente!";
     }
 
-    public void adicionarMidiaAssistida(String nomeMidia) {
+    public String adicionarMidiaAssistida(String nomeMidia) {
         boolean adicionado = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
@@ -216,18 +214,17 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true) {
                     adicionado = true;
-                    System.out.println("Mídia adicionada com sucesso!");
+                    return "Mídia adicionada com sucesso!";
                 } else {
-                    System.out.println("Mídia já adicionada a lista.");
+                    return "Mídia já adicionada a lista.";
                 }
             }
         }
-        if (adicionado == false && encontrado == false) {
-            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente!";
+
     }
 
-    public void espectadorAssistiuMaisMidias() {
+    public String espectadorAssistiuMaisMidias() {
         String espectadorMaisMidia = null;
         int quantidadeMaisMidia = -1;
 
@@ -241,11 +238,11 @@ public class Plataforma {
             }
         }
 
-        System.out.println("Espectador que assistiu mais mídias: " + espectadorMaisMidia);
-        System.out.println("Quantidade de mídias assistidas: " + quantidadeMaisMidia);
+        return "Espectador que assistiu mais mídias: " + espectadorMaisMidia + "\n Quantidade de mídias assistidas: "
+                + quantidadeMaisMidia;
     }
 
-    public void espectadorMaisAvaliou() {
+    public String espectadorMaisAvaliou() {
         String espectadorMaisAvaliou = null;
         int quantidadeMaisAvaliacao = -1;
 
@@ -258,16 +255,16 @@ public class Plataforma {
                 espectadorMaisAvaliou = espectador.retornaNome();
             }
         }
-        if (quantidadeMaisAvaliacao != 0){
-            System.out.println("Espectador que mais avaliou : " + espectadorMaisAvaliou);
-            System.out.println("Quantidade de avaliaçoes : " + quantidadeMaisAvaliacao);
+        if (quantidadeMaisAvaliacao != 0) {
+            return "Espectador que mais avaliou : " + espectadorMaisAvaliou + "\n Quantidade de avaliaçoes : "
+                    + quantidadeMaisAvaliacao;
         } else {
-            System.out.println("Não existem avaliações no momento.");
+            return "Não existem avaliações no momento.";
         }
 
     }
 
-    public void porcetagemClientesComMenos15Avaliacao() {
+    public String porcetagemClientesComMenos15Avaliacao() {
         int totalEspectadores = listaEspectadores.size();
         int espectadoresComAvaliacoes15OuMais = 0;
 
@@ -285,10 +282,10 @@ public class Plataforma {
 
         DecimalFormat formato = new DecimalFormat("0.00");
         String porcentagemFormatada = formato.format(porcentagem);
-        if(porcentagem != 0){
-            System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%");
+        if (porcentagem != 0) {
+            return "Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%";
         } else {
-            System.out.println("Não existem avaliações no momento, logo sem porcentagens de clientes para o relatório.");
+            return "Não existem avaliações no momento, logo sem porcentagens de clientes para o relatório.";
         }
     }
 
@@ -301,7 +298,7 @@ public class Plataforma {
                 .map(Midia::retornaNome)
                 .collect(Collectors.toList());
 
-        if (nomesMidiasOrdenados.size() == 0){
+        if (nomesMidiasOrdenados.size() == 0) {
             return "Não existem avaliações no momento.";
         }
 
@@ -337,8 +334,8 @@ public class Plataforma {
                 .limit(10)
                 .map(Midia::retornaNome)
                 .collect(Collectors.toList());
-                
-        if (nomesMidiasOrdenados.size() == 0){
+
+        if (nomesMidiasOrdenados.size() == 0) {
             return "Não existem avaliações no momento.";
         }
 
@@ -366,7 +363,7 @@ public class Plataforma {
         return sb.toString();
     }
 
-    public void removerlMidiaFutura(String nomeMidia) {
+    public String removerlMidiaFutura(String nomeMidia) {
         boolean remover = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
@@ -374,15 +371,14 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.removerMidiaFuturas(midia) == true) {
                     remover = true;
-                    System.out.println("Mídia removida com sucesso!");
+                    return "Mídia removida com sucesso!";
                 } else {
-                    System.out.println("Mídia não está na lista.");
+                    return "Mídia não está na lista.";
                 }
             }
         }
-        if (remover == false && encontrado == false) {
-            System.out.println("Mídia não existe, favor digitar o nome corretamente");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente";
+
     }
 
     public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao) {
@@ -469,13 +465,13 @@ public class Plataforma {
                 .toString();
         return idiomaAleatorio;
     }
-    
+
     public static boolean profissionalAleatorio() {
         String profissionalAleatorio = Profissao
                 .values()[new Random()
                         .nextInt(Profissao.values().length)]
                 .toString();
-        if(profissionalAleatorio.equals("REGULAR")){
+        if (profissionalAleatorio.equals("REGULAR")) {
             return false;
         } else {
             return true;
