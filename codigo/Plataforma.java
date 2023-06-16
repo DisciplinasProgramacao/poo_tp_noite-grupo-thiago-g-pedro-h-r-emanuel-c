@@ -273,9 +273,9 @@ public class Plataforma {
     /**
      * Efetua o logout do espectador atualmente logado.
      */
-    public void efetuarLogout() {
+    public String efetuarLogout() {
         this.espectadorLogado = null;
-        System.out.println("Conta deslogada.");
+        return "Conta deslogada";
     }
 
     /**
@@ -283,7 +283,7 @@ public class Plataforma {
      *
      * @param nomeMidia O nome da mídia a ser adicionada.
      */
-    public void adicionarMidiaFutura(String nomeMidia) {
+    public String adicionarMidiaFutura(String nomeMidia) {
         boolean adicionado = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
@@ -305,7 +305,7 @@ public class Plataforma {
      *
      * @param nomeMidia O nome da mídia a ser adicionada.
      */
-    public void adicionarMidiaAssistida(String nomeMidia) {
+    public String adicionarMidiaAssistida(String nomeMidia) {
         boolean adicionado = false;
         boolean encontrado = false;
         for (Midia midia : this.listaMidia) {
@@ -327,7 +327,7 @@ public class Plataforma {
      * Identifica o espectador que assistiu a maior quantidade de mídias e exibe o
      * resultado.
      */
-    public void espectadorAssistiuMaisMidias() {
+    public String espectadorAssistiuMaisMidias() {
         String espectadorMaisMidia = null;
         int quantidadeMaisMidia = -1;
 
@@ -349,7 +349,7 @@ public class Plataforma {
      * Identifica o espectador que fez a maior quantidade de avaliações e exibe o
      * resultado.
      */
-    public void espectadorMaisAvaliou() {
+    public String espectadorMaisAvaliou() {
         String espectadorMaisAvaliou = null;
         int quantidadeMaisAvaliacao = -1;
 
@@ -374,7 +374,7 @@ public class Plataforma {
      * Calcula a porcentagem de clientes que possuem 15 ou mais avaliações em
      * relação ao total de espectadores e exibe o resultado.
      */
-    public void porcetagemClientesComMenos15Avaliacao() {
+    public String porcetagemClientesComMenos15Avaliacao() {
         int totalEspectadores = listaEspectadores.size();
         int espectadoresComAvaliacoes15OuMais = 0;
 
@@ -508,7 +508,7 @@ public class Plataforma {
      *
      * @param nomeMidia o nome da mídia futura a ser removida
      */
-    public void removerMidiaFutura(String nomeMidia) {
+    public String removerMidiaFutura(String nomeMidia) {
         boolean remover = false;
         boolean encontrado = false;
         for (Midia midia : listaMidia) {

@@ -110,7 +110,7 @@ public class menu {
                     case 3:
                         System.out.println("Digite o nome da mídia futura a ser removida: ");
                         String nomeSerieFuturaRemover = input.nextLine();
-                        System.out.println(plataforma.removerlMidiaFutura(nomeSerieFuturaRemover));
+                        System.out.println(plataforma.removerMidiaFutura(nomeSerieFuturaRemover));
                         confirmarLimparTela();
                         break;
                     case 4:
