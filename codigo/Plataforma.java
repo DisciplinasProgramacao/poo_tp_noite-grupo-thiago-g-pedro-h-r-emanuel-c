@@ -291,15 +291,13 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.adicionarMidiaMenuFuturas(midia) == true) {
                     adicionado = true;
-                    System.out.println("Mídia adicionada com sucesso!");
+                    return "Mídia adicionada com sucesso!";
                 } else {
-                    System.out.println("Mídia já adicionada à lista.");
+                    return "Mídia já adicionada a lista.";
                 }
             }
         }
-        if (adicionado == false && encontrado == false) {
-            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente!";
     }
 
     /**
@@ -315,15 +313,14 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.adicionarMidiaMenuAssistidas(midia) == true) {
                     adicionado = true;
-                    System.out.println("Mídia adicionada com sucesso!");
+                    return "Mídia adicionada com sucesso!";
                 } else {
-                    System.out.println("Mídia já adicionada à lista.");
+                    return "Mídia já adicionada a lista.";
                 }
             }
         }
-        if (adicionado == false && encontrado == false) {
-            System.out.println("Mídia não existe, favor digitar o nome corretamente!");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente!";
+
     }
 
     /**
@@ -344,8 +341,8 @@ public class Plataforma {
             }
         }
 
-        System.out.println("Espectador que assistiu mais mídias: " + espectadorMaisMidia);
-        System.out.println("Quantidade de mídias assistidas: " + quantidadeMaisMidia);
+        return "Espectador que assistiu mais mídias: " + espectadorMaisMidia + "\n Quantidade de mídias assistidas: "
+                + quantidadeMaisMidia;
     }
 
     /**
@@ -366,10 +363,10 @@ public class Plataforma {
             }
         }
         if (quantidadeMaisAvaliacao != 0) {
-            System.out.println("Espectador que mais avaliou: " + espectadorMaisAvaliou);
-            System.out.println("Quantidade de avaliações: " + quantidadeMaisAvaliacao);
+            return "Espectador que mais avaliou : " + espectadorMaisAvaliou + "\nQuantidade de avaliaçoes : "
+                    + quantidadeMaisAvaliacao;
         } else {
-            System.out.println("Não existem avaliações no momento.");
+            return "Não existem avaliações no momento.";
         }
     }
 
@@ -396,10 +393,9 @@ public class Plataforma {
         DecimalFormat formato = new DecimalFormat("0.00");
         String porcentagemFormatada = formato.format(porcentagem);
         if (porcentagem != 0) {
-            System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%");
+            return "Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%";
         } else {
-            System.out
-                    .println("Não existem avaliações no momento, logo sem porcentagens de clientes para o relatório.");
+            return "Não existem avaliações no momento, logo sem porcentagens de clientes para o relatório.";
         }
     }
 
@@ -520,15 +516,14 @@ public class Plataforma {
                 encontrado = true;
                 if (this.espectadorLogado.removerMidiaFuturas(midia)) {
                     remover = true;
-                    System.out.println("Mídia removida com sucesso!");
+                    return "Mídia removida com sucesso!";
                 } else {
-                    System.out.println("A mídia não está na lista de mídias futuras do espectador logado.");
+                    return "Mídia não está na lista.";
                 }
             }
         }
-        if (!remover && !encontrado) {
-            System.out.println("Mídia não encontrada. Certifique-se de digitar o nome corretamente.");
-        }
+        return "Mídia não existe, favor digitar o nome corretamente";
+
     }
 
     /**

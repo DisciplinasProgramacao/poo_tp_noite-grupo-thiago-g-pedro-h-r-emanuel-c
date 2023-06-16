@@ -98,19 +98,19 @@ public class menu {
                     case 1:
                         System.out.println("Digite o nome da mídia para assistir depois: ");
                         String nomeSerieFutura = input.nextLine();
-                        plataforma.adicionarMidiaFutura(nomeSerieFutura);
+                        System.out.println(plataforma.adicionarMidiaFutura(nomeSerieFutura));
                         confirmarLimparTela();
                         break;
                     case 2:
                         System.out.println("Digite o nome da mídia assistida: ");
                         String nomeSerieAssistida = input.nextLine();
-                        plataforma.adicionarMidiaAssistida(nomeSerieAssistida);
+                        System.out.println(plataforma.adicionarMidiaAssistida(nomeSerieAssistida));
                         confirmarLimparTela();
                         break;
                     case 3:
                         System.out.println("Digite o nome da mídia futura a ser removida: ");
                         String nomeSerieFuturaRemover = input.nextLine();
-                        plataforma.removerMidiaFutura(nomeSerieFuturaRemover);
+                        System.out.println(plataforma.removerlMidiaFutura(nomeSerieFuturaRemover));
                         confirmarLimparTela();
                         break;
                     case 4:
@@ -210,15 +210,15 @@ public class menu {
 
                 switch (opcao) {
                     case 1:
-                        plataforma.espectadorAssistiuMaisMidias();
+                        System.out.println(plataforma.espectadorAssistiuMaisMidias());
                         confirmarLimparTela();
                         break;
                     case 2:
-                        plataforma.espectadorMaisAvaliou();
+                        System.out.println(plataforma.espectadorMaisAvaliou());
                         confirmarLimparTela();
                         break;
                     case 3:
-                        plataforma.porcetagemClientesComMenos15Avaliacao();
+                        System.out.println(plataforma.porcetagemClientesComMenos15Avaliacao());
                         confirmarLimparTela();
                         break;
                     case 4:
@@ -281,7 +281,7 @@ public class menu {
      * Efetua o logout do usuário.
      */
     private void efetuarLogout() {
-        plataforma.efetuarLogout();
+        System.out.println(plataforma.efetuarLogout());
         System.out.println("Logout realizado com sucesso!");
         limparTela();
         exibirMenuSemLogin();
