@@ -258,9 +258,12 @@ public class Plataforma {
                 espectadorMaisAvaliou = espectador.retornaNome();
             }
         }
-
-        System.out.println("Espectador que mais avaliou : " + espectadorMaisAvaliou);
-        System.out.println("Quantidade de avaliaçoes : " + quantidadeMaisAvaliacao);
+        if (quantidadeMaisAvaliacao != 0){
+            System.out.println("Espectador que mais avaliou : " + espectadorMaisAvaliou);
+            System.out.println("Quantidade de avaliaçoes : " + quantidadeMaisAvaliacao);
+        } else {
+            System.out.println("Não existem avaliações no momento.");
+        }
 
     }
 
@@ -282,8 +285,11 @@ public class Plataforma {
 
         DecimalFormat formato = new DecimalFormat("0.00");
         String porcentagemFormatada = formato.format(porcentagem);
-
-        System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%");
+        if(porcentagem != 0){
+            System.out.println("Porcentagem de clientes com pelo menos 15 avaliações: " + porcentagemFormatada + "%");
+        } else {
+            System.out.println("Não existem avaliações no momento, logo sem porcentagens de clientes para o relatório.");
+        }
     }
 
     public String melhoresAvaliadas() {
@@ -295,30 +301,28 @@ public class Plataforma {
                 .map(Midia::retornaNome)
                 .collect(Collectors.toList());
 
+        if (nomesMidiasOrdenados.size() == 0){
+            return "Não existem avaliações no momento.";
+        }
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1)
-                    .append(". ")
-                    .append(nomesMidiasOrdenados.get(i))
-                    .append("\n");
+            sb.append(i + 1 + ". " + nomesMidiasOrdenados.get(i) + "\n");
         }
 
         return sb.toString();
     }
 
     public String midiasMaisAssistidas() {
-        List<String> nomesMidiassOrdenados = listaMidia.stream()
+        List<String> nomesMidiasOrdenados = listaMidia.stream()
                 .sorted(Comparator.comparingInt(Midia::getQuantidadeVisualizacoes).reversed())
                 .limit(10)
                 .map(Midia::retornaNome)
                 .collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < nomesMidiassOrdenados.size(); i++) {
-            sb.append(i + 1)
-                    .append(". ")
-                    .append(nomesMidiassOrdenados.get(i))
-                    .append("\n");
+        for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
+            sb.append(i + 1 + ". " + nomesMidiasOrdenados.get(i) + "\n");
         }
 
         return sb.toString();
@@ -333,20 +337,21 @@ public class Plataforma {
                 .limit(10)
                 .map(Midia::retornaNome)
                 .collect(Collectors.toList());
+                
+        if (nomesMidiasOrdenados.size() == 0){
+            return "Não existem avaliações no momento.";
+        }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
-            sb.append(i + 1)
-                    .append(". ")
-                    .append(nomesMidiasOrdenados.get(i))
-                    .append("\n");
+            sb.append(i + 1 + ". " + nomesMidiasOrdenados.get(i) + "\n");
         }
 
         return sb.toString();
     }
 
     public String midiasMaisAssistidasGenero(String genero) {
-        List<String> nomesMidiassOrdenados = listaMidia.stream()
+        List<String> nomesMidiasOrdenados = listaMidia.stream()
                 .filter(midia -> midia.retornaGenero().equals(genero.toLowerCase()))
                 .sorted(Comparator.comparingInt(Midia::getQuantidadeVisualizacoes).reversed())
                 .limit(10)
@@ -354,11 +359,8 @@ public class Plataforma {
                 .collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < nomesMidiassOrdenados.size(); i++) {
-            sb.append(i + 1)
-                    .append(". ")
-                    .append(nomesMidiassOrdenados.get(i))
-                    .append("\n");
+        for (int i = 0; i < nomesMidiasOrdenados.size(); i++) {
+            sb.append(i + 1 + ". " + nomesMidiasOrdenados.get(i) + "\n");
         }
 
         return sb.toString();
