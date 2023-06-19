@@ -12,7 +12,6 @@ import codigo.EIdioma.Idioma;
 import codigo.EProfissao.Profissao;
 
 public class Plataforma {
-    private Scanner input = new Scanner(System.in);
     private Map<String, Espectador> listaEspectadores;
     private List<Midia> listaMidia;
     private Espectador espectadorLogado;

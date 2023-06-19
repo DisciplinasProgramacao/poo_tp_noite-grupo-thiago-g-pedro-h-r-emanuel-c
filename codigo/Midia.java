@@ -59,11 +59,6 @@ public abstract class Midia {
         return quantidadeAvaliacoes;
     }
 
-    // Retorna a representação em string da avaliação da mídia
-    public String printaAvaliacao() {
-        return "";
-    }
-
     // Avalia a mídia com uma avaliação específica
     public void Avaliar(Avaliacao avaliacao) {
         this.avaliacoes.add(avaliacao);
