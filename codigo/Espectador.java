@@ -69,7 +69,7 @@ public class Espectador {
         StringBuilder sb = new StringBuilder();
         List<Avaliacao> listaRetorno = this.avaliacoesEspectador.stream()
                 .collect(Collectors.toList());
-        if (!this.perfil.podeAssistirLancamento()){
+        if (!this.perfil.podeComentar()) {
             listaRetorno.forEach(e -> sb.append("\n").append(e.toStringRegular()));
         } else {
             listaRetorno.forEach(e -> sb.append("\n").append(e.toStringEspecialista()));
