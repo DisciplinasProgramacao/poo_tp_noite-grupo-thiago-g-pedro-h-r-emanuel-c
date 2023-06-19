@@ -32,6 +32,10 @@ public class Espectador {
         this.perfil = profissao == true ? new PerfilProfissional() : new PerfilRegular();
     }
 
+    public boolean podeAvaliar() {
+        return this.perfil.podeComentar();
+    }
+
     /**
      * Atualiza o perfil do espectador com base em suas avaliações recentes.
      * Se o espectador tiver pelo menos 5 avaliações no mês anterior, seu perfil

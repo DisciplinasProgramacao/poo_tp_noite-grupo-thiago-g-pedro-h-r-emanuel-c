@@ -322,6 +322,7 @@ public class Plataforma {
 
     }
 
+    // #region relatórios
     /**
      * Identifica o espectador que assistiu a maior quantidade de mídias e exibe o
      * resultado.
@@ -330,13 +331,13 @@ public class Plataforma {
         String espectadorMaisMidia = null;
         int quantidadeMaisMidia = -1;
 
-        for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
-            Espectador espectador = entry.getValue();
-            int quantidadeMidiaAssistida = espectador.retornaQuantidadeMidiaAssistida();
+        for (Espectador es : listaEspectadores.values()) {
+
+            int quantidadeMidiaAssistida = es.retornaQuantidadeMidiaAssistida();
 
             if (quantidadeMidiaAssistida > quantidadeMaisMidia) {
                 quantidadeMaisMidia = quantidadeMidiaAssistida;
-                espectadorMaisMidia = espectador.retornaNome();
+                espectadorMaisMidia = es.retornaNome();
             }
         }
 
@@ -546,7 +547,7 @@ public class Plataforma {
         Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
                 midia.retornaId());
         Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
-        if(!this.espectadorLogado.retornaPerfil().podeAssistirLancamento()){
+        if (!this.espectadorLogado.retornaPerfil().podeAssistirLancamento()) {
             this.espectadorLogado.atualizaPerfil();
         }
         if (espectadorPodeAvaliarEComentar(midia)) {
