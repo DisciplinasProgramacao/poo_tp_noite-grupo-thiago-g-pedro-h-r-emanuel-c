@@ -1,0 +1,444 @@
+<Project>
+  <Name>PrimeVideo</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>PrimeVideo</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Espectador</Name>
+        <Access>Public</Access>
+        <Location left="28" top="33" />
+        <Size width="258" height="570" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String Nome</Member>
+        <Member type="Field">String senha</Member>
+        <Member type="Field">String Login</Member>
+        <Member type="Field">List&lt;Midia&gt; MidiasFuturas</Member>
+        <Member type="Field">List&lt;Midia&gt; midiasAssistidas</Member>
+        <Member type="Field">List&lt;Avaliacao&gt; avaliacoesEspectador</Member>
+        <Member type="Field">private IPerfilEspectador perfil</Member>
+        <Member type="Method">public void adicionarMidiaMenuFuturas(Midia midia)</Member>
+        <Member type="Method">public void adicionarMidiasArquivoFuturas(Midia midia)</Member>
+        <Member type="Method">public void adicionarmidiasAssistidas(Midia midia)</Member>
+        <Member type="Method">public void adicionarMidiasArquivoAssistidas(Midia midia)</Member>
+        <Member type="Method">public void removerMidiaFuturas(Midia midia)</Member>
+        <Member type="Method">private boolean midiaJaExiste(Midia midia, List&lt;Midia&gt; lista)</Member>
+        <Member type="Method">public String retornaSenha()</Member>
+        <Member type="Method">public String retornaNome()</Member>
+        <Member type="Method">public String retornaLogin()</Member>
+        <Member type="Method">public IPerfilEspectador retornaPerfil()</Member>
+        <Member type="Method">public void atualizaPerfil()</Member>
+        <Member type="Method">public int retornaQuantidadeMidiaAssistida()</Member>
+        <Member type="Method">public int retornaQuantidadeAvaliacao()</Member>
+        <Member type="Method">public String listaAvaliacoesToString()</Member>
+        <Member type="Method">public String listaMidiasAssistidasToString()</Member>
+        <Member type="Method">public String listaMidiasFuturasToString()</Member>
+        <Member type="Method">public void adicionarAvaliacaoEspectador(Avaliacao avaliacao)</Member>
+        <Member type="Method">public boolean jaAssistiu(Midia midia)</Member>
+        <Member type="Method">public boolean jaAvaliou(int idMidia)</Member>
+        <Member type="Method">public boolean podeAssistirLancamento()</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">private boolean midiaJaExiste(Midia midia, List&lt;Midia&gt; lista)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="704" top="1439" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Serie()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Plataforma</Name>
+        <Access>Public</Access>
+        <Location left="437" top="10" />
+        <Size width="482" height="689" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private Map&lt;string&gt; listaEspectadores</Member>
+        <Member type="Field">private List&lt;Midia&gt; listaMidia</Member>
+        <Member type="Field">private Espectador espectadorLogado</Member>
+        <Member type="Method">private static List&lt;Midia&gt; carregaArqSerie()</Member>
+        <Member type="Method">private static List&lt;Midia&gt; carregaArqFilmes()</Member>
+        <Member type="Method">private void carregaListFuturaEAssistida(Map&lt;String, Espectador&gt; listaEspectadores)</Member>
+        <Member type="Method">private static Map&lt;String, Espectador&gt; carregarArqEspectador()</Member>
+        <Member type="Method">public String buscaIdiomaGeneroString(String valor, String filtro)</Member>
+        <Member type="Method">public Midia retornaMidiaPorNome(String nome)</Member>
+        <Member type="Method">public void infoMidia(int id)</Member>
+        <Member type="Method">public boolean efetuarLogin(String login, String senha)</Member>
+        <Member type="Method">public String efetuarLogout()</Member>
+        <Member type="Method">public void adicionarMidiaFutura(String nomeMidia)</Member>
+        <Member type="Method">public void adicionarMidiaAssistida(String nomeMidia)</Member>
+        <Member type="Method">public String espectadorAssistiuMaisMidias()</Member>
+        <Member type="Method">public String espectadorMaisAvaliou()</Member>
+        <Member type="Method">public String porcetagemClientesComMenos15Avaliacao()</Member>
+        <Member type="Method">public String melhoresAvaliadas()</Member>
+        <Member type="Method">public String midiasMaisAssistidas()</Member>
+        <Member type="Method">public String melhoresAvaliadasGenero(String genero)</Member>
+        <Member type="Method">public String midiasMaisAssistidasGenero(String genero)</Member>
+        <Member type="Method">public void removerlMidiaFutura(String nomeMidia)</Member>
+        <Member type="Method">public String avaliarMidia(String nomeMidia, String comentarioAvaliacao, int notaAvaliacao)</Member>
+        <Member type="Method">private Midia buscaMidia(int idMidia)</Member>
+        <Member type="Method">public String printaListaMidiasFuturasDoEspectador()</Member>
+        <Member type="Method">public String printaListaMidiasAssistidasDoEspectador()</Member>
+        <Member type="Method">public Espectador getEspectadorLogado()</Member>
+        <Member type="Method">public String printaListaAvaliacoesDoEspectador()</Member>
+        <Member type="Method">private boolean espectadorLogadoPodeComentar()</Member>
+        <Member type="Method">private boolean espectadorLogadoJaAvaliou(Midia midia)</Member>
+        <Member type="Method">private boolean espectadorLogadoJaAssistiu(Midia midia)</Member>
+        <Member type="Method">private boolean espectadorPodeAvaliarEComentar(Midia midia)</Member>
+        <Member type="Method">private boolean espectadorPodeAvaliarSemComentar(Midia midia)</Member>
+        <Member type="Method">private static String generoAleatorio()</Member>
+        <Member type="Method">private static String idiomaAleatorio()</Member>
+        <Member type="Method">private static boolean profissionalAleatorio()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Filme</Name>
+        <Access>Public</Access>
+        <Location left="478" top="1439" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int DuracaoMin</Member>
+        <Member type="Constructor">public Filme()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Midia</Name>
+        <Access>Public</Access>
+        <Location left="600" top="783" />
+        <Size width="201" height="434" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected int id</Member>
+        <Member type="Field">protected String nome</Member>
+        <Member type="Field">protected String dataDeLancamento</Member>
+        <Member type="Field">protected String genero</Member>
+        <Member type="Field">protected String idioma</Member>
+        <Member type="Field">protected List&lt;Avaliacao&gt; avaliacoes</Member>
+        <Member type="Field">private float notaMedia = 0</Member>
+        <Member type="Field">private boolean lancamento</Member>
+        <Member type="Field">private int quantidadeVisualizacoes = 0</Member>
+        <Member type="Field">private int quantidadeAvaliacoes = 0</Member>
+        <Member type="Method">public int retornaId()</Member>
+        <Member type="Method">public String retornaNome()</Member>
+        <Member type="Method">public String retornaGenero()</Member>
+        <Member type="Method">public String retornaIdioma()</Member>
+        <Member type="Method">public boolean retornaLancamento()</Member>
+        <Member type="Method">public int retornaTemAvaliacoes()</Member>
+        <Member type="Method">public void Avaliar(Avaliacao avaliacao)</Member>
+        <Member type="Method">public float retornaNotaMedia()</Member>
+        <Member type="Method">public String toString()</Member>
+        <Member type="Method">public int getQuantidadeVisualizacoes()</Member>
+        <Member type="Method">public void adicionarVisualizacao()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Avaliacao</Name>
+        <Access>Public</Access>
+        <Location left="1035" top="1002" />
+        <Size width="184" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int idMidiaAvaliada</Member>
+        <Member type="Field">private String comentarioAvaliacao</Member>
+        <Member type="Field">private Data dataAvaliacao</Member>
+        <Member type="Field">private int notaAvaliacao</Member>
+        <Member type="Field">private static int NOTA_MINIMA = 1</Member>
+        <Member type="Field">private static int NOTA_MAXIMA = 5</Member>
+        <Member type="Method">public int retornaNota()</Member>
+        <Member type="Method">public String toStringEspecialista()</Member>
+        <Member type="Method">public String toStringRegular()</Member>
+        <Member type="Method">public Data retornaData()</Member>
+        <Member type="Method">public int retornaIdMidiaAvaliada()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Data</Name>
+        <Access>Public</Access>
+        <Location left="1035" top="492" />
+        <Size width="201" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static int[] DIASDOMES</Member>
+        <Member type="Field">private static int ANO_ATUAL</Member>
+        <Member type="Field">private int dia</Member>
+        <Member type="Field">private int mes</Member>
+        <Member type="Field">private int ano</Member>
+        <Member type="Method">public boolean anoBissexto()</Member>
+        <Member type="Method">private Boolean dataValida()</Member>
+        <Member type="Method">public Data acrescentaDias(int quant)</Member>
+        <Member type="Method">public Data subtraiDias(int quant)</Member>
+        <Member type="Method">public boolean ehNaFrenteDe(Data outra)</Member>
+        <Member type="Method">public boolean equals(Object o)</Member>
+        <Member type="Method">public int compareTo(Data outra)</Member>
+        <Member type="Method">public String toString()</Member>
+        <Member type="Method">public static Data dataFutura(Data data1, Data data2)</Member>
+        <Member type="Method">public int retornaMes()</Member>
+        <Member type="Method">public int retornaAno()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>EGeneros</Name>
+        <Access>Public</Access>
+        <Location left="207" top="1086" />
+        <Size width="162" height="214" />
+        <Collapsed>False</Collapsed>
+        <Value>ACAO</Value>
+        <Value>ANIME</Value>
+        <Value>AVENTURA</Value>
+        <Value>COMEDIA</Value>
+        <Value>DOCUMENTARIO</Value>
+        <Value>DRAMA</Value>
+        <Value>POLICIAL</Value>
+        <Value>ROMANCE</Value>
+        <Value>SUSPENSE</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>EIdioma</Name>
+        <Access>Public</Access>
+        <Location left="207" top="810" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>INGLES</Value>
+        <Value>CHINES</Value>
+        <Value>HINDI</Value>
+        <Value>ESPANHOL</Value>
+        <Value>FRANCES</Value>
+        <Value>ARABE</Value>
+        <Value>BENGALI</Value>
+        <Value>RUSSO</Value>
+        <Value>PORTUGUES</Value>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPerfilEspectador</Name>
+        <Access>Public</Access>
+        <Location left="148" top="1420" />
+        <Size width="209" height="116" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">boolean podeComentar()</Member>
+        <Member type="Method">String retornaTipo()</Member>
+        <Member type="Method">boolean podeAssistirLancamento()</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilEspecialista</Name>
+        <Access>Public</Access>
+        <Location left="247" top="1601" />
+        <Size width="210" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Especialista</Member>
+        <Member type="Field">private static boolean podeComentar = true</Member>
+        <Member type="Field">private static boolean podeComentar = false</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Member type="Method">boolean podeAssistirLancamento()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilRegular</Name>
+        <Access>Public</Access>
+        <Location left="10" top="1601" />
+        <Size width="218" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Regular</Member>
+        <Member type="Field">private static boolean podeComentar = false</Member>
+        <Member type="Field">private static boolean podeComentar = false</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Member type="Method">boolean podeAssistirLancamento()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>EProfissao</Name>
+        <Access>Public</Access>
+        <Location left="242" top="676" />
+        <Size width="162" height="95" />
+        <Collapsed>False</Collapsed>
+        <Value>REGULAR</Value>
+        <Value>PROFISSIONAL</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilProfissional</Name>
+        <Access>Public</Access>
+        <Location left="494" top="1601" />
+        <Size width="212" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Profissional</Member>
+        <Member type="Field">private static boolean podeComentar = true</Member>
+        <Member type="Field">private static boolean podeComentar = true</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Member type="Method">boolean podeAssistirLancamento()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilRegular</Name>
+        <Access>Public</Access>
+        <Location left="385" top="2941" />
+        <Size width="218" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Regular</Member>
+        <Member type="Field">private static boolean podeComentar = false</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilEspecialista</Name>
+        <Access>Public</Access>
+        <Location left="641" top="2941" />
+        <Size width="198" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Especialist</Member>
+        <Member type="Field">private static boolean podeComentar = true</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PerfilEspecialista</Name>
+        <Access>Public</Access>
+        <Location left="641" top="2941" />
+        <Size width="198" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static String tipo = Especialist</Member>
+        <Member type="Field">private static boolean podeComentar = true</Member>
+        <Member type="Method">public boolean podeComentar()</Member>
+        <Member type="Method">public String retornaTipo()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>412</X>
+          <Y>54</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>673</X>
+          <Y>756</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>853</X>
+          <Y>868</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1055</X>
+          <Y>867</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>341</X>
+          <Y>1576</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>252</X>
+          <Y>1561</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>87</X>
+          <Y>1380</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>518</X>
+          <Y>730</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
