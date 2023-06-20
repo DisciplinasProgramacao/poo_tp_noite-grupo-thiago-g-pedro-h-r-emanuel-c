@@ -676,7 +676,7 @@ public String espectadorMaisAvaliou() {
      *
      * @return um gênero aleatório
      */
-    public static String generoAleatorio() {
+    private static String generoAleatorio() {
         String generoAleatorio = Genero.values()[new Random().nextInt(Genero.values().length)].toString();
         return generoAleatorio;
     }
@@ -686,7 +686,7 @@ public String espectadorMaisAvaliou() {
      *
      * @return um idioma aleatório
      */
-    public static String idiomaAleatorio() {
+    private static String idiomaAleatorio() {
         String idiomaAleatorio = Idioma.values()[new Random().nextInt(Idioma.values().length)].toString();
         return idiomaAleatorio;
     }
@@ -700,7 +700,7 @@ public String espectadorMaisAvaliou() {
      * @return true se o espectador é um profissional, false se é um espectador
      *         regular
      */
-    public static boolean profissionalAleatorio() {
+    private static boolean profissionalAleatorio() {
         String profissionalAleatorio = Profissao
                 .values()[new Random()
                         .nextInt(Profissao.values().length)]

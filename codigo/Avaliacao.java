@@ -65,10 +65,6 @@ public class Avaliacao {
         return this.dataAvaliacao;
     }
 
-    // Retorna o comentário da avaliação
-    public String retornaComentario() {
-        return this.comentarioAvaliacao;
-    }
 
     // Retorna o ID da mídia avaliada
     public int retornaIdMidiaAvaliada() {
