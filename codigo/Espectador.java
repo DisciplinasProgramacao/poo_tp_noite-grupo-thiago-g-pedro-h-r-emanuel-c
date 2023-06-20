@@ -36,6 +36,14 @@ public class Espectador {
         return this.perfil.podeComentar();
     }
 
+    public boolean podeAssistirLancamento() {
+        return this.perfil.podeAssistirLancamento();
+    }
+
+    public boolean podeComentar() {
+        return this.perfil.podeComentar();
+    }
+
     /**
      * Atualiza o perfil do espectador com base em suas avaliações recentes.
      * Se o espectador tiver pelo menos 5 avaliações no mês anterior, seu perfil
@@ -82,21 +90,40 @@ public class Espectador {
     }
 
     /**
+     * Converte a lista de mídias futuras do espectador em uma representação de
+     * string.
+     *
+     * @return uma string contendo as avaliações do espectador
+     */
+    public String listaMidiasFuturasToString() {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> listaRetorno = this.MidiasFuturas.stream()
+                .collect(Collectors.toList());
+        listaRetorno.forEach(e -> sb.append("\n").append(e.toString()));
+        return sb.toString();
+    }
+
+    /**
+     * Converte a lista de mídias assistidas do espectador em uma representação de
+     * string.
+     *
+     * @return uma string contendo as avaliações do espectador
+     */
+    public String listaMidiasAssistidasToString() {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> listaRetorno = this.MidiasAssistidas.stream()
+                .collect(Collectors.toList());
+        listaRetorno.forEach(e -> sb.append("\n").append(e.toString()));
+        return sb.toString();
+    }
+
+    /**
      * Adiciona uma avaliação do espectador.
      *
      * @param avaliacao a avaliação a ser adicionada
      */
     public void adicionarAvaliacaoEspectador(Avaliacao avaliacao) {
         this.avaliacoesEspectador.add(avaliacao);
-    }
-
-    /**
-     * Retorna o perfil atual do espectador.
-     *
-     * @return o perfil do espectador
-     */
-    public IPerfilEspectador retornaPerfil() {
-        return this.perfil;
     }
 
     /**
@@ -147,6 +174,22 @@ public class Espectador {
     }
 
     /**
+     * Verifica se uma mídia já existe em uma lista de mídias.
+     *
+     * @param midia a mídia a ser verificada
+     * @param lista a lista de mídias
+     * @return true se a mídia já existe na lista, false caso contrário
+     */
+    private boolean midiaJaExiste(Midia midia, List<Midia> lista) {
+        for (Midia midiaFor : lista) {
+            if (midiaFor.retornaNome().equalsIgnoreCase(midia.retornaNome())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Adiciona uma mídia à lista de mídias futuras do espectador.
      * Verifica se a mídia já existe na lista antes de adicionar.
      *
@@ -154,22 +197,11 @@ public class Espectador {
      * @return true se a mídia foi adicionada, false caso contrário
      */
     public boolean adicionarMidiaMenuFuturas(Midia midia) {
-        boolean adicionada = false;
-        boolean encontrada = false;
-
-        for (Midia midiaFor : this.MidiasFuturas) {
-            if (midiaFor.retornaNome().equalsIgnoreCase(midia.retornaNome())) {
-                encontrada = true;
-                break;
-            }
-        }
-
-        if (!encontrada) {
+        if (!midiaJaExiste(midia, this.MidiasFuturas)) {
             this.MidiasFuturas.add(midia);
-            adicionada = true;
+            return true;
         }
-
-        return adicionada;
+        return false;
     }
 
     /**
@@ -181,23 +213,12 @@ public class Espectador {
      * @return true se a mídia foi adicionada, false caso contrário
      */
     public boolean adicionarMidiaMenuAssistidas(Midia midia) {
-        boolean adicionada = false;
-        boolean encontrada = false;
-
-        for (Midia midiaFor : this.MidiasAssistidas) {
-            if (midiaFor.retornaNome().equalsIgnoreCase(midia.retornaNome())) {
-                encontrada = true;
-                break;
-            }
-        }
-
-        if (!encontrada) {
+        if (!midiaJaExiste(midia, this.MidiasAssistidas)) {
             this.MidiasAssistidas.add(midia);
             midia.adicionarVisualizacao();
-            adicionada = true;
+            return true;
         }
-
-        return adicionada;
+        return false;
     }
 
     /**

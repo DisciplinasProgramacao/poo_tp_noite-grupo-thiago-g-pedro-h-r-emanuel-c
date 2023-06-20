@@ -23,14 +23,14 @@ public class menu {
     /**
      * Limpa a tela do console.
      */
-    public void limparTela() {
+    private void limparTela() {
         System.out.print("\033[H\033[2J");
     }
 
     /**
      * Aguarda a confirmação do usuário para limpar a tela.
      */
-    public void confirmarLimparTela() {
+    private void confirmarLimparTela() {
         System.out.println("\u001B[47mPara sair, pressione enter.\u001B[40m");
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
@@ -40,7 +40,7 @@ public class menu {
     /**
      * Exibe o menu principal quando não há login.
      */
-    public void exibirMenuSemLogin() {
+    private void exibirMenuSemLogin() {
         limparTela();
         while (!sair) {
             System.out.println("╔══════════════════════════════╗");
@@ -71,7 +71,7 @@ public class menu {
     /**
      * Exibe o menu principal quando há login.
      */
-    public void exibirMenuLogado() {
+    private void exibirMenuLogado() {
         while (!sair) {
             System.out.println("╔══════════════════════════╗");
             System.out.println("║          \u001B[36mMenu\u001B[37m            ║");
@@ -85,8 +85,10 @@ public class menu {
             System.out.println("║\u001B[35m7. Buscar mídia por nome\u001B[37m  ║");
             System.out.println("║\u001B[33m8. Informações sobre mídia\u001B[37m║");
             System.out.println("║\u001B[34m9. Listar avaliações\u001B[37m      ║");
-            System.out.println("║\u001B[33m10. Relatórios Gerenciais\u001B[37m ║");
-            System.out.println("║\u001B[31m11. Efetuar logout\u001B[37m        ║");
+            System.out.println("║\u001B[34m10. Listar mídias F.\u001B[37m      ║");
+            System.out.println("║\u001B[34m11. Listar mídias A.\u001B[37m      ║");
+            System.out.println("║\u001B[33m12. Relatórios Gerenciais\u001B[37m ║");
+            System.out.println("║\u001B[31m13. Efetuar logout\u001B[37m        ║");
             System.out.println("╚══════════════════════════╝");
             System.out.print("Opção: ");
 
@@ -114,26 +116,7 @@ public class menu {
                         confirmarLimparTela();
                         break;
                     case 4:
-                        System.out.println("Digite o nome da mídia: ");
-                        String nomeMidia = input.nextLine();
-                        if (plataforma.retornaMidiaPorNome(nomeMidia) != null) {
-                            System.out.println("Digite a avaliação (1 a 5): ");
-                            int nota = input.nextInt();
-                            if (nota > 5 || nota < 1) {
-                                System.out.println("Informe apenas notas entre 1 e 5.");
-                                confirmarLimparTela();
-                                break;
-                            }
-                            if (this.plataforma.getEspectadorLogado().retornaPerfil().podeComentar()) {
-                                System.out.println("Insira um comentário:");
-                                String comentario = System.console().readLine();
-                                System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
-                            } else {
-                                System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
-                            }
-                        } else {
-                            System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
-                        }
+                        avaliarMidia();
                         confirmarLimparTela();
                         break;
                     case 5:
@@ -169,9 +152,17 @@ public class menu {
                         confirmarLimparTela();
                         break;
                     case 10:
-                        exibirMenuRelatorioGerencial();
+                        System.out.println(plataforma.printaListaMidiasFuturasDoEspectador());
+                        confirmarLimparTela();
                         break;
                     case 11:
+                        System.out.println(plataforma.printaListaMidiasAssistidasDoEspectador());
+                        confirmarLimparTela();
+                        break;
+                    case 12:
+                        exibirMenuRelatorioGerencial();
+                        break;
+                    case 13:
                         System.out.println("Efetuando logout...");
                         efetuarLogout();
                         break;
@@ -192,7 +183,7 @@ public class menu {
     /**
      * Exibe o menu relatório quando chamado.
      */
-    public void exibirMenuRelatorioGerencial() {
+    private void exibirMenuRelatorioGerencial() {
         limparTela();
         while (true) {
             System.out.println("╔═══════════════════════════════════════╗");
@@ -290,6 +281,29 @@ public class menu {
         System.out.println("Logout realizado com sucesso!");
         limparTela();
         exibirMenuSemLogin();
+    }
+
+    private void avaliarMidia() {
+        System.out.println("Digite o nome da mídia: ");
+        String nomeMidia = input.nextLine();
+        if (plataforma.retornaMidiaPorNome(nomeMidia) != null) {
+            System.out.println("Digite a avaliação (1 a 5): ");
+            int nota = input.nextInt();
+            if (nota > 5 || nota < 1) {
+                System.out.println("Informe apenas notas entre 1 e 5.");
+                confirmarLimparTela();
+                return;
+            }
+            if (this.plataforma.getEspectadorLogado().podeAvaliar()) {
+                System.out.println("Insira um comentário:");
+                String comentario = System.console().readLine();
+                System.out.println(plataforma.avaliarMidia(nomeMidia, comentario, nota));
+            } else {
+                System.out.println(plataforma.avaliarMidia(nomeMidia, "", nota));
+            }
+        } else {
+            System.out.println("ERRO! Mídia não encontrada, favor digitar o nome novamente.");
+        }
     }
 
     public static void main(String[] args) throws IOException {

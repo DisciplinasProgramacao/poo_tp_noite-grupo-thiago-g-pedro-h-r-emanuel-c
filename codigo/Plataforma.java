@@ -40,7 +40,7 @@ public class Plataforma {
      *         do arquivo.
      * @throws IOException Se ocorrer um erro na leitura do arquivo.
      */
-    public static List<Midia> carregaArqSerie() throws IOException {
+    private static List<Midia> carregaArqSerie() throws IOException {
         // Caminho do arquivo CSV
         Path arquivo = Path.of("./docs/arquivos/POO_Series1.csv");
 
@@ -71,7 +71,7 @@ public class Plataforma {
      *         do arquivo.
      * @throws IOException Se ocorrer um erro na leitura do arquivo.
      */
-    public static List<Midia> carregaArqFilmes() throws IOException {
+    private static List<Midia> carregaArqFilmes() throws IOException {
         // Caminho do arquivo CSV
         Path arquivo = Path.of("./docs/arquivos/POO_Filmes1.csv");
 
@@ -105,7 +105,7 @@ public class Plataforma {
      *                          espectador e o valor é o objeto Espectador.
      * @throws IOException Se ocorrer um erro na leitura do arquivo.
      */
-    public void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
+    private void carregaListFuturaEAssistida(Map<String, Espectador> listaEspectadores) throws IOException {
         // Caminho do arquivo CSV
         Path arquivo = Path.of("./docs/arquivos/POO_Audiencia2.csv");
 
@@ -162,7 +162,7 @@ public class Plataforma {
      *         Espectador correspondente.
      * @throws IOException Se ocorrer um erro na leitura do arquivo.
      */
-    public static Map<String, Espectador> carregarArqEspectador() throws IOException {
+    private static Map<String, Espectador> carregarArqEspectador() throws IOException {
         // Caminho do arquivo CSV
         Path arquivo = Path.of("./docs/arquivos/POO_Espectadores.csv");
 
@@ -323,52 +323,45 @@ public class Plataforma {
     }
 
     // #region relatórios
-    /**
-     * Identifica o espectador que assistiu a maior quantidade de mídias e exibe o
-     * resultado.
-     */
     public String espectadorAssistiuMaisMidias() {
-        String espectadorMaisMidia = null;
-        int quantidadeMaisMidia = -1;
+    // Encontra o espectador com a maior quantidade de mídias assistidas
+    Optional<Map.Entry<String, Espectador>> espectadorMaisMidia = listaEspectadores.entrySet().stream()
+            .max(Comparator.comparingInt(entry -> entry.getValue().retornaQuantidadeMidiaAssistida()));
 
-        for (Espectador es : listaEspectadores.values()) {
-
-            int quantidadeMidiaAssistida = es.retornaQuantidadeMidiaAssistida();
-
-            if (quantidadeMidiaAssistida > quantidadeMaisMidia) {
-                quantidadeMaisMidia = quantidadeMidiaAssistida;
-                espectadorMaisMidia = es.retornaNome();
-            }
-        }
-
-        return "Espectador que assistiu mais mídias: " + espectadorMaisMidia + "\nQuantidade de mídias assistidas: "
-                + quantidadeMaisMidia;
+    if (espectadorMaisMidia.isPresent()) {
+        // Obtém o espectador com a maior quantidade de mídias assistidas
+        Map.Entry<String, Espectador> entry = espectadorMaisMidia.get();
+        // Retorna uma string formatada com o nome do espectador e a quantidade de mídias assistidas
+        return "Espectador que assistiu mais mídias: " + entry.getKey() + "\nQuantidade de mídias assistidas: "
+                + entry.getValue().retornaQuantidadeMidiaAssistida();
+    } else {
+        // Retorna uma mensagem indicando que não existem espectadores
+        return "Não existem espectadores.";
     }
+}
 
-    /**
-     * Identifica o espectador que fez a maior quantidade de avaliações e exibe o
-     * resultado.
-     */
-    public String espectadorMaisAvaliou() {
-        String espectadorMaisAvaliou = null;
-        int quantidadeMaisAvaliacao = -1;
+public String espectadorMaisAvaliou() {
+    // Encontra o espectador que fez a maior quantidade de avaliações
+    Optional<Map.Entry<String, Espectador>> espectadorMaisAvaliou = listaEspectadores.entrySet().stream()
+            .max(Comparator.comparingInt(entry -> entry.getValue().retornaQuantidadeAvaliacao()));
 
-        for (Map.Entry<String, Espectador> entry : listaEspectadores.entrySet()) {
-            Espectador espectador = entry.getValue();
-            int quantidadeAvaliacao = espectador.retornaQuantidadeAvaliacao();
-
-            if (quantidadeAvaliacao > quantidadeMaisAvaliacao) {
-                quantidadeMaisAvaliacao = quantidadeAvaliacao;
-                espectadorMaisAvaliou = espectador.retornaNome();
-            }
-        }
-        if (quantidadeMaisAvaliacao != 0) {
-            return "Espectador que mais avaliou : " + espectadorMaisAvaliou + "\nQuantidade de avaliaçoes : "
-                    + quantidadeMaisAvaliacao;
+    if (espectadorMaisAvaliou.isPresent()) {
+        // Obtém o espectador que fez a maior quantidade de avaliações
+        Map.Entry<String, Espectador> entry = espectadorMaisAvaliou.get();
+        
+        if (entry.getValue().retornaQuantidadeAvaliacao() > 1) {
+            // Retorna uma string formatada com o nome do espectador e a quantidade de avaliações, se for maior que 1
+            return "Espectador que mais avaliou: " + entry.getKey() + "\nQuantidade de avaliações: "
+                    + entry.getValue().retornaQuantidadeAvaliacao();
         } else {
+            // Retorna uma mensagem indicando que não existem avaliações no momento
             return "Não existem avaliações no momento.";
         }
+    } else {
+        // Retorna uma mensagem indicando que não existem espectadores
+        return "Não existem espectadores.";
     }
+}
 
     /**
      * Calcula a porcentagem de clientes que possuem 15 ou mais avaliações em
@@ -547,7 +540,7 @@ public class Plataforma {
         Avaliacao avaliacaoEspecialista = new Avaliacao(comentarioAvaliacao, new Data(), notaAvaliacao,
                 midia.retornaId());
         Avaliacao avaliacaoRegular = new Avaliacao(new Data(), notaAvaliacao, midia.retornaId());
-        if (!this.espectadorLogado.retornaPerfil().podeAssistirLancamento()) {
+        if (!this.espectadorLogado.podeAssistirLancamento()) {
             this.espectadorLogado.atualizaPerfil();
         }
         if (espectadorPodeAvaliarEComentar(midia)) {
@@ -571,7 +564,7 @@ public class Plataforma {
      * @param idMidia o ID da mídia a ser buscada
      * @return a mídia encontrada ou null se não for encontrada
      */
-    public Midia buscaMidia(int idMidia) {
+    private Midia buscaMidia(int idMidia) {
         for (Midia midia : listaMidia) {
             if (midia.retornaId() == idMidia) {
                 return midia;
@@ -604,14 +597,30 @@ public class Plataforma {
         return listaAvaliacoes;
     }
 
+    public String printaListaMidiasFuturasDoEspectador() {
+        String ListaF = this.espectadorLogado.listaMidiasFuturasToString();
+        if (ListaF.isEmpty()) {
+            return "Sem mídias avaliadas.";
+        }
+        return ListaF;
+    }
+
+    public String printaListaMidiasAssistidasDoEspectador() {
+        String ListaA = this.espectadorLogado.listaMidiasAssistidasToString();
+        if (ListaA.isEmpty()) {
+            return "Sem mídias avaliadas.";
+        }
+        return ListaA;
+    }
+
     /**
      * Verifica se o espectador logado pode fazer comentários.
      *
      * @return true se o espectador logado pode fazer comentários, false caso
      *         contrário
      */
-    public boolean espectadorLogadoPodeComentar() {
-        return this.espectadorLogado.retornaPerfil().podeComentar();
+    private boolean espectadorLogadoPodeComentar() {
+        return this.espectadorLogado.podeComentar();
     }
 
     /**
@@ -620,7 +629,7 @@ public class Plataforma {
      * @param idMidia o ID da mídia a ser verificada
      * @return true se o espectador logado já avaliou a mídia, false caso contrário
      */
-    public boolean espectadorLogadoJaAvaliou(int idMidia) {
+    private boolean espectadorLogadoJaAvaliou(int idMidia) {
         return this.espectadorLogado.jaAvaliou(idMidia);
     }
 
@@ -630,7 +639,7 @@ public class Plataforma {
      * @param midia a mídia a ser verificada
      * @return true se o espectador logado já assistiu a mídia, false caso contrário
      */
-    public boolean espectadorLogadoJaAssistiu(Midia midia) {
+    private boolean espectadorLogadoJaAssistiu(Midia midia) {
         return this.espectadorLogado.jaAssistiu(midia);
     }
 
@@ -642,7 +651,7 @@ public class Plataforma {
      * @return true se o espectador logado pode avaliar e comentar a mídia, false
      *         caso contrário
      */
-    public boolean espectadorPodeAvaliarEComentar(Midia midia) {
+    private boolean espectadorPodeAvaliarEComentar(Midia midia) {
         return espectadorLogadoJaAssistiu(midia)
                 && espectadorLogadoPodeComentar()
                 && !espectadorLogadoJaAvaliou(midia.retornaId());
@@ -656,20 +665,10 @@ public class Plataforma {
      * @return true se o espectador logado pode avaliar a mídia sem comentar, false
      *         caso contrário
      */
-    public boolean espectadorPodeAvaliarSemComentar(Midia midia) {
+    private boolean espectadorPodeAvaliarSemComentar(Midia midia) {
         return espectadorLogadoJaAssistiu(midia)
                 && !espectadorLogadoPodeComentar()
                 && !espectadorLogadoJaAvaliou(midia.retornaId());
-    }
-
-    /**
-     * Verifica se o espectador logado pode assistir a lançamentos.
-     *
-     * @return true se o espectador logado pode assistir a lançamentos, false caso
-     *         contrário
-     */
-    public boolean espectadorPodeAssistirLancamento() {
-        return this.espectadorLogado.retornaPerfil().podeAssistirLancamento();
     }
 
     /**
